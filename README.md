@@ -1,4 +1,4 @@
-# [Stanford Starter](https://github.com/SU-SWS/gsb_research_hub_subtheme)
+# [GSB Research Hub Subtheme](https://github.com/SU-SWS/gsb_research_hub_subtheme)
 ##### Version: 8.x-1.0-dev
 
 Changelog: [Changelog.txt](CHANGELOG.txt)
@@ -6,7 +6,7 @@ Changelog: [Changelog.txt](CHANGELOG.txt)
 Description
 ---
 
-Stanford Starter is a Stanford sub-theme that works with the Stanford Basic theme.
+Research Hub Subtheme is a Stanford sub-theme that works with the Stanford Basic theme.
 
 Documentation
 ---
@@ -16,16 +16,13 @@ https://devguide.sites.stanford.edu/front-end/drupal/sub-themes
 Installation
 ---
 1. Review the documentation link above for best practices, particularly the Do's and Don't's sections.
-2. Fork or download this theme repository. 
-3. Change all theme file names from including "gsb_research_hub_subtheme" to including the machine name of your theme.
-4. Run a search and replace throughout the theme files to replace "gsb_research_hub_subtheme" with the machine name of your theme.
-5. Add any specific brand colors you need (in addition to the decanter colors that are already available) to src/scss/utilities/variables/_colors.scss. 
+2. Add any specific brand colors you need (in addition to the decanter colors that are already available) to src/scss/utilities/variables/_colors.scss. 
 See all the colors already available through decanter: https://decanter.stanford.edu/page/brand-design-elements-color/ 
-6. If desired, add font settings if you need to override and use fonts other than decanter fonts ( https://decanter.stanford.edu/page/brand-design-elements-typography/ ) [link],
+3. If desired, add font settings if you need to override and use fonts other than decanter fonts ( https://decanter.stanford.edu/page/brand-design-elements-typography/ ) [link],
 by defining a font library in the themename.libraries.yml file.
-7. If desired, add button mixins in src/scss/utilities/mixins/_buttons.scss with your button styles and then reference them and use them in src/scss/theme/_button.scss.
-8. If desired, add cta and link mixins in src/scss/utilities/mixins/_cta.scss with your button styles and then reference them and use them in src/scss/theme/_cta.scss.
-9. If you want to skin or theme a component, like a paragraph, create a _mycomponent.scss file in src/scss/components folder. Consider using a subfolder like 'cards' or 'banners' if applicable.
+4. If desired, add button mixins in src/scss/utilities/mixins/_buttons.scss with your button styles and then reference them and use them in src/scss/theme/_button.scss.
+5. If desired, add cta and link mixins in src/scss/utilities/mixins/_cta.scss with your button styles and then reference them and use them in src/scss/theme/_cta.scss.
+6. If you want to skin or theme a component, like a paragraph, create a _mycomponent.scss file in src/scss/components folder. Consider using a subfolder like 'cards' or 'banners' if applicable.
 
 Configuration
 ---

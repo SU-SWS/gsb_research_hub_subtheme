@@ -35,16 +35,27 @@ Developer
 If you wish to develop on this theme you will most likely need to compile some new css. Please use the sass structure provided and compile with the sass compiler packaged in this theme. To install:
 
 ```
-npm install
+cd /docroot/themes/custom/gsb_research_hub_subtheme
 ```
-After you've made a change you want to see processed, you can run:
-```
-npm run build/yarn build
-```
-This will process scss, js, and asset files, preparing them from the src directory to the dist directory.
 
 ```
-npm run watch/yarn watch
+nvm use
+nvm install
+```
+
+Install yarn. 
+
+```
+yarn install 
+```
+
+```
+yarn build
+```
+This will process scss, js, and asset files, preparing them from the src directory to the dist directory.. yarn build allows the developer to just reload in the Drupal environment. 
+
+```
+yarn watch
 ```
 This will watch the scss files and compile them upon saving.
 

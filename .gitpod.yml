@@ -71,7 +71,7 @@ tasks:
       git config core.fileMode false
       blt blt:telemetry:disable --no-interaction
       cd docroot/themes/custom/$THEME_NAME &&
-      git remote set-url origin git@github.com:SU-SWS/$THEME_NAME.git &&
+      git remote set-url origin git@github.com:gsb-library/$THEME_NAME.git &&
       nvm install &&
       nvm use &&
       yarn &&

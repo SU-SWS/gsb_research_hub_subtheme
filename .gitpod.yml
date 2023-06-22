@@ -61,7 +61,8 @@ tasks:
       drush cr &&
       drush cim -y &&
       drush then $THEME_NAME &&
-      drush cset system.theme default $THEME_NAME -y
+      drush cset system.theme default $THEME_NAME -y &&
+      drush sqlq "UPDATE config_pages__su_site_dropdowns SET su_site_dropdowns_value = 1 WHERE bundle = 'stanford_basic_site_settings'"
     command: |
       export THEME_NAME=${PWD##*/} &&
       export PREVIEW_FULL_URL=`gp url 8001` &&

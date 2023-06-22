@@ -56,6 +56,7 @@ tasks:
       cp .gitpod/default.local.services.yml docroot/sites/local.services.yml &&
       blt blt:telemetry:disable --no-interaction &&
       blt settings &&
+      rm -rf .git &&
       drush si stanford_profile -v -y &&
       drush cr &&
       drush cim -y &&

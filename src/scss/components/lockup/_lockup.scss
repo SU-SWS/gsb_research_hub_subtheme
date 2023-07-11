@@ -1,0 +1,9 @@
+.su-lockup__line1 {
+    font-size: 2.8rem;
+    font-weight: 600;
+  
+    @include grid-media-max('sm') {
+      font-size: 2.6rem;
+      font-weight: 600;
+    }
+  }

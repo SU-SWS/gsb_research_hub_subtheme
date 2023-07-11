@@ -1,9 +1,14 @@
-.su-lockup__line1 {
-    font-size: 2.8rem;
-    font-weight: 600;
+// Center the site name
+.su-lockup__cell2 {
+  margin-bottom: 2px;
   
-    @include grid-media-max('sm') {
-      font-size: 2.6rem;
-      font-weight: 600;
-    }
+  // Adjust spacing for tablet and desktop screens
+  @include grid-media-min('md') {
+    padding-left: 10px;
   }
+}
+
+// Bold the site name
+.su-lockup__line1 {
+  font-weight: 600;
+}

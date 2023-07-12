@@ -1,0 +1,25 @@
+@charset 'UTF-8';
+
+.su-alert {
+  
+    .centered-container {
+      @include padding(.8em null);
+  
+      @include grid-media("sm") {
+        align-items: center;
+      }
+    }
+  }
+
+.su-alert__text {
+    font-size: 1.8rem;
+}
+
+// Flex header with the icon and message type label.
+// -----------------------------------------------------------------------------
+.su-alert__header {
+  
+    @include grid-media-max('md') {
+      @include margin(null null .5em null);
+    }
+  }

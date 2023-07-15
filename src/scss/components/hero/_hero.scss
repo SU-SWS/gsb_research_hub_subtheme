@@ -1,0 +1,44 @@
+@charset "UTF-8";
+//
+// Hero
+//
+// A hero block that can be either an image or a video with some overlay text.
+//
+// Experimental: The YouTube player has not been finished.
+//
+// .su-hero--caption - An under banner caption option.
+// .su-hero--youtube - A YouTube video in the background.
+//
+// Markup: templates/components/hero/hero.twig
+//
+// Style guide: Composite.Hero
+//
+
+
+.su-hero {
+    min-height: unset;
+
+    @include grid-media-min('md') {
+        margin-bottom: -2em;
+      }
+    @include grid-media-min('lg') {
+        padding-bottom: 1.7em;
+      }
+  
+    // The content
+    //.su-hero__card {
+    //  background: none;
+    //}
+}
+
+// The media element.
+// Big tall wide and in a little bid of a shade.
+.su-hero__media {
+  background: $su-color-white;
+  height: 90%;
+
+  img,
+  picture {
+    height: 90%;
+    }
+}

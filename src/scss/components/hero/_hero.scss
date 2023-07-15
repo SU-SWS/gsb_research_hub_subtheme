@@ -22,13 +22,41 @@
         margin-bottom: -2em;
       }
     @include grid-media-min('lg') {
-        padding-bottom: 1.7em;
+        margin-bottom: -1em;
+      }
+      @include grid-media-min('xl') {
+        margin-bottom: 5em;
       }
   
     // The content
-    //.su-hero__card {
-    //  background: none;
-    //}
+    .su-hero__card {
+      background: transparent;
+      color: $su-color-white;
+      text-align: center;
+      border: 0;
+      padding-top: 3em;
+      max-width: unset;
+      width: 95%;
+
+      @include grid-media-max('sm') {
+        color: $su-color-black;
+        padding-top: 1em;   
+      }
+
+      .su-card__contents {
+        text-align: center;
+
+        h2 {
+            font-size: 2.5em;
+            font-weight: $su-font-semi-bold;            ;
+            text-shadow: 0 1px 0 black;
+
+            @include grid-media-max('sm') { 
+                font-size: 1.5em;    
+              }
+        }
+      }
+    }
 }
 
 // The media element.

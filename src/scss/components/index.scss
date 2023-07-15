@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset 'UTF-8';
 
 //
 //  3. Component
@@ -21,4 +21,8 @@
 
 // Components.
 // @import 'component-name/index';
+@import 'masthead/index';
 
+@import 'alert/index';
+@import 'lockup/index';
+@import 'masthead/index';

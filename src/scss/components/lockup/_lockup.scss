@@ -1,0 +1,20 @@
+@charset 'UTF-8';
+
+// Center the site name
+.su-lockup__cell2 {
+  margin-bottom: .2rem;
+  
+  // Adjust spacing for tablet and desktop screens
+  @include grid-media-min("md") {
+    padding-left: 10px;
+  }
+}
+
+// Bold the site name
+.su-lockup__line1 {
+
+  // Adjust site name size for tablet and desktop screens
+  @include grid-media-min("md") {
+    font-size: 3.2rem;
+  }
+}

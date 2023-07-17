@@ -1,0 +1,20 @@
+@charset 'UTF-8';
+
+.su-masthead {
+
+    > section:last-of-type {
+
+        // Adjust site name size for tablet and desktop screens
+        @include grid-media-min('md') {
+            padding-top: 2.5rem;
+        }
+    } 
+    
+    .su-lockup {
+
+        // Reduce the spacing below lockup
+        @include grid-media-min('md') {
+            margin-bottom: -1rem;
+        }
+    }
+}

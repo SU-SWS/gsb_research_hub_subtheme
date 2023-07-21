@@ -91,6 +91,11 @@ allpages:
   css:
     theme:
       dist/css/main.css: { }
+
+airtable-list-builder:
+  js:
+    dist/js/airtable-list-builder.js: {}
+    //cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js: {type: external, minified: true}
 #      dist/css/print.css: { media: print }
 #    base:
 #      dist/css/base.css: { weight: 100 }

@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+//
+// Quote
+//
+// Default styling for a quote element.
+//
+// Markup: templates/components/quote/quote.twig
+//
+// Style guide: Simple.Quote
+//
+.su-quote {
+  @include padding(1em);
+  overflow: hidden;
+
+  .su-quote__img {
+    border-radius: 150px;
+    border: 0;
+    float: left;
+    height: auto;
+    width: auto;
+
+    @include margin(null 0 null null);
+  }
+
+  .su-quote__body {
+    .su-quote__heading {
+      clear: right;
+      font-size: 1.3em;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 0;
+      margin-top: .5em;
+    }
+
+    .su-quote__bio {
+      @include margin(0 0 .5em 0);
+    }
+
+    .su-quote__quote_handwriting {
+        font-family: $su-font-handwriting;
+        font-size: 1.2em;
+        font-weight: 400;
+    }
+
+    .su-quote__quote {
+        font-family: $su-font-serif;
+        font-size: 1.2em;
+        font-weight: 400;
+    }
+  }
+}

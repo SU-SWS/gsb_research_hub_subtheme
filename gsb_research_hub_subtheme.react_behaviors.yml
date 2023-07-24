@@ -1,0 +1,30 @@
+banner_variant_info:  # part of the key after the :
+  id: banner_type
+  label: 'Banner Paragraphs Type'
+  bundles:
+    - paragraphs_type|stanford_banner
+  config:
+    banner_list_height:
+      type: select
+      title: 'Banner Height'
+      description: 'Select the height for the banner.'
+      options:
+        rh-banner-wrapper--height-default: Default
+        rh-banner-wrapper--height-modest: Modest
+        rh-banner-wrapper--height-minimal: Minimal
+    banner_list_style:
+      type: select
+      title: 'Banner Style'
+      description: 'Select the banner style.'
+      # default_value: rh-banner-wrapper--default
+      options:
+        rh-banner-wrapper--default: Default
+        rh-banner-wrapper--no-headline: No Headline
+        #rh-banner-wrapper--style-four: Style Four -- add this later.
+    banner_list_headline:
+      type: select
+      title: 'Banner Headline Alignment'
+      description: 'Center the alignment for the headline. Choose the Text Alignment to shift all the text left or right'
+      options:
+        rh-banner-wrapper--headline-default: Default
+        rh-banner-wrapper--headline-center: Center

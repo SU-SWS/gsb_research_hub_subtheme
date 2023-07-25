@@ -7,7 +7,8 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 var webpackConfig = {
   entry: {
     "css/main": ["./src/scss/main.scss"],
-    "css/ckeditor5": ["./src/scss/ckeditor5.scss"]
+    "css/ckeditor5": ["./src/scss/ckeditor5.scss"],
+    "js/airtable-list-builder": "./src/js/airtable-list-builder.js"
   },
   output: {
     path: config.distFolder,

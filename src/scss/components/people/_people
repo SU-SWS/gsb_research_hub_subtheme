@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.su-person-content {
+    
+    // right sidebar
+    .right-region {
+
+        // heading
+        .block__title {
+            font-size: 2rem !important;
+
+            &:before {
+                display: none;
+            }
+        }
+
+        // paragraph
+        .su-wysiwyg-text {
+            p {
+                font-size: 1.7rem;
+                line-height: 1.5;
+            }
+        }
+    }
+}

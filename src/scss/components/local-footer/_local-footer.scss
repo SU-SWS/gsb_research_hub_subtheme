@@ -1,0 +1,42 @@
+@charset 'UTF-8';
+
+//
+// Local Footer
+//
+// Local footer element to support (above) the global footer.
+//
+// Markup: templates/components/local-footer/local-footer.twig
+//
+// Style guide: Identity.Local Footer
+//
+
+// Global styles for the local footer.
+// ------------------------------------------------
+.su-local-footer {
+  
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  
+  // List heading element styles.
+  // ------------------------------------------------
+  .su-local-footer__list-heading,
+  .su-wysiwyg-text h4 {
+    font-size: 2rem;
+  }
+  
+  // Styles for the list links.
+  // ------------------------------------------------
+  .su-wysiwyg-text {
+    ul {
+      li {
+        font-size: 1.7rem;
+      }
+    }
+  }

@@ -9,9 +9,13 @@
 //
 // Style guide: Simple.Quote
 //
+
+
 .su-quote {
-  @include padding(1em);
+  @include padding(1em 1.2em 1.5em 1.6em);
   overflow: hidden;
+  border-radius: 2em;
+  max-width: 800px;
 
   .su-quote__img {
     border-radius: 150px;
@@ -24,29 +28,38 @@
   }
 
   .su-quote__body {
-    .su-quote__heading {
-      clear: right;
-      font-size: 1.3em;
+    .su-quote__name {
+      font-size: .8em;
       font-weight: 600;
       line-height: 1.4;
-      margin-bottom: 0;
-      margin-top: .5em;
+      margin-top: 1em;
+      text-align: left;
     }
 
-    .su-quote__bio {
-      @include margin(0 0 .5em 0);
-    }
-
-    .su-quote__quote_handwriting {
-        font-family: $su-font-handwriting;
-        font-size: 1.2em;
-        font-weight: 400;
+    .su-quote__title {
+      font-weight: 400;
     }
 
     .su-quote__quote {
-        font-family: $su-font-serif;
-        font-size: 1.2em;
-        font-weight: 400;
+      font-family: $su-font-serif;
+      font-size: 1.2em;
+      font-weight: 400;
+      margin-top: .5em;
+      quotes: "“" "”" "‘" "’";
+
+      &::before {
+        content: open-quote;
+      }
+
+      &::after {
+        content: close-quote;
+      }
     }
+  }
+}
+
+@each $name,$color in $gsb-colors {
+  .rh-quote-border-#{$name} {
+    border: 2px solid $color;
   }
 }

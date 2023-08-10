@@ -41,7 +41,7 @@
       font-weight: 400;
     }
 
-    .su-quote__quote {
+   .su-quote__quote {
       font-family: $su-font-serif;
       font-size: 1.2em;
       font-weight: 400;
@@ -50,15 +50,45 @@
 
       &::before {
         content: open-quote;
+        margin: 0 0em 0 -0.5em;
       }
 
       &::after {
         content: close-quote;
       }
     }
+  } 
+}
+
+
+.su-wysiwyg-text {
+  p {
+    &.su-quote-text {
+      font-family: $su-font-serif;
+      font-style: normal;
+      font-size: 1.2em;
+      line-height: 1.2em;
+      font-weight: 400;
+      letter-spacing: 0em;
+      margin-top: .5em;
+      margin-bottom: .6em;
+      quotes: "“" "”" "‘" "’";
+
+      &::before {
+        content: open-quote;
+        margin: 0 0em 0 -0.5em;
+        position:relative;
+      }
+
+      &::after {
+        content: close-quote;
+        position:relative;
+      }
+    }
   }
 }
 
+// Quote block border color
 @each $name,$color in $gsb-colors {
   .rh-quote-border-#{$name} {
     border: 2px solid $color;

@@ -14,7 +14,7 @@
 
         // Reduce the spacing below lockup
         @include grid-media-min('md') {
-            margin-bottom: -1rem;
+            margin-bottom: 1.5rem;
         }
     }
 }

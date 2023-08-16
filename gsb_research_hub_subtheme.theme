@@ -24,104 +24,28 @@ function gsb_research_hub_subtheme_theme_suggestions_block_alter(array &$suggest
   }
 }
 
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function gsb_research_hub_subtheme_theme_suggestions_paragraph_alter(array &$suggestions, array $variables) {
+  if (isset($variables['elements']['su_wysiwyg_text'])) {
+    $paragraph = $variables['elements']['su_wysiwyg_text']['#object'];
+    $jsonConfig = Json::decode(strip_tags($paragraph->su_wysiwyg_text->value));
+    if (!is_null($jsonConfig) && isset($jsonConfig['type']) && $jsonConfig['type'] == 'airtable') {
+      $suggestions[] = 'paragraph__airtable__' . $jsonConfig['view'];
+    }
+  }
+}
+
 function gsb_research_hub_subtheme_preprocess_paragraph(&$variables) {
-  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
+
   // Get the type
   $parentBundle = $paragraph->bundle();
   if ($parentBundle == 'stanford_wysiwyg') {
-    if (str_contains($paragraph->su_wysiwyg_text->value, 'class="airtable-list')) {
-      try {
-        $uri = "https://api.airtable.com/v0/app5VaRYVafmpL1KB/Training%20&%20Workshop%20Recordings";
-        $response = \Drupal::httpClient()->get($uri, array('headers' => array('Accept' => 'text/plain', 'Authorization' => 'Bearer patI6NlthwRALu68h.454f4e5e1a0bf1a67b1c3a8adfb4a1ecda4d9b41b4ca881e78d9bf64a7c26d6e')));
-        $data = (string) $response->getBody();
-        if (!empty($data)) {
-          $filterOptions = array(
-            0 => array(
-              'airtableField' => 'Category',
-              'name' => 'Categories',
-              'choices' => array(),
-            ),
-            1 => array(
-              'airtableField' => 'Series',
-              'name' => 'Series',
-              'choices' => array(),
-            ),
-          );
-
-          $cards = '';
-          $response = Json::decode($data);
-          $records = $response['records'];
-          foreach ($records as $record) {
-            dpm($record);
-            $fields = $record['fields'];
-            $presenters = $fields["Presenters Name and Title"];
-
-            $presenterHTML = "";
-            foreach ($presenters as $presenter) {
-              $presenter = Json::decode($presenter);
-              $presenterHTML .= "<strong>" . $presenter['name'] . "</strong><br>" . $presenter['title'] . "<br><br>";
-            }
-
-
-            $links = $fields['Link Info'];
-            $linkHTML = '<div class="su-news-list__topics"><ul>';
-            foreach ($links as $link) {
-              $link = Json::decode($link);
-              $linkHTML .= '<li><a href="' . $link['url'] . '">' . $link['name'] . '</a></li>';
-            }
-            $linkHTML .= '</ul></div>';
-
-            $classes = 'masonry-item su-news-list';
-
-            foreach ($filterOptions as $key => $filterOption) {
-              $filterClass = Html::cleanCssIdentifier($fields[$filterOption['airtableField']]);
-              $filterPrefix = Html::cleanCssIdentifier($filterOption['airtableField']);
-              $filterOptions[$key]['choices'][$filterPrefix . '--' . $filterClass] = $fields[$filterOption['airtableField']];
-
-              $classes .= ' ' . $filterPrefix . '--' . $filterClass;
-            }
-
-            $card = '<li class="' . $classes . '">' .
-                      '<div class="su-news-article su-news-external">' .
-                        '<div class="su-news-list__header">' .
-                          '<div class="su-news-list__headline-dek">' .
-                            '<h2>' . $fields['Name'] . '</h2>' .
-                            '<p><strong>' . $fields['Series'] . '</strong></p>' .
-                            '<p>' . $presenterHTML . '</p>' .
-                            '<p class="su-news-list__dek">' . $fields['Description'] . '</p>' .
-                          '</div>' .
-
-                          $linkHTML .
-                          
-                        '</div>' .
-                      '</div>' .
-                    '</li>';
-
-            $cards .= $card;
-          }
-
-          $filterHTML = '';
-          foreach ($filterOptions as $filterOption) {
-            $filterHTML .= '<div class="ui-group">' . 
-            '<h3>' . $filterOption['name'] . '</h3>' . 
-            '<div class="filter-group" data-filter-group="' . Html::cleanCssIdentifier($filterOption['name']) . '">' .
-            '<a class="button su-button is-checked" data-filter="">All</a>';
-            dpm($filterOption);
-            foreach($filterOption['choices'] as $class => $choice) {
-              $filterHTML .= '<a class="button su-button" data-filter=".' . $class . '">' . $choice . '</a>';
-            }
-
-            $filterHTML .= '</div></div>';
-          }
-
-          $output = '<div><div id="filters">' . $filterHTML . '</div><div id="airtable-list"><ul class="su-list-unstyled">' . $cards . '</ul></div></div>';
-          $paragraph->su_wysiwyg_text->value = $output;
-        }
-      }
-      catch (RequestException $e) {
-        dpm($e);
-      }
+    $jsonConfig = Json::decode(strip_tags($paragraph->su_wysiwyg_text->value));
+    if (!is_null($jsonConfig) && isset($jsonConfig['type']) && $jsonConfig['type'] == 'airtable') {
+      $variables['#attached']['library'][] = 'gsb_research_hub_subtheme/airtable-list-builder';
     }
   }
 }

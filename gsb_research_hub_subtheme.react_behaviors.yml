@@ -4,27 +4,87 @@ banner_variant_info:  # part of the key after the :
   bundles:
     - paragraphs_type|stanford_banner
   config:
+
+    banner_list_instruction:
+      type: markup
+      markup: '<p><strong>Ignore the above dropdown option.</strong></p><h2>Use Only the Research Hub Options Below</h2>'
+
+    banner_list_background_color:
+      type: select
+      title: 'Banner Background Color'
+      description: 'Instead of uploading a banner image, you can select one of the GSB colors as the banner background color.'
+      options:
+        rh-banner-wrapper--background-mist: Mist
+        rh-banner-wrapper--background-buckeye-lane-light: Buckeye Lane Light
+        rh-banner-wrapper--background-buckeye-lane-dark: Buckeye Lane Dark
+        rh-banner-wrapper--background-buckeye-lane: Buckeye Lane
+        rh-banner-wrapper--background-brick-light: Brick Light
+        rh-banner-wrapper--background-brick: Brick
+        rh-banner-wrapper--background-brick-dark: Brick Dark 
+        rh-banner-wrapper--background-bay-light: Bay Light
+        rh-banner-wrapper--background-bay: Bay
+        rh-banner-wrapper--background-bay-dark: Bay Dark
+        rh-banner-wrapper--background-lagunita-light: Lagunita Light
+        rh-banner-wrapper--background-lagunita: Lagunita
+        rh-banner-wrapper--background-lagunita-dark: Lagunita Dark
+        rh-banner-wrapper--background-palo-alto-light: Palo Alto Light
+        rh-banner-wrapper--background-palo-alto: Palo Alto
+        rh-banner-wrapper--background-palo-alto-dark: Palo Alto Dark
+        rh-banner-wrapper--background-palo-verde-light: Palo Verde Light
+        rh-banner-wrapper--background-palo-verde: Palo Verde
+        rh-banner-wrapper--background-palo-verde-dark: Palo Verde Dark
+        rh-banner-wrapper--background-new-sky-light: New Sky Light
+        rh-banner-wrapper--background-new-sky: New Sky
+        rh-banner-wrapper--background-new-sky-dark: New Sky Dark
+        rh-banner-wrapper--background-poppy-light: Poppy Light
+        rh-banner-wrapper--background-poppy: Poppy
+        rh-banner-wrapper--background-poppy-dark: Poppy Dark
+        rh-banner-wrapper--background-autumn-gingko-light: Autumn Gingko Light
+        rh-banner-wrapper--background-autumn-gingko: Autumn Gingko 
+        rh-banner-wrapper--background-autumn-gingko-dark: Autumn Gingko Dark
+        rh-banner-wrapper--background-macdonald-light: MacDonald Light
+        rh-banner-wrapper--background-macdonald: MacDonald
+        rh-banner-wrapper--background-macdonald-dark: MacDonald Dark
+        rh-banner-wrapper--background-digital-red-light: Digital Red Light
+        rh-banner-wrapper--background-digital-red: Digital Red
+        rh-banner-wrapper--background-digital-red-dark: Digital Red Dark
+        rh-banner-wrapper--background-digital-blue-light: Digital Blue Light
+        rh-banner-wrapper--background-digital-blue: Digital Blue
+        rh-banner-wrapper--background-digital-blue-dark: Digital Blue Dark
+        rh-banner-wrapper--background-digital-pink-light: Digital Pink Light
+        rh-banner-wrapper--background-digital-pink: Digital Pink
+        rh-banner-wrapper--background-digital-pink-dark: Digital Pink Dark
+
+    banner_list_headline:
+      type: select
+      title: 'Text Overlay Position Options'
+      description: 'Choose the banner text position.'
+      options:
+        overlay-left: White Box Left
+        overlay-right: White Box Right
+        rh-banner-wrapper--headline-left: Full Width Left
+        rh-banner-wrapper--headline-center: Full Width Center
+        rh-banner-wrapper--headline-right: Full Width Right
+    
+    banner_list_text_color:
+      type: select
+      title: 'Banner Text Color'
+      description: 'Select the banner text color'
+      options:
+        rh-banner-wrapper--text-color-white: White
+        rh-banner-wrapper--text-color-black: Black
+      states:
+        visible:
+          select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_headline]"]:
+            - {value: rh-banner-wrapper--headline-left}
+            - {value: rh-banner-wrapper--headline-center}
+            - {value: rh-banner-wrapper--headline-right}
+            
     banner_list_height:
       type: select
       title: 'Banner Height'
       description: 'Select the height for the banner.'
       options:
-        rh-banner-wrapper--height-default: Default
-        rh-banner-wrapper--height-modest: Modest
-        rh-banner-wrapper--height-minimal: Minimal
-    banner_list_style:
-      type: select
-      title: 'Banner Style'
-      description: 'Select the banner style.'
-      # default_value: rh-banner-wrapper--default
-      options:
-        rh-banner-wrapper--default: Default
-        rh-banner-wrapper--no-headline: No Headline
-        #rh-banner-wrapper--style-four: Style Four -- add this later.
-    banner_list_headline:
-      type: select
-      title: 'Banner Headline Alignment'
-      description: 'Center the alignment for the headline. Choose the Text Alignment to shift all the text left or right'
-      options:
-        rh-banner-wrapper--headline-default: Default
-        rh-banner-wrapper--headline-center: Center
+        rh-banner-wrapper--height-tall: Tall
+        rh-banner-wrapper--height-medium: Medium
+        rh-banner-wrapper--height-short: Short

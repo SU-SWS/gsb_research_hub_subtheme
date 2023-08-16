@@ -1,0 +1,244 @@
+@charset "UTF-8";
+
+// Reduce margin-bottom for top "page" banner and banner paragraph.
+.main-region {
+  .node-stanford-page-su-page-banner {
+    margin-bottom: 5rem;
+  }
+}
+.paragraph-item {
+  &.ptype-stanford-banner {
+    margin-bottom: 5rem;
+  }
+}
+
+// Variants - banner heights
+.rh-banner-wrapper--height-default {
+  .su-hero {
+    min-height: 520px;
+  }
+
+  .su-hero__media {
+    min-height: 520px;
+  }
+}
+
+.rh-banner-wrapper--height-medium {
+  .su-hero {
+    min-height: 350px;
+  }
+
+  .su-hero__media {
+    min-height: 350px;
+  }
+}
+
+.rh-banner-wrapper--height-short {
+  .su-hero {
+    min-height: 250px;
+  }
+
+  .su-hero__media {
+    min-height: 250px;
+
+    @include grid-media-max('sm') {
+      min-height: unset;
+    }
+  }
+}
+
+// Resetting min-height for small and xsmall devices.
+.rh-banner-wrapper--height-default,
+.rh-banner-wrapper--height-medium,
+.rh-banner-wrapper--height-short {
+
+  .su-hero__media,
+  .su-hero {
+    @include grid-media-max('sm') {
+      min-height: unset;
+    }
+  }
+}
+
+.ptype-stanford-banner {
+
+  .rh-banner-wrapper--headline-left,
+  .rh-banner-wrapper--headline-center,
+  .rh-banner-wrapper--headline-right {
+
+    .su-hero {
+
+      .su-hero__card {
+        background: transparent;
+        border: 0;
+        bottom: 0;
+        box-shadow: none;
+        max-width: 94%;
+        margin: 0 auto;
+        //top: auto;
+        left: auto;
+
+        .su-card__contents {
+          
+          > span {
+            font-size: 1em;
+          }
+
+          h2 {
+            margin-top: 0;
+            font-size: 2.5em;
+          }
+
+          p {
+            font-size: 2rem;
+          }
+
+          .su-card__button {
+            margin-top: 4rem;
+            margin-bottom: unset;
+            text-shadow: none;
+          }
+        }
+      }
+    }
+
+  .rh-banner-wrapper--headline-left {
+
+    .su-hero {
+
+      .su-hero__card {
+
+        .su-card__contents {
+          text-align: left;   
+          }           
+        }
+      }
+  }
+
+  .rh-banner-wrapper--headline-center {
+
+    .su-hero {
+
+      .su-hero__card {
+
+        .su-card__contents {
+          text-align: center;   
+          }           
+        }
+      }
+  }
+
+  .rh-banner-wrapper--headline-right {
+
+    .su-hero {
+
+      .su-hero__card {
+
+        .su-card__contents {
+          text-align: right;   
+          }           
+        }
+      }
+  }
+
+    
+
+    // Banner text color variants
+    // For black text
+    &.rh-banner-wrapper--text-color-black {
+      color: $su-color-black;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+
+      .su-card__contents {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.9) 60%, rgba(255, 255, 255, 0.7) 100%);
+      }
+
+      p {
+        a {
+          color: $su-color-digital-blue;
+          text-decoration: underline;
+          font-weight: $su-font-bold;
+        }  
+      }
+
+      @include grid-media-min('md') {  
+        //Gradiant on banner image.
+          z-index: 1;
+          position: relative;
+        
+        .su-hero__media {
+          //background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 240, 0.7) 60%, rgba(255, 255, 255, 0.3) 100%);
+          background: no-repeat;
+        }
+        
+        picture {
+          position: relative;
+          z-index: -1;
+          display: block;
+        }
+        // End Gradiant details.
+      }
+    }
+
+    
+    // For white text
+    &.rh-banner-wrapper--text-color-white {
+
+      color: $su-color-white;
+      text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25), 1px 1px 1px rgba(0, 0, 0, 0.35), -1px -1px 1px rgba(0, 0, 0, 0.35);
+
+      a {
+        color: $su-color-white;
+        font-weight: 400;
+      }
+
+      @include grid-media-max('sm') {
+        color: $su-color-black;
+        text-shadow: none;
+
+        p {
+          a {
+            color: $su-color-digital-blue;
+            text-decoration: underline;
+            font-weight: $su-font-bold;
+          }
+        }
+      }
+
+      @include grid-media-min('md') {  
+        //Gradiant on banner image.
+          z-index: 1;
+          position: relative;
+        
+        .su-hero__media {
+          //background: linear-gradient(180deg, rgba(46, 45, 41, 0) 0%, $su-color-black 95%);
+          background: linear-gradient(180deg, rgba(46, 45, 41, 0.1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(46, 45, 41, 0.2) 100%);
+        }
+        
+        picture {
+          position: relative;
+          z-index: -1;
+          display: block;
+        }
+        // End Gradiant details.
+      }
+    }
+  }
+
+
+  // Banner background color
+  @each $name,$color in $gsb-colors {
+
+    .rh-banner-wrapper--background-#{$name} {
+
+      .su-hero__media {
+        background-color: $color !important;
+      }
+    }
+  }
+}
+
+
+
+
+

@@ -174,26 +174,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     return template.replace('%' + token + '%', value);
   }
 
-  // Convert string to JSON array if it's JSON.
-  function processJSON(value) {
-    // Convert any text JSON into a JS var and assign it back to the field
-    try {
-      value = JSON.parse(value);
-    } catch (e) {
-      // Do nothing
-    }
-    return value;
-  }
-
   // Apply the data to the template.
   function processTemplate(templateKey, data) {
     var template = $('template#airtable-list-' + templateKey + '-template').html();
     for (var fieldKey in data) {
       // If it's an array then process that array with its template.
-      var value = processJSON(data[fieldKey]);
-      if (Array.isArray(value)) {
+      if (fieldKey.endsWith('_json')) {
+        var jsonData = JSON.parse(data[fieldKey]);
         var templateHTML = '';
-        var _iterator3 = _createForOfIteratorHelper(value),
+        var _iterator3 = _createForOfIteratorHelper(jsonData),
           _step3;
         try {
           for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
@@ -207,7 +196,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }
         template = replaceToken(template, fieldKey, templateHTML);
       } else {
-        template = replaceToken(template, fieldKey, value);
+        template = replaceToken(template, fieldKey, data[fieldKey]);
       }
     }
     return template;

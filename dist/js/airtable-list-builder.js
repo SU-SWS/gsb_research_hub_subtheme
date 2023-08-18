@@ -10,41 +10,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var $contentArea = $("#airtable-list");
 
       // Grab the airtable variables.
-      var table = $contentArea.data('table');
-      var view = $contentArea.attr('data-view');
-      var filterConfigArray = $contentArea.data('filters').split(',');
-
-      // Build the filter configuration based on what was given.
-      var filterConfig = [];
-      var _iterator = _createForOfIteratorHelper(filterConfigArray),
-        _step;
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          filter = _step.value;
-          var filterInfo = filter.split('|');
-          filterConfig[filterInfo['0'].trim()] = {
-            "key": filterInfo[0].trim(),
-            "name": filterInfo[1].trim(),
-            "choices": [{
-              "key": "*",
-              "name": "All"
-            }]
-          };
-        }
-
-        // Load the airtable data
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
+      var config = $contentArea.data('config');
+      for (filterKey in config.filters) {
+        config.filters[filterKey].choices = [{
+          "key": "*",
+          "name": "All"
+        }];
       }
+
+      // Load the airtable data
       $.ajax({
         type: "GET",
         beforeSend: function beforeSend(xhr) {
           xhr.setRequestHeader('Authorization', 'Bearer patuFfv8kBc0t6KQc.78ae3fb790ef223788cddf2df30144cfcc5bd9c76c64afa8daa5236207e6cbd6');
         },
         dataType: "json",
-        url: "https://api.airtable.com/v0/appM3dMpeuaatPlNO/" + table + "?view=" + view,
+        url: "https://api.airtable.com/v0/appM3dMpeuaatPlNO/" + config.table + "?view=" + config.view,
         success: function success(data) {
           // Load the records.
           var records = data.records;
@@ -53,22 +34,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           // Process each record.
           var _loop = function _loop() {
             var record = records[recordIndex];
-            //let recordTemplate = $('template#airtable-records-template').html();
             var rowClasses = '';
-            var recordTemplate = processTemplate('records', record.fields);
 
             // Process each field.
             for (fieldKey in record.fields) {
               // Process the filter choices if it's in the config
-              if (fieldKey in filterConfig) {
+              if (fieldKey in config.filters) {
                 // See if the choice already exists.
-                var existingChoice = filterConfig[fieldKey].choices.filter(function (row) {
+                var existingChoice = config.filters[fieldKey].choices.filter(function (row) {
                   return row.name === record.fields[fieldKey];
                 });
 
                 // If the choice doesn't exist then add it to the list of choices.
                 if (!existingChoice.length) {
-                  filterConfig[fieldKey].choices.push({
+                  config.filters[fieldKey].choices.push({
                     "key": stringToCSSClass(record.fields[fieldKey]),
                     "name": record.fields[fieldKey]
                   });
@@ -79,8 +58,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               }
             }
 
+            // Build the record html.
+            var recordTemplate = processTemplate(config, 'records', record.fields);
+
             // Add rowClasses and add the record to the page.
-            recordTemplate = replaceToken(recordTemplate, 'rowClasses', rowClasses);
+            recordTemplate = recordTemplate.replace('[rowClasses]', rowClasses);
             $recordWrapper.append($(recordTemplate));
           };
           for (recordIndex in records) {
@@ -88,19 +70,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           }
 
           // Add Filters on the page.
-          for (filterKey in filterConfig) {
-            var _filter = filterConfig[filterKey];
+          for (filterKey in config.filters) {
+            var filter = config.filters[filterKey];
 
             // Build the select filter.
-            if (_filter.choices.length > 0) {
-              var $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(_filter.key));
-              $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(_filter.name);
-              var $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(_filter.key));
-              var _iterator2 = _createForOfIteratorHelper(_filter.choices),
-                _step2;
+            if (filter.choices.length > 0) {
+              var $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(filterKey));
+              $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(filter.name);
+              var $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(filterKey));
+              var _iterator = _createForOfIteratorHelper(filter.choices),
+                _step;
               try {
-                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                  choice = _step2.value;
+                for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                  choice = _step.value;
                   var $filterOption = $("<option>");
                   $filterOption.val(choice.key).text(choice.name);
                   $filterSelect.append($filterOption);
@@ -108,9 +90,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
                 // Add the filter to the page.
               } catch (err) {
-                _iterator2.e(err);
+                _iterator.e(err);
               } finally {
-                _iterator2.f();
+                _iterator.f();
               }
               $filterGroup.append($filterSelect);
               $('div#airtable-list-filters').append($filterGroup);
@@ -175,31 +157,79 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   }
 
   // Apply the data to the template.
-  function processTemplate(templateKey, data) {
-    var template = $('template#airtable-list-' + templateKey + '-template').html();
-    for (var fieldKey in data) {
-      // If it's an array then process that array with its template.
-      if (fieldKey.endsWith('_json')) {
-        var jsonData = JSON.parse(data[fieldKey]);
-        var templateHTML = '';
-        var _iterator3 = _createForOfIteratorHelper(jsonData),
-          _step3;
-        try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            recordVal = _step3.value;
-            templateHTML += processTemplate(fieldKey, recordVal);
+  function processTemplate(config, templateKey, data) {
+    var template = $('template#airtable-list-' + stringToCSSClass(templateKey) + '-template').html();
+    if (template) {
+      // Pull all of the tokens from the template.
+      var tokens = [];
+      template.replace(/\%(.*?)%/g, function (a, b) {
+        tokens.push(b);
+      });
+
+      // Process each token.
+      for (var _i = 0, _tokens = tokens; _i < _tokens.length; _i++) {
+        var token = _tokens[_i];
+        // If the token exists in the data then process it.
+        if (token in data) {
+          var content = data[token];
+          // If it's an array then process that array with its template.
+          if (token.endsWith('_json')) {
+            var jsonData = JSON.parse(content);
+            var templateHTML = '';
+            var _iterator2 = _createForOfIteratorHelper(jsonData),
+              _step2;
+            try {
+              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                recordVal = _step2.value;
+                templateHTML += processTemplate(config, token, recordVal);
+              }
+            } catch (err) {
+              _iterator2.e(err);
+            } finally {
+              _iterator2.f();
+            }
+            template = replaceToken(template, token, templateHTML);
+          } else {
+            // If there is any field that needs formatting format it.
+            if ("format" in config && token in config.format) {
+              content = formatString(config.format[token].type, config.format[token].options, content);
+            }
+            var fieldTemplate = $('template#airtable-list-' + stringToCSSClass(token) + '-template').html();
+            if (fieldTemplate) {
+              content = replaceToken(fieldTemplate, token, content);
+            }
+            template = replaceToken(template, token, content);
           }
-        } catch (err) {
-          _iterator3.e(err);
-        } finally {
-          _iterator3.f();
         }
-        template = replaceToken(template, fieldKey, templateHTML);
-      } else {
-        template = replaceToken(template, fieldKey, data[fieldKey]);
+        // Otherwise remove the row.
+        else {
+          var $template = $(template);
+          $template.find("[data-field-key='" + token + "']").remove();
+          template = $template.prop('outerHTML');
+        }
       }
+      return template;
+    } else {
+      return '';
     }
-    return template;
+  }
+
+  // Formats a string into the given type.
+  function formatString(type, format, content) {
+    switch (type) {
+      case 'Date':
+        var dateObj = new Date(Date.parse(content));
+        var dateArray = [];
+        if ("date" in format) {
+          dateArray.push(dateObj.toLocaleDateString([], format.date));
+        }
+        if ("time" in format) {
+          dateArray.push(dateObj.toLocaleTimeString([], format.time));
+        }
+        content = dateArray.join(' ');
+        break;
+    }
+    return content;
   }
 })(jQuery, Drupal, drupalSettings);
 /******/ })()

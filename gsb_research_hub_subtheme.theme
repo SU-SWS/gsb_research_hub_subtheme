@@ -55,7 +55,11 @@ function gsb_research_hub_subtheme_preprocess_banner(&$variables) {
   //$variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_style', 'rh-banner-wrapper--default');
 
   // Select banner background color. 3rd variable provides the default type.
-  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_background_color', 'rh-banner-wrapper--background-mist');
+  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_background_color', 'rh-banner-wrapper--background-no-color');
+
+  // Select banner color gradient. 3rd variable provides the default type.
+  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_gradient', 'rh-banner-wrapper--background-gradient');
+
 
   // Center align the headline. 3rd variable provides the default type.
   $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_headline', 'rh-banner-wrapper--headline-center');

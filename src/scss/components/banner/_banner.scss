@@ -73,7 +73,6 @@
         border: 0;
         bottom: 0;
         box-shadow: none;
-        max-width: 94%;
         margin: 0 auto;
         //top: auto;
         left: auto;
@@ -102,47 +101,6 @@
       }
     }
 
-  .rh-banner-wrapper--headline-left {
-
-    .su-hero {
-
-      .su-hero__card {
-
-        .su-card__contents {
-          text-align: left;   
-          }           
-        }
-      }
-  }
-
-  .rh-banner-wrapper--headline-center {
-
-    .su-hero {
-
-      .su-hero__card {
-
-        .su-card__contents {
-          text-align: center;   
-          }           
-        }
-      }
-  }
-
-  .rh-banner-wrapper--headline-right {
-
-    .su-hero {
-
-      .su-hero__card {
-
-        .su-card__contents {
-          text-align: right;   
-          }           
-        }
-      }
-  }
-
-    
-
     // Banner text color variants
     // For black text
     &.rh-banner-wrapper--text-color-black {
@@ -150,31 +108,38 @@
       text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
 
       .su-card__contents {
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.9) 60%, rgba(255, 255, 255, 0.7) 100%);
-      }
+        //Translucent box to add background contrast
+        //background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.9) 60%, rgba(255, 255, 255, 0.7) 100%);
 
-      p {
-        a {
-          color: $su-color-digital-blue;
-          text-decoration: underline;
-          font-weight: $su-font-bold;
-        }  
+        p {
+          a {
+            color: $su-color-digital-blue;
+            text-decoration: underline;
+            font-weight: $su-font-bold;
+          }  
+        }
       }
 
       @include grid-media-min('md') {  
         //Gradiant on banner image.
-          z-index: 1;
-          position: relative;
-        
         .su-hero__media {
-          //background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 240, 0.7) 60%, rgba(255, 255, 255, 0.3) 100%);
-          background: no-repeat;
-        }
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(240, 240, 240, 0.8) 40%, rgba(255, 255, 255, 0.3) 100%);
+          }
         
-        picture {
-          position: relative;
-          z-index: -1;
-          display: block;
+          picture {
+            position: relative;
+            z-index: 0;
+            display: block;
+          }
         }
         // End Gradiant details.
       }
@@ -187,40 +152,98 @@
       color: $su-color-white;
       text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25), 1px 1px 1px rgba(0, 0, 0, 0.35), -1px -1px 1px rgba(0, 0, 0, 0.35);
 
-      a {
-        color: $su-color-white;
-        font-weight: 400;
-      }
-
-      @include grid-media-max('sm') {
-        color: $su-color-black;
-        text-shadow: none;
+      .su-card__contents {
 
         p {
           a {
-            color: $su-color-digital-blue;
-            text-decoration: underline;
-            font-weight: $su-font-bold;
+            color: $su-color-white;
+            font-weight: 400;
+          }
+        }
+
+        @include grid-media-max('sm') {
+          color: $su-color-black;
+          text-shadow: none;
+
+          p {
+            a {
+              color: $su-color-digital-blue;
+              text-decoration: underline;
+              font-weight: $su-font-bold;
+            }
           }
         }
       }
 
       @include grid-media-min('md') {  
         //Gradiant on banner image.
-          z-index: 1;
-          position: relative;
-        
         .su-hero__media {
-          //background: linear-gradient(180deg, rgba(46, 45, 41, 0) 0%, $su-color-black 95%);
-          background: linear-gradient(180deg, rgba(46, 45, 41, 0.1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(46, 45, 41, 0.2) 100%);
-        }
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            background: linear-gradient(180deg, rgba(46, 45, 41, 0.1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(46, 45, 41, 0.2) 100%);
+          }
         
-        picture {
-          position: relative;
-          z-index: -1;
-          display: block;
+          picture {
+            position: relative;
+            z-index: 0;
+            display: block;
+          }
         }
         // End Gradiant details.
+      }
+    }
+  }
+
+  .rh-banner-wrapper--headline-left {
+
+    .su-hero {
+
+      .su-hero__card {
+
+        @include grid-media-min('md') {  
+          max-width: 40%; 
+          margin-left: 20rem; 
+        }
+
+        .su-card__contents {
+          text-align: left;            
+        }
+      }
+    }
+  }
+
+  .rh-banner-wrapper--headline-center {
+
+    .su-hero {
+
+      .su-hero__card {
+        max-width: 94%; 
+
+        .su-card__contents {
+          text-align: center;           
+        }
+      }
+    }
+  }
+
+  .rh-banner-wrapper--headline-right {
+
+    .su-hero {
+
+      .su-hero__card {
+        max-width: 40%;
+        margin-right: 20rem;
+
+        .su-card__contents {
+          text-align: right;            
+        }
       }
     }
   }
@@ -234,6 +257,13 @@
       .su-hero__media {
         background-color: $color !important;
       }
+    }
+  }
+
+  .rh-banner-wrapper--background-no-gradient {
+
+    .su-hero__media {
+      background-image: none !important;
     }
   }
 }

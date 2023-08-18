@@ -5,3 +5,101 @@
 
 // define colors here in the format of:
 //$abbreviation-color-pink: #ff0099; // like $saa-color-pink
+
+
+
+// GSB secondary colors
+$gsb-color-charcoal: #231F20;
+$gsb-color-driftwood: #B6B1A9;
+$gsb-color-sand: #D2BA92;
+
+// GSB accent colors
+$gsb-color-buckeye-land: #53284F;
+$gsb-color-buckeye-land-light: #613863;
+$gsb-color-buckeye-land-dark: #350D36;
+$gsb-color-palo-alto: #175E54;
+$gsb-color-palo-alto-light: #2D716F;
+$gsb-color-palo-alto-dark: #014240;
+$gsb-color-palo-verde: #279989;
+$gsb-color-palo-verde-light: #59B3A9;
+$gsb-color-palo-verde-dark: #017E7C;
+$gsb-color-new-sky: #5C9DAE;
+$gsb-color-new-sky-dark: #267E9C;
+$gsb-color-autumn-gingko: #FFC915;
+$gsb-color-autumn-gingko-light: #FFDF50;
+$gsb-color-autumn-gingko-dark: #F1AD13;
+$gsb-color-macdonald: #bac405;
+$gsb-color-macdonald-light: #cfd650;
+$gsb-color-macdonald-dark: #636F00;
+
+// GSB digital colors
+$gsb-color-digital-red-dark: #820000;
+$gsb-color-digital-blue-dark: #00548F;
+$gsb-color-digital-pink: #E64097;
+$gsb-color-digital-pink-light: #EC70B1;
+$gsb-color-digital-pink-dark: #B0008E;
+
+
+$gsb-colors: (
+  no-color:           $su-color-white,
+  
+  // primary colors
+  cardinal-red:       $su-color-cardinal-red,
+  cardinal-red-light: $su-color-cardinal-red-light,
+  cardinal-red-dark:  $su-color-cardinal-red-dark,
+  white:              $su-color-white,
+  black:              $su-color-black,
+  cool-grey:          $su-color-cool-grey,
+
+  // secondary colors
+  charcoal:           $gsb-color-charcoal,
+  driftwood:          $gsb-color-driftwood,
+  stone:              $su-color-stone,
+  sand:               $gsb-color-sand,
+
+  // accent colors
+  buckeye-lane:       $gsb-color-buckeye-land,
+  buckeye-lane-light: $gsb-color-buckeye-land-light,
+  buckeye-lane-dark:  $gsb-color-buckeye-land-dark,
+  brick:              $su-color-brick,
+  brick-light:        $su-color-brick-light,
+  brick-dark:         $su-color-brick-dark,
+  bay:                $su-color-bay,
+  bay-light:          $su-color-bay-light,
+  bay-dark:           $su-color-bay-dark,
+  lagunita:           $su-color-lagunita,
+  lagunita-light:     $su-color-lagunita-light,
+  lagunita-dark:      $su-color-lagunita-dark,
+  palo-alto:          $gsb-color-palo-alto,
+  palo-alto-light:    $gsb-color-palo-alto-light,
+  palo-alto-dark:     $gsb-color-palo-alto-dark,
+  palo-verde:         $gsb-color-palo-verde,
+  palo-verde-light:   $gsb-color-palo-verde-light,
+  palo-verde-dark:    $gsb-color-palo-verde-dark,
+  new-sky:            $gsb-color-new-sky,
+  new-sky-light:      $su-color-sky-light,
+  new-sky-dark:       $gsb-color-new-sky-dark,
+  poppy:              $su-color-poppy,
+  poppy-light:        $su-color-poppy-light,
+  poppy-dark:         $su-color-poppy-dark,
+  autumn-gingko:      $gsb-color-autumn-gingko,
+  autumn-gingko-light:$gsb-color-autumn-gingko-light,
+  autumn-gingko-dark: $gsb-color-autumn-gingko-dark,
+  macdonald:          $gsb-color-macdonald,
+  macdonald-light:    $gsb-color-macdonald-light,
+  macdonald-dark:     $gsb-color-macdonald-dark,
+
+  // digital colors
+  digital-red:        $su-color-digital-red,
+  digital-red-light:  $su-color-digital-red-light,
+  digital-red-dark:   $gsb-color-digital-red-dark,
+  digital-blue:       $su-color-digital-blue,
+  digital-blue-light: $su-color-digital-blue-light,
+  digital-blue-dark:  $gsb-color-digital-blue-dark,
+  digital-pink:       $gsb-color-digital-pink,
+  digital-pink-light: $gsb-color-digital-pink-light,
+  digital-pink-dark:  $gsb-color-digital-pink-dark,
+  mist:               $su-color-foggy,
+  mist-dark:          $su-color-foggy-dark
+) !default;
+

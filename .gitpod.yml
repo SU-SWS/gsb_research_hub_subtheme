@@ -62,9 +62,9 @@ tasks:
       drush cim -y &&
       drush then $THEME_NAME &&
       drush cset system.theme default $THEME_NAME -y &&
-      drush sqlq "UPDATE config_pages__su_site_dropdowns SET su_site_dropdowns_value = 1 WHERE bundle = 'stanford_basic_site_settings'" &&
-      drush php-eval 'use  \Drupal\node\Entity\Node; $node = Node::load(13); $node->setPublished(true); $node->save();' &&
-      drush php-eval '$menu_link_storage = \Drupal::entityTypeManager()->getStorage("menu_link_content"); $menu_link_storage->create(["title" => "Submenu link", "link" => ["uri" => "https://google.com"], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();'
+      drush config:pages-set-field-value stanford_basic_site_settings su_site_dropdowns 1 &&
+      drush php-eval '\Drupal\node\Entity\Node::load(13)->setPublished()->save();' &&
+      drush php-eval '\Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Submenu link", "link" => ["uri" => "https://google.com"], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();'
     command: |
       export THEME_NAME=${PWD##*/} &&
       export PREVIEW_FULL_URL=`gp url 8001` &&

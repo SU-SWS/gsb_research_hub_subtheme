@@ -183,6 +183,11 @@
         }
       }
 
+      // Remove any leftover tokens.
+      for (var token of tokens) {
+        template = replaceToken(template, token, '');
+      }
+
       return template;
     }
     else {

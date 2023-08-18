@@ -208,6 +208,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           template = $template.prop('outerHTML');
         }
       }
+
+      // Remove any leftover tokens.
+      for (var _i2 = 0, _tokens2 = tokens; _i2 < _tokens2.length; _i2++) {
+        var token = _tokens2[_i2];
+        template = replaceToken(template, token, '');
+      }
       return template;
     } else {
       return '';

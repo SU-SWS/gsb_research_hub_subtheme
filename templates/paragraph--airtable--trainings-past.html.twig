@@ -47,38 +47,88 @@
     'rhw-trainings-past'
   ]
 %}
+{%
+  set airtableConfig = {
+    "table": "tbl76xG6T8QA20lqn",
+    "view": "viwyfokngnej2wXUZ",
+    "filters": {
+      "Category": {
+        "name": "Categories"
+      },
+      "Series": {
+        "name": "Series"
+      }
+    },
+    "format": {
+      "Event Start Date": {
+        "type": "Date",
+        "options": {
+          "date": {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          },
+          "time": {
+            hour: "2-digit",
+            minute: "2-digit"
+          }
+        }
+      },
+      "Event End Date": {
+        "type": "Date",
+        "options": {
+          "date": {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          },
+          "time": {
+            hour: "2-digit",
+            minute: "2-digit"
+          }
+        }
+      }
+    }
+  }
+%}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
       <div id="airtable-list-filters"></div>
-      <div id="airtable-list" data-table="tbl76xG6T8QA20lqn" data-view="viwyfokngnej2wXUZ" data-filters="Category|Categories, Series|Series">
+      <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <ul id="airtable-list-record-wrapper" class="su-list-unstyled">
         </ul>
       </div>
 
       <template id="airtable-list-records-template">
-        <li class="airtable-list-record-row %rowClasses%">
-          <h2 class="rhw-training-title">%Name%</h2>
-          <p class="rhw-training-series">%Series%</p>
-          <p class="rhw-training-presenter_json-wrapper">%presenter_json%</p>
-          <p class="rhw-training-description">%Description%</p>
+        <li class="airtable-list-record-row [rowClasses]">
+          <h2 class="rhw-training-title" data-field-key="Name">%Name%</h2>
+          <div class="rhw-training-event-date"><span class="rhw-training-start-date" data-field-key="Event Start Date">%Event Start Date%</span><span class="rhw-training-end-date" data-field-key="Event End Date"> - %Event End Date%</span></div>
+          <div class="rhw-training-category" data-field-key="Category"><span class="rhw-training-label">Category:</span> %Category%</div>
+          <div class="rhw-training-series" data-field-key="Series"><span class="rhw-training-label">Series:</span> %Series%</div>
+          <div class="rhw-training-presenter-wrapper" data-field-key="presenter_json">%presenter_json%</div>
+          <div class="rhw-training-description" data-field-key="Description">%Description%</div>
           <div class="rhw-training-links">
             <ul class="rhw-training-links-list">
+              <li data-field-key="Recording"><a href="%Recording%">Recording</a></li>
               %link_json%
             </ul>
           </div>
         </li>
       </template>
 
-      <template id="airtable-list-presenter_json-template">
-        <span class="rhw-presenter-name">%name%</span><br>
-        <span class="rhw-presenter-title">%title%</span><br><br>
+      <template id="airtable-list-presenter-json-template">
+        <div class="rhw-training-presenter-row">
+          <span class="rhw-presenter-name" data-field-key="name">%name%</span><br>
+          <span class="rhw-presenter-title" data-field-key="title">%title%</span>
+        </div>
       </template>
 
-      <template id="airtable-list-link_json-template">
+      <template id="airtable-list-link-json-template">
         <li><a class="rhw-training-link" url="%url%">%name%</a></li>
       </template>
+
     {% endblock %}
   </div>
 {% endblock paragraph %}

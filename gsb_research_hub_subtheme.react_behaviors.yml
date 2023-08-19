@@ -7,18 +7,18 @@ banner_variant_info:  # part of the key after the :
 
     banner_list_instruction:
       type: markup
-      markup: '<p><strong>IGNORE the above dropdown option.</strong></p><h2>Use Only the Research Hub Options Below</h2>'
+      markup: '<p><strong>IGNORE the above dropdown option. Any change to the dropdown above will not apply. Use only the Research Hub options below.</strong></p><h2>Research Hub Options</h2>'
 
     banner_list_headline:
       type: select
       title: 'Text Overlay Position Options'
       description: 'Choose the banner text position.'
       options:
+        rh-banner-wrapper--headline-center: Full Width Center
+        rh-banner-wrapper--headline-left: Half Width Left
+        rh-banner-wrapper--headline-right: Half Width Right
         overlay-left: White Box Left
         overlay-right: White Box Right
-        rh-banner-wrapper--headline-left: Half Width Left
-        rh-banner-wrapper--headline-center: Full Width Center
-        rh-banner-wrapper--headline-right: Half Width Right
     
     banner_list_text_color:
       type: select
@@ -28,12 +28,24 @@ banner_variant_info:  # part of the key after the :
         rh-banner-wrapper--text-color-white: White
         rh-banner-wrapper--text-color-black: Black
       states:
-        visible:
+        invisible:
           select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_headline]"]:
-            - {value: rh-banner-wrapper--headline-left}
-            - {value: rh-banner-wrapper--headline-center}
-            - {value: rh-banner-wrapper--headline-right}
-            
+            - {value: overlay-left}
+            - {value: overlay-right}
+
+    banner_list_gradient:
+      type: select
+      title: 'Add Gradient to the Banner to Increase Text Legibility'
+      description: 'Select whether to add gradient to the banner color or image.'
+      options:
+        rh-banner-wrapper--background-gradient: Gradient
+        rh-banner-wrapper--background-no-gradient: No Gradient
+      states:
+        invisible:
+          select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_headline]"]:
+            - {value: overlay-left}
+            - {value: overlay-right}
+                
     banner_list_height:
       type: select
       title: 'Banner Height'
@@ -49,7 +61,15 @@ banner_variant_info:  # part of the key after the :
       description: 'If no image has been uploaded, the selected banner background color will display.'
       options:
         rh-banner-wrapper--background-no-color: No Banner Color
+        rh-banner-wrapper--background-cardinal-red: Cardinal Red
+        rh-banner-wrapper--background-cardinal-red-light: Cardinal Red Light
+        rh-banner-wrapper--background-cardinal-red-dark: Cardinal Red Dark
+        rh-banner-wrapper--background-black: Black
+        rh-banner-wrapper--background-charcoal: Charcoal
+        rh-banner-wrapper--background-cool-grey: Cool Grey
         rh-banner-wrapper--background-mist: Mist
+        rh-banner-wrapper--background-driftwood: Driftwood
+        rh-banner-wrapper--background-sand: Sand
         rh-banner-wrapper--background-buckeye-lane-light: Buckeye Lane Light
         rh-banner-wrapper--background-buckeye-lane-dark: Buckeye Lane Dark
         rh-banner-wrapper--background-buckeye-lane: Buckeye Lane
@@ -89,54 +109,10 @@ banner_variant_info:  # part of the key after the :
         rh-banner-wrapper--background-digital-pink-light: Digital Pink Light
         rh-banner-wrapper--background-digital-pink: Digital Pink
         rh-banner-wrapper--background-digital-pink-dark: Digital Pink Dark
-
-    banner_list_gradient:
-      type: select
-      title: 'Color Banner Gradient'
-      description: 'Select whether to add gradient to the banner color'
-      options:
-        rh-banner-wrapper--background-gradient: Gradient
-        rh-banner-wrapper--background-no-gradient: No Gradient
       states:
-        visible:
-          select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_background_color]"]:
-            - {value: rh-banner-wrapper--background-mist}
-            - {value: rh-banner-wrapper--background-buckeye-lane-light}
-            - {value: rh-banner-wrapper--background-buckeye-lane-dark}
-            - {value: rh-banner-wrapper--background-buckeye-lane}
-            - {value: rh-banner-wrapper--background-brick-light}
-            - {value: rh-banner-wrapper--background-brick}
-            - {value: rh-banner-wrapper--background-brick-dark}
-            - {value: rh-banner-wrapper--background-bay-light}
-            - {value: rh-banner-wrapper--background-bay}
-            - {value: rh-banner-wrapper--background-bay-dark}
-            - {value: rh-banner-wrapper--background-lagunita-light}
-            - {value: rh-banner-wrapper--background-lagunita}
-            - {value: rh-banner-wrapper--background-lagunita-dark}
-            - {value: rh-banner-wrapper--background-palo-alto-light}
-            - {value: rh-banner-wrapper--background-palo-alto}
-            - {value: rh-banner-wrapper--background-palo-alto-dark}
-            - {value: rh-banner-wrapper--background-palo-verde-light}
-            - {value: rh-banner-wrapper--background-palo-verde}
-            - {value: rh-banner-wrapper--background-palo-verde-dark}
-            - {value: rh-banner-wrapper--background-new-sky-light}
-            - {value: rh-banner-wrapper--background-new-sky}
-            - {value: rh-banner-wrapper--background-new-sky-dark}
-            - {value: rh-banner-wrapper--background-poppy-light}
-            - {value: rh-banner-wrapper--background-poppy}
-            - {value: rh-banner-wrapper--background-poppy-dark}
-            - {value: rh-banner-wrapper--background-autumn-gingko-light}
-            - {value: rh-banner-wrapper--background-autumn-gingko}
-            - {value: rh-banner-wrapper--background-autumn-gingko-dark}
-            - {value: rh-banner-wrapper--background-macdonald-light}
-            - {value: rh-banner-wrapper--background-macdonald}
-            - {value: rh-banner-wrapper--background-macdonald-dark}
-            - {value: rh-banner-wrapper--background-digital-red-light}
-            - {value: rh-banner-wrapper--background-digital-red}
-            - {value: rh-banner-wrapper--background-digital-red-dark}
-            - {value: rh-banner-wrapper--background-digital-blue-light}
-            - {value: rh-banner-wrapper--background-digital-blue}
-            - {value: rh-banner-wrapper--background-digital-blue-dark}
-            - {value: rh-banner-wrapper--background-digital-pink-light}
-            - {value: rh-banner-wrapper--background-digital-pink}
-            - {value: rh-banner-wrapper--background-digital-pink-dark}
+        invisible:
+          select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_headline]"]:
+            - {value: overlay-left}
+            - {value: overlay-right}
+
+        

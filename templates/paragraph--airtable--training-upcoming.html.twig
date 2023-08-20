@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Past Trainings Theme File
+ * Past Training Theme File
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -44,7 +44,7 @@
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'rh-trainings-upcoming'
+    'rh-training-upcoming'
   ]
 %}
 {%
@@ -96,7 +96,7 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      <div id="airtable-list-filters"></div>
+      {#<div id="airtable-list-filters"></div>#}
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <ul id="airtable-list-record-wrapper" class="su-list-unstyled">
         </ul>
@@ -104,12 +104,12 @@
 
       <template id="airtable-list-records-template">
         <li class="airtable-list-record-row [rowClasses]">
-          <h2 class="rh-training-title" data-field-key="Name">%Name%</h2>
+          <h3 class="rh-training-title" data-field-key="Name">%Name%</h3>
           <div class="rh-training-event-date"><span class="rh-training-start-date" data-field-key="Event Start Date">%Event Start Date%</span><span class="rh-training-end-date" data-field-key="Event End Date"> - %Event End Date%</span></div>
-          <div class="rh-training-category" data-field-key="Category"><span class="rh-training-label">Category:</span> %Category%</div>
+          <!--<div class="rh-training-category" data-field-key="Category"><span class="rh-training-label">Category:</span> %Category%</div>-->
           <div class="rh-training-series" data-field-key="Series"><span class="rh-training-label">Series:</span> %Series%</div>
-          <div class="rh-training-presenter-wrapper" data-field-key="presenter_json">%presenter_json%</div>
           <div class="rh-training-description" data-field-key="Description">%Description%</div>
+          <div class="rh-training-presenter-wrapper" data-field-key="presenter_json"><span class="rh-training-label">Presented by:</span><br>%presenter_json%</div>
           <div class="rh-training-registration" data-field-key="Registration URL">%Registration URL%</div>
         </li>
       </template>

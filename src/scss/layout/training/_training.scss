@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+.rh-training-title {
+    margin-bottom: .7rem;
+}
+
+.rh-training-event-date {
+    font-weight: $su-font-semi-bold;
+    font-size: 2rem;
+    @include margin(.7rem 0)
+}
+
+.rh-training-series {
+    @include margin(.7rem 0)
+}
+
+.rh-training-label {
+    font-weight: $su-font-semi-bold;
+}
+
+.rh-training-description {
+
+    p {
+        margin-bottom: .7rem;
+
+        a {
+            color: $su-color-digital-blue;
+        }
+    }
+}
+
+.rh-training-presenter-wrapper {
+    @include margin(1.5rem 0) 
+    
+    .rh-training-presenter-row {
+        @include margin(.7rem 0)
+    }
+}
+
+.rh-training-registration {
+    @include margin(2.5rem 0 4rem 0)
+}
+
+.rh-training-links {
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+
+        li {
+            @include margin(0.5rem 0)  
+        }
+
+        a {
+            color: $su-color-digital-blue;
+        }
+    }
+}
+
+.rh-training-past-event-date {
+    font-weight: 400;
+}
+

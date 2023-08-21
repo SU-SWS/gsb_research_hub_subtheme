@@ -27,6 +27,15 @@
             color: $su-color-digital-blue;
         }
     }
+
+    ul {
+        margin-left: 2rem;
+        list-style: disc;
+
+        li {
+            line-height: 1;
+        }
+    }
 }
 
 .rh-training-presenter-wrapper {
@@ -38,7 +47,7 @@
 }
 
 .rh-training-registration {
-    @include margin(2.5rem 0 4rem 0)
+    @include margin(2.5rem 0 3.5rem 0)
 }
 
 .rh-training-links {

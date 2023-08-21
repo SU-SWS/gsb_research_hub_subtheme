@@ -3,63 +3,68 @@
 //Airtable API
 
 #airtable-list-record-wrapper {
-    @include margin(1.5rem 0)
+  @include margin(1.5rem 0)
+  list-style: none;
 
-    .airtable-list-record-row {
-        @include margin(1.5rem 0)
+  .airtable-list-record-row {
+    @include margin(1.5rem 0)
+    border-bottom: 1px solid $su-color-foggy;
+
+    &:last-child {
+      border-bottom: 0; // Remove the divider below the last row
     }
+  }
 }
 
 #airtable-list-filters {
-    display: flex;
-    flex-wrap: wrap; // Allow wrapping of items
+  display: flex;
+  flex-wrap: wrap; // Allow wrapping of items
+  align-items: center;
+  @include margin(3rem 0 5rem 0)
+
+  .airtable-list-filter-group {
     align-items: center;
-    @include margin(3rem 0)
-  
-    .airtable-list-filter-group {
-      display: flex;
-      align-items: center;
-      border-radius: 4px;
-      margin-right: 2rem; // Spacing between the dropdowns
-      flex: 1 0 calc(50% - 1rem); // Take up half the width, minus margin
-  
-      &:last-child {
-        margin-right: 0; // Ensure that the last dropdown doesn't have a margin on the right
-      }
-  
-      &.airtable-list-filter-header {
-        font-weight: $su-font-semi-bold;
+    border-radius: 4px;
+    margin-right: 2rem; // Spacing between the dropdowns
+    flex: 1 0 calc(50% - 1rem); // Take up half the width, minus margin
 
-        select {
-          width: 100%; // Use the full width of the parent
-          margin-left: 0.5rem;
+    &:last-child {
+      margin-right: 0; // No right margin for the last dropdown
+    }
+
+    &.airtable-list-filter-header {
+      font-weight: $su-font-semi-bold;
+      text-transform: uppercase;
+
+      select {
+        width: 100%; // Use the full width of the parent
+        @include margin(.5rem 0);
+        font-size: 1.6rem;
+        border: 1px solid $su-color-digital-red;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:focus {
+          border-color: $su-color-lagunita-light;
+          box-shadow: $su-color-lagunita-light;
+        }
+
+        option {
           padding: 0.5rem 1rem;
-          font-size: 1.6rem;
-          border: 1px solid $su-color-digital-red;
-          border-radius: 4px;
-          cursor: pointer;
-  
-          &:focus {
-            border-color: $su-color-digital-blue;
-            outline: none;
-          }
-  
-          option {
-            padding: 0.5rem 1rem;
-          }
         }
       }
     }
+  }
 
-    @include grid-media-max("md") { // Adjust this breakpoint as needed
-        //flex-direction: column;
+  @include grid-media-max("md") { // Adjust this breakpoint as needed
+    //flex-direction: column;
 
-        .airtable-list-filter-group {
-            display: block;
-            margin-right: 0; // Reset the margin on smaller screens
-            margin-bottom: 1rem; // Add some vertical spacing
-            flex: 1 0 100%; // Take up full width
-        }
+    .airtable-list-filter-group {
+        display: block;
+        margin-right: 0; // Reset the margin on smaller screens
+        margin-bottom: 1rem; // Add some vertical spacing
+        flex: 1 0 100%; // Take up full width
     }
+  }
 }
 

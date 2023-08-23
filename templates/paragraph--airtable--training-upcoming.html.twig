@@ -93,6 +93,8 @@
       {# Filters #}
       {#<div id="airtable-list-filters"></div>#}
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
+        <p id="airtable-list-loader">Loading upcoming training...</p>
+        <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
         <ul id="airtable-list-record-wrapper">
         </ul>
       </div>

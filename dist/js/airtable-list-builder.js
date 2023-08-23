@@ -30,6 +30,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           // Load the records.
           var records = data.records;
           var $recordWrapper = $('#airtable-list-record-wrapper');
+          $contentArea.find('#airtable-list-loader').remove();
 
           // Process each record.
           var _loop = function _loop() {
@@ -125,6 +126,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             layoutMode: "fitRows",
             fitRows: {
               gutter: 10
+            }
+          });
+          $contentArea.on("arrangeComplete", function (event, filteredItems) {
+            if (!filteredItems.length) {
+              $('#airtable-list-no-results').show();
+            } else {
+              $('#airtable-list-no-results').hide();
             }
           });
         }

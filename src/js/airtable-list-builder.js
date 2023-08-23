@@ -24,6 +24,7 @@
           // Load the records.
           let records = data.records;
           let $recordWrapper = $('#airtable-list-record-wrapper');
+          $contentArea.find('#airtable-list-loader').remove();
 
           // Process each record.
           for (recordIndex in records) {
@@ -106,6 +107,15 @@
             layoutMode: "fitRows",
             fitRows: {
               gutter: 10
+            }
+          });
+
+          $contentArea.on("arrangeComplete", function(event, filteredItems) {
+            if (!filteredItems.length) {
+              $('#airtable-list-no-results').show();
+            }
+            else {
+              $('#airtable-list-no-results').hide();
             }
           });
         }

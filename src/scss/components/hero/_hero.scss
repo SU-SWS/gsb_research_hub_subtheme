@@ -1,0 +1,84 @@
+@charset "UTF-8";
+//
+// Hero
+//
+// A hero block that can be either an image or a video with some overlay text.
+//
+// Experimental: The YouTube player has not been finished.
+//
+// .su-hero--caption - An under banner caption option.
+// .su-hero--youtube - A YouTube video in the background.
+//
+// Markup: templates/components/hero/hero.twig
+//
+// Style guide: Composite.Hero
+//
+
+.su-hero {
+    min-height: unset;
+
+    @include grid-media-max('sm') {
+      margin-top: -1em;
+    }
+    @include grid-media-min('md') {
+        margin-bottom: -2em;
+      }
+    @include grid-media-min('lg') {
+        margin-bottom: -1em;
+      }
+      @include grid-media-min('xl') {
+        margin-bottom: 5em;
+      }
+  
+    // The content
+    .su-hero__card {
+      background: transparent;
+      color: $su-color-white;
+      text-align: center;
+      border: 0;
+      padding-top: 2em;
+      max-width: unset;
+      width: 95%;
+
+      @include grid-media-max('sm') {
+        color: $su-color-black;
+        padding-top: 1em; 
+        width: 100%;  
+      }
+
+      .su-card__contents {
+        text-align: center;
+
+        h2 {
+            font-size: 2.5em;
+            font-weight: $su-font-semi-bold;
+            margin-bottom: 1em;
+            //text-shadow: 0 1px 0 black;
+
+            @include grid-media-max('sm') { 
+                font-size: 1.5em;    
+              }
+        }
+      }
+    }
+}
+
+// The media element.
+// Big tall wide and in a little bid of a shade.
+.su-hero__media {
+  background: $su-color-white;
+  height: 90%;
+
+  @include grid-media-max('md') {
+    height: 100%;
+  }
+
+  img,
+  picture {
+    height: 90%;
+
+    @include grid-media-max('sm') {
+      height: 100%;
+    }
+  }
+}

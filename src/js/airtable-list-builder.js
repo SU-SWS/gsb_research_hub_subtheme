@@ -25,10 +25,10 @@
       $.ajax({
         type: "GET",
         beforeSend: function (xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer YLWsb6Ouq6XU44dWnDEWWurCVozx08vF');
+          xhr.setRequestHeader('Authorization', 'Bearer iQ7GGRoNRcGi8iZf28xSgDgaDDUslteL');
         },
         dataType: "json",
-        url: "https://snaplogic-dev.stanford.edu/api/1/rest/feed/StanfordDev/GSB/Research%20Hub/airtable-cache?airtable_table=" + config.table + "&airtable_view=" + config.view,
+        url: "https://snaplogic-dev.stanford.edu/api/1/rest/feed-master/queue/StanfordDev/GSB/Research%20Hub/airtable-cache-ultra?airtable_table=" + config.table + "&airtable_view=" + config.view,
         success: function(data) {
           // Load the records.
           let records = data.records;

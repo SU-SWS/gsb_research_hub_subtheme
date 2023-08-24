@@ -33,10 +33,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       $.ajax({
         type: "GET",
         beforeSend: function beforeSend(xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer YLWsb6Ouq6XU44dWnDEWWurCVozx08vF');
+          xhr.setRequestHeader('Authorization', 'Bearer iQ7GGRoNRcGi8iZf28xSgDgaDDUslteL');
         },
         dataType: "json",
-        url: "https://snaplogic-dev.stanford.edu/api/1/rest/feed/StanfordDev/GSB/Research%20Hub/airtable-cache?airtable_table=" + config.table + "&airtable_view=" + config.view,
+        url: "https://snaplogic-dev.stanford.edu/api/1/rest/feed-master/queue/StanfordDev/GSB/Research%20Hub/airtable-cache-ultra?airtable_table=" + config.table + "&airtable_view=" + config.view,
         success: function success(data) {
           // Load the records.
           var records = data.records;

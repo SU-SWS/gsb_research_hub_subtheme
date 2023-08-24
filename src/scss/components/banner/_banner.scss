@@ -1,0 +1,317 @@
+@charset "UTF-8";
+
+// Reduce margin-bottom for top "page" banner and banner paragraph.
+.main-region {
+  .node-stanford-page-su-page-banner {
+    margin-bottom: 5rem;
+  }
+}
+.paragraph-item {
+  &.ptype-stanford-banner {
+    margin-bottom: 5rem;
+  }
+}
+
+// Variants - banner heights
+.rh-banner-wrapper--height-default {
+  .su-hero {
+    min-height: 520px;
+  }
+
+  .su-hero__media {
+    min-height: 520px;
+  }
+}
+
+.rh-banner-wrapper--height-medium {
+  .su-hero {
+    min-height: 350px;
+  }
+
+  .su-hero__media {
+    min-height: 350px;
+  }
+}
+
+.rh-banner-wrapper--height-short {
+  .su-hero {
+    min-height: 250px;
+  }
+
+  .su-hero__media {
+    min-height: 250px;
+
+    @include grid-media-max('sm') {
+      min-height: unset;
+    }
+  }
+}
+
+// Resetting min-height for small and xsmall devices.
+.rh-banner-wrapper--height-default,
+.rh-banner-wrapper--height-medium,
+.rh-banner-wrapper--height-short {
+
+  .su-hero__media,
+  .su-hero {
+    @include grid-media-max('sm') {
+      min-height: unset;
+    }
+  }
+}
+
+.ptype-stanford-banner {
+
+  .rh-banner-wrapper--headline-left,
+  .rh-banner-wrapper--headline-center,
+  .rh-banner-wrapper--headline-right {
+
+    .su-hero {
+
+      .su-hero__card {
+        background: transparent;
+        border: 0;
+        bottom: 0;
+        box-shadow: none;
+        margin: 0 auto;
+        //top: auto;
+        left: auto;
+
+        .su-card__contents {
+          
+          > span {
+            font-size: 1em;
+          }
+
+          h2 {
+            margin-top: 0;
+            font-size: 2.5em;
+          }
+
+          p {
+            font-size: 2rem;
+          }
+
+          .su-card__button {
+            margin-top: 4rem;
+            margin-bottom: unset;
+            text-shadow: none;
+          }
+        }
+      }
+    }
+
+    // Banner text color variants
+    // For black text
+    &.rh-banner-wrapper--text-color-black {
+      color: $su-color-black;
+      text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7), -1px -1px 3px rgba(255, 255, 255, 0.7);
+
+
+      .su-card__contents {
+        //Translucent box to add background contrast
+        //background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.9) 40%, rgba(255, 255, 255, 0.7) 100%);
+        //background-color: rgba(255, 255, 255, 0.5);
+        //@include padding(2.5em);
+
+        p {
+          a {
+            color: $su-color-black;
+            font-weight: $su-font-semi-bold;
+
+            &:hover,
+            &:focus,
+            &:active {
+              color: $su-color-cool-grey;
+            }
+          }
+        }
+
+        @include grid-media-max('sm') {
+          color: $su-color-black;
+          text-shadow: none;
+
+          p {
+            a {
+              color: $su-color-digital-blue;
+              text-decoration: underline;
+              font-weight: $su-font-semi-bold;
+
+              &:hover,
+              &:focus,
+              &:active {
+                color: $su-color-black;
+              }
+            }
+          }
+        }
+      }
+
+      @include grid-media-min('md') {  
+        //Gradiant on banner image
+        .su-hero__media {
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            //backdrop-filter: blur(3px); // Blur background image
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(240, 240, 240, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
+          }
+        
+          picture {
+            position: relative;
+            z-index: 0;
+            display: block;
+          }
+        }
+        // End Gradiant details
+      }
+    }
+
+    
+    // For white text
+    &.rh-banner-wrapper--text-color-white {
+
+      color: $su-color-white;
+      text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25), 1px 1px 1px rgba(0, 0, 0, 0.35), -1px -1px 1px rgba(0, 0, 0, 0.35);
+
+      .su-card__contents {
+
+        p {
+          a {
+            color: $su-color-white;
+            font-weight: $su-font-semi-bold;
+
+            &:hover,
+            &:focus,
+            &:active {
+              color: $su-color-foggy;
+            }
+          }
+        }
+
+        @include grid-media-max('sm') {
+          color: $su-color-black;
+          text-shadow: none;
+
+          p {
+            a {
+              color: $su-color-digital-blue;
+              text-decoration: underline;
+              font-weight: $su-font-semi-bold;
+
+              &:hover,
+              &:focus,
+              &:active {
+                color: $su-color-black;
+              }
+            }
+          }
+        }
+      }
+
+      @include grid-media-min('md') {  
+        //Gradiant on banner image
+        .su-hero__media {
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            background: linear-gradient(180deg, rgba(46, 45, 41, 0.1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(46, 45, 41, 0.2) 100%);
+          }
+        
+          picture {
+            position: relative;
+            z-index: 0;
+            display: block;
+          }
+        }
+        // End Gradiant details
+      }
+    }
+  }
+
+  .rh-banner-wrapper--headline-left {
+
+    .su-hero {
+
+      .su-hero__card {
+
+        @include grid-media-min('md') {  
+          max-width: 40%; 
+          margin-left: 20rem; 
+        }
+
+        .su-card__contents {
+          text-align: left;            
+        }
+      }
+    }
+  }
+
+  .rh-banner-wrapper--headline-center {
+
+    .su-hero {
+
+      .su-hero__card {
+        max-width: 70%; 
+
+        .su-card__contents {
+          text-align: center;           
+        }
+      }
+    }
+  }
+
+  .rh-banner-wrapper--headline-right {
+
+    .su-hero {
+
+      .su-hero__card {
+        max-width: 40%;
+        margin-right: 20rem;
+
+        .su-card__contents {
+          text-align: right;            
+        }
+      }
+    }
+  }
+
+
+  // Banner background color
+  @each $name,$color in $gsb-colors {
+
+    .rh-banner-wrapper--background-#{$name} {
+
+      .su-hero__media {
+        background-color: $color !important;
+      }
+    }
+  }
+
+  .rh-banner-wrapper--background-no-gradient {
+
+    .su-hero__media {
+
+      &::before {
+        background-image: none !important;
+      }
+    }
+  }
+}
+
+
+
+
+

@@ -20,3 +20,63 @@ function gsb_research_hub_subtheme_theme_suggestions_block_alter(array &$suggest
     $suggestions[] = 'block__stanford_basic_search';
   }
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function gsb_research_hub_subtheme_preprocess_ds_entity_view(&$variables) {
+
+  // if not running on a paragraph, exit out.
+  if (!isset($variables['content']['#paragraph'])) {
+    return;
+  }
+
+  $paragraph = $variables['content']['#paragraph'];
+
+  // Process Banners
+  if ($paragraph->bundle() == 'stanford_banner') {
+    gsb_research_hub_subtheme_preprocess_banner($variables);
+  }
+
+}
+
+/**
+ * Implements hook_preprocess_banner().
+ */
+function gsb_research_hub_subtheme_preprocess_banner(&$variables) {
+
+  $paragraph = $variables['content']['#paragraph'];
+
+  unset($variables['attributes']['class'][0]);
+  // Add button color style class to card wrapper.
+  //$variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_button_style', 'rh-wrapper--button-green');
+
+  // Add banner type class to card wrapper. 3rd variable provides the default type.
+  //$variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_style', 'rh-banner-wrapper--default');
+
+  // Select banner background color. 3rd variable provides the default type.
+  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_background_color', 'rh-banner-wrapper--background-no-color');
+
+  // Select banner color gradient. 3rd variable provides the default type.
+  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_gradient', 'rh-banner-wrapper--background-gradient');
+
+
+  // Center align the headline. 3rd variable provides the default type.
+  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_headline', 'rh-banner-wrapper--headline-center');
+  
+  // Select height of banner. 3rd variable provides the default type.
+  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_height', 'rh-banner-wrapper--height-medium');
+    
+  // Select banner text color. 
+  $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_text_color', 'rh-banner-wrapper--text-color-white');
+}
+
+/**
+ * Implements hook_preprocess_field().
+ */
+function gsb_research_hub_subtheme_preprocess_field(&$variables) {
+
+ if ($variables['element']['#field_name'] == 'su_para_row_bgcolor') {
+    $su_paragraph_row__bgcolor = $variables['items'][0]['content']['#markup'];
+  }
+}

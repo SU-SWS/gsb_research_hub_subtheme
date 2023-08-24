@@ -8,6 +8,15 @@
       // Grab the airtable variables.
       let config = $contentArea.data('config');
 
+      var configDefault = {
+        "gutter": 10,
+        "equalHeight": false
+      }
+      config = {
+        ...configDefault,
+        ...config
+      }
+
       for (filterKey in config.filters) {
         config.filters[filterKey].choices = [{"key": "*", "name": "All"}];
       }
@@ -123,12 +132,25 @@
             $contentArea.isotope({ filter: filterValue });
           });
 
+          // Set height to equal height
+          if (config.equalHeight) {
+            var largestHeight = 0;
+            $('.airtable-list-record-row').each(function( index ) {
+              if ($(this).height() > largestHeight) {
+                largestHeight = $(this).height();
+              }
+            });
+
+            $('.airtable-list-record-row').height(largestHeight);
+          }
+
           // Load isotope
           $contentArea.isotope({
             itemSelector: ".airtable-list-record-row",
             layoutMode: "fitRows",
             fitRows: {
-              gutter: 10
+              gutter: config.gutter,
+              equalheight: true
             }
           });
 

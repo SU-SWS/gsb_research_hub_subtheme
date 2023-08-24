@@ -35,21 +35,43 @@
             for (fieldKey in record.fields) {
               // Process the filter choices if it's in the config
               if (fieldKey in config.filters) {
-                // See if the choice already exists.
-                let existingChoice = config.filters[fieldKey].choices.filter(row => (row.name === record.fields[fieldKey]));
+                if (Array.isArray(record.fields[fieldKey])) {
+                  // Process Array
+                  for (item of record.fields[fieldKey]) {
+                    // See if the choice already exists.
+                    let existingChoice = config.filters[fieldKey].choices.filter(row => (row.name === item));
 
-                // If the choice doesn't exist then add it to the list of choices.
-                if (!existingChoice.length) {
-                  config.filters[fieldKey].choices.push(
-                    {
-                      "key": stringToCSSClass(record.fields[fieldKey]),
-                      "name": record.fields[fieldKey]
+                    // If the choice doesn't exist then add it to the list of choices.
+                    if (!existingChoice.length) {
+                      config.filters[fieldKey].choices.push(
+                        {
+                          "key": stringToCSSClass(item),
+                          "name": item
+                        }
+                      );
                     }
-                  );
-                }
 
-                // Add to the list of classes for the row.
-                rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(record.fields[fieldKey]);
+                    // Add to the list of classes for the row.
+                    rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(item);
+                  }
+                }
+                else {
+                  // See if the choice already exists.
+                  let existingChoice = config.filters[fieldKey].choices.filter(row => (row.name === record.fields[fieldKey]));
+
+                  // If the choice doesn't exist then add it to the list of choices.
+                  if (!existingChoice.length) {
+                    config.filters[fieldKey].choices.push(
+                      {
+                        "key": stringToCSSClass(record.fields[fieldKey]),
+                        "name": record.fields[fieldKey]
+                      }
+                    );
+                  }
+
+                  // Add to the list of classes for the row.
+                  rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(record.fields[fieldKey]);
+                }
               }
             }
 
@@ -70,7 +92,7 @@
               let $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(filterKey));
               $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(filter.name);
               let $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(filterKey));
-              for (choice of filter.choices) {
+              for (choice of filter.choices.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) {
                 let $filterOption = $("<option>");
                 $filterOption.val(choice.key).text(choice.name);
                 $filterSelect.append($filterOption);
@@ -207,7 +229,21 @@
 
   // Formats a string into the given type.
   function formatString(type, format, content) {
+    var newContent = '';
     switch(type) {
+      case 'Array':
+        var template = $('template#airtable-list-' + stringToCSSClass(format.template_id) + '-template').html();
+        var count = 0;
+        for (item of content) {
+          count++;
+          newContent += replaceToken(template, 'value', item);
+
+          if (format.hasOwnProperty('separator') && count != content.length) {
+            newContent += format.separator;
+          }
+        }
+        break;
+
       case 'Date':
         var dateObj = new Date(Date.parse(content));
         var dateArray = [];
@@ -218,11 +254,11 @@
         if ("time" in format) {
           dateArray.push(dateObj.toLocaleTimeString([], format.time));
         }
-        content = dateArray.join(' ');
+        newContent = dateArray.join(' ');
         break;
     }
 
-    return content;
+    return newContent;
   }
 
 })(jQuery, Drupal, drupalSettings);

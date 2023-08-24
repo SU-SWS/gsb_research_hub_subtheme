@@ -41,21 +41,51 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             for (fieldKey in record.fields) {
               // Process the filter choices if it's in the config
               if (fieldKey in config.filters) {
-                // See if the choice already exists.
-                var existingChoice = config.filters[fieldKey].choices.filter(function (row) {
-                  return row.name === record.fields[fieldKey];
-                });
+                if (Array.isArray(record.fields[fieldKey])) {
+                  // Process Array
+                  var _iterator2 = _createForOfIteratorHelper(record.fields[fieldKey]),
+                    _step2;
+                  try {
+                    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                      item = _step2.value;
+                      // See if the choice already exists.
+                      var existingChoice = config.filters[fieldKey].choices.filter(function (row) {
+                        return row.name === item;
+                      });
 
-                // If the choice doesn't exist then add it to the list of choices.
-                if (!existingChoice.length) {
-                  config.filters[fieldKey].choices.push({
-                    "key": stringToCSSClass(record.fields[fieldKey]),
-                    "name": record.fields[fieldKey]
+                      // If the choice doesn't exist then add it to the list of choices.
+                      if (!existingChoice.length) {
+                        config.filters[fieldKey].choices.push({
+                          "key": stringToCSSClass(item),
+                          "name": item
+                        });
+                      }
+
+                      // Add to the list of classes for the row.
+                      rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(item);
+                    }
+                  } catch (err) {
+                    _iterator2.e(err);
+                  } finally {
+                    _iterator2.f();
+                  }
+                } else {
+                  // See if the choice already exists.
+                  var _existingChoice = config.filters[fieldKey].choices.filter(function (row) {
+                    return row.name === record.fields[fieldKey];
                   });
-                }
 
-                // Add to the list of classes for the row.
-                rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(record.fields[fieldKey]);
+                  // If the choice doesn't exist then add it to the list of choices.
+                  if (!_existingChoice.length) {
+                    config.filters[fieldKey].choices.push({
+                      "key": stringToCSSClass(record.fields[fieldKey]),
+                      "name": record.fields[fieldKey]
+                    });
+                  }
+
+                  // Add to the list of classes for the row.
+                  rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(record.fields[fieldKey]);
+                }
               }
             }
 
@@ -79,7 +109,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               var $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(filterKey));
               $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(filter.name);
               var $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(filterKey));
-              var _iterator = _createForOfIteratorHelper(filter.choices),
+              var _iterator = _createForOfIteratorHelper(filter.choices.sort(function (a, b) {
+                  return a.name > b.name ? 1 : b.name > a.name ? -1 : 0;
+                })),
                 _step;
               try {
                 for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -184,17 +216,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           if (token.endsWith('_json')) {
             var jsonData = JSON.parse(content);
             var templateHTML = '';
-            var _iterator2 = _createForOfIteratorHelper(jsonData),
-              _step2;
+            var _iterator3 = _createForOfIteratorHelper(jsonData),
+              _step3;
             try {
-              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                recordVal = _step2.value;
+              for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                recordVal = _step3.value;
                 templateHTML += processTemplate(config, token, recordVal);
               }
             } catch (err) {
-              _iterator2.e(err);
+              _iterator3.e(err);
             } finally {
-              _iterator2.f();
+              _iterator3.f();
             }
             template = replaceToken(template, token, templateHTML);
           } else {
@@ -230,7 +262,28 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
   // Formats a string into the given type.
   function formatString(type, format, content) {
+    var newContent = '';
     switch (type) {
+      case 'Array':
+        var template = $('template#airtable-list-' + stringToCSSClass(format.template_id) + '-template').html();
+        var count = 0;
+        var _iterator4 = _createForOfIteratorHelper(content),
+          _step4;
+        try {
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            item = _step4.value;
+            count++;
+            newContent += replaceToken(template, 'value', item);
+            if (format.hasOwnProperty('separator') && count != content.length) {
+              newContent += format.separator;
+            }
+          }
+        } catch (err) {
+          _iterator4.e(err);
+        } finally {
+          _iterator4.f();
+        }
+        break;
       case 'Date':
         var dateObj = new Date(Date.parse(content));
         var dateArray = [];
@@ -240,10 +293,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         if ("time" in format) {
           dateArray.push(dateObj.toLocaleTimeString([], format.time));
         }
-        content = dateArray.join(' ');
+        newContent = dateArray.join(' ');
         break;
     }
-    return content;
+    return newContent;
   }
 })(jQuery, Drupal, drupalSettings);
 /******/ })()

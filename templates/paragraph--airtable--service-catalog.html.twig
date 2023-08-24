@@ -87,18 +87,20 @@
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading service catalog...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
-        <ul id="airtable-list-record-wrapper">
-        </ul>
+          <ul id="airtable-list-record-wrapper">
+          </ul>
       </div>
 
       <template id="airtable-list-records-template">
-        <li class="airtable-list-record-row [rowClasses]">
-          <h3 class="rh-service-catalog-title" data-field-key="Service Name">%Service Name%</h3>
-          <div class="rh-service-catalog-description" data-field-key="Service Description">%Service Description%</div>
-          <div class="rh-service-catalog-core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
-          <div class="rh-service-catalog-clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
-          
-          <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a class="su-link--action" href="%Request Services%">Request Services</a></div>
+        <li class="airtable-list-record-row [rowClasses] su-card">
+          <div class="su-card__contents">
+            <h3 class="rh-service-catalog-title" data-field-key="Service Name">%Service Name%</h3>
+            <div class="rh-service-catalog-description" data-field-key="Service Description">%Service Description%</div>
+            <div class="rh-service-catalog-core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
+            <div class="rh-service-catalog-clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
+            
+            <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a class="su-link--action" href="%Request Services%">Request Services</a></div>
+          </div>
         </li>
       </template>
 

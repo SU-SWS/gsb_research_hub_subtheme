@@ -58,7 +58,7 @@
         "name": "Service"
       },
       "Clients": {
-        "name": "Audience"
+        "name": "Client"
       }
     },
     "format": {
@@ -87,21 +87,23 @@
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading service catalog...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
-          <ul id="airtable-list-record-wrapper">
-          </ul>
+        <div id="airtable-list-record-wrapper" class="card-layout">
+</div>
       </div>
 
       <template id="airtable-list-records-template">
-        <li class="airtable-list-record-row [rowClasses] su-card">
-          <div class="su-card__contents">
-            <h3 class="rh-service-catalog-title" data-field-key="Service Name">%Service Name%</h3>
-            <div class="rh-service-catalog-description" data-field-key="Service Description">%Service Description%</div>
-            <div class="rh-service-catalog-core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
-            <div class="rh-service-catalog-clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
-            
-            <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a class="su-link--action" href="%Request Services%">Request Services</a></div>
+        <div class="airtable-list-record-row [rowClasses]">
+          <div class="su-card">
+            <div class="su-card__contents">
+              <h2 class="rh-service-catalog-title" data-field-key="Service Name">%Service Name%</h2>
+              <div class="rh-service-catalog-description" data-field-key="Service Description">%Service Description%</div>
+              <div class="rh-service-catalog-core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
+              <div class="rh-service-catalog-clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
+              
+              <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a class="su-button su-link" href="%Request Services%">Request Services</a></div>
+            </div>
           </div>
-        </li>
+        </div>
       </template>
 
       <template id="airtable-list-metadata-item-template">

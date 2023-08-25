@@ -51,14 +51,12 @@
   set airtableConfig = {
     "table": "tbltFlPWqzu0V8RuD",
     "view": "viwCEu6klnwbAYCWE",
-    "gutter": 40,
-    "equalHeight": true,
     "filters": {
       "Core Service": {
-        "name": "Service"
+        "name": "Service Categories"
       },
       "Clients": {
-        "name": "Client"
+        "name": "Clients"
       }
     },
     "format": {
@@ -66,14 +64,14 @@
         "type": "Array",
         "options": {
           "template_id": "metadata-item",
-          "separator": " | ",
+          "separator": ", ",
         }
       },
       "Clients": {
         "type": "Array",
         "options": {
           "template_id": "metadata-item",
-          "separator": " | ",
+          "separator": ", ",
         }
       }
     }

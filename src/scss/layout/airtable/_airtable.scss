@@ -56,8 +56,7 @@
     }
   }
 
-  @include grid-media-max("md") { // Adjust this breakpoint as needed
-    //flex-direction: column;
+  @include grid-media-max("md") { 
 
     .airtable-list-filter-group {
         display: block;
@@ -74,25 +73,36 @@
 
   &.card-layout {
 
-    .airtable-list-record-row {
-      @include flex-column(4 of 12);   // Item will span 2 out of 12 columns, i.e., one-third
-      flex: 0 0 calc(30% - 10px);
-      max-width: calc(30% - 10px);
-      border-bottom: 0;
+    @include grid-media-min("xl") { 
 
-      .su-card {
-      
-        .su-card__contents {
-          @include padding(2.5rem);
+      .airtable-list-record-row {
+        @include flex-column(4 of 12);   // Item will span 3 out of 12 columns, i.e., one-third
+        flex: 1 0 calc(33% - 1rem);
+        max-width: calc(33% - 1rem);
+        border-bottom: 0;
 
-          h2 {
-            font-size: 2.6rem;
-          }
-          
-          div {
-            @include margin(1rem 0);
+        .su-card {
+        
+          .su-card__contents {
+            @include padding(3rem);
+
+            h2 {
+              font-size: 2.3rem;
+            }
+            
+            div {
+              @include margin(1rem 0);
+            }
           }
         }
+      }
+    }
+
+    @include grid-media-max("lg") { 
+
+      .airtable-list-record-row {
+
+        @include flex-column(6 of 12);   // Item will span 2 out of 12 columns, i.e., one-half
       }
     }
   }

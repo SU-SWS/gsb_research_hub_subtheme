@@ -3,11 +3,11 @@
 //Airtable list
 
 #airtable-list-record-wrapper {
-  @include margin(1.5rem 0)
+  @include margin(1.5rem 0);
   list-style: none;
 
   .airtable-list-record-row {
-    @include margin(1.5rem 0)
+    @include margin(1.5rem 0);
     border-bottom: 1px solid $su-color-foggy;
 
     &:last-child {
@@ -20,7 +20,7 @@
   display: flex;
   flex-wrap: wrap; // Allow wrapping of items
   align-items: center;
-  @include margin(3rem 0 5rem 0)
+  @include margin(3rem 0 5rem 0);
 
   .airtable-list-filter-group {
     align-items: center;
@@ -83,14 +83,14 @@
       .su-card {
       
         .su-card__contents {
-          @include padding(2.5rem)
+          @include padding(2.5rem);
 
           h2 {
             font-size: 2.6rem;
           }
           
           div {
-            @include margin(1rem 0)
+            @include margin(1rem 0);
           }
         }
       }

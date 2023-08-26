@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+//
+// Quote
+//
+// Default styling for a quote element.
+//
+// Markup: templates/components/quote/quote.twig
+//
+// Style guide: Simple.Quote
+//
+
+
+.su-quote {
+  @include padding(1em 1.2em 1.5em 1.6em);
+  overflow: hidden;
+  border-radius: 2em;
+  max-width: 800px;
+  margin-bottom: 2em;
+
+  .su-quote__img {
+    border-radius: 150px;
+    border: 0;
+    float: left;
+    height: auto;
+    width: auto;
+
+    @include margin(null 0 null null);
+  }
+
+  .su-quote__body {
+    .su-quote__name {
+      font-size: .8em;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-top: 1em;
+      text-align: left;
+    }
+
+    .su-quote__title {
+      font-weight: 400;
+    }
+
+   .su-quote__quote {
+      font-family: $su-font-serif;
+      font-size: 1.2em;
+      font-weight: 400;
+      margin-top: .5em;
+      quotes: "“" "”" "‘" "’";
+
+      &::before {
+        content: open-quote;
+        margin: 0 0em 0 -0.5em;
+      }
+
+      &::after {
+        content: close-quote;
+      }
+    }
+  } 
+}
+
+
+.su-wysiwyg-text {
+  p {
+    &.su-quote-text {
+      font-family: $su-font-serif;
+      font-style: normal;
+      font-size: 1.2em;
+      line-height: 1.2em;
+      font-weight: 400;
+      letter-spacing: 0em;
+      margin-top: .5em;
+      margin-bottom: .6em;
+      quotes: "“" "”" "‘" "’";
+
+      &::before {
+        content: open-quote;
+        margin: 0 0em 0 -0.5em;
+        position:relative;
+      }
+
+      &::after {
+        content: close-quote;
+        position:relative;
+      }
+    }
+  }
+}
+
+// Quote block border color
+@each $name,$color in $gsb-colors {
+  .rh-quote-border-#{$name} {
+    border: 2px solid $color;
+  }
+}

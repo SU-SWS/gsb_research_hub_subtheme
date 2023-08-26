@@ -1,0 +1,118 @@
+banner_variant_info:  # part of the key after the :
+  id: banner_type
+  label: 'Banner Paragraphs Type'
+  bundles:
+    - paragraphs_type|stanford_banner
+  config:
+
+    banner_list_instruction:
+      type: markup
+      markup: '<p><strong>IGNORE the above dropdown option. Any change to the dropdown above will not apply. Use only the Research Hub options below.</strong></p><h2>Research Hub Options</h2>'
+
+    banner_list_headline:
+      type: select
+      title: 'Text Overlay Position Options'
+      description: 'Choose the banner text position.'
+      options:
+        rh-banner-wrapper--headline-center: Full Width Center
+        rh-banner-wrapper--headline-left: Half Width Left
+        rh-banner-wrapper--headline-right: Half Width Right
+        overlay-left: White Box Left
+        overlay-right: White Box Right
+    
+    banner_list_text_color:
+      type: select
+      title: 'Banner Text Color'
+      description: 'Select the banner text color'
+      options:
+        rh-banner-wrapper--text-color-black: Black
+        rh-banner-wrapper--text-color-white: White
+      states:
+        invisible:
+          select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_headline]"]:
+            - {value: overlay-left}
+            - {value: overlay-right}
+
+    banner_list_gradient:
+      type: select
+      title: 'Add Gradient to the Banner to Increase Text Legibility'
+      description: 'Select whether to add gradient to the banner color or image.'
+      options:
+        rh-banner-wrapper--background-gradient: Gradient
+        rh-banner-wrapper--background-no-gradient: No Gradient
+      states:
+        invisible:
+          select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_headline]"]:
+            - {value: overlay-left}
+            - {value: overlay-right}
+                
+    banner_list_height:
+      type: select
+      title: 'Banner Height'
+      description: 'Select the height for the banner.'
+      options:
+        rh-banner-wrapper--height-medium: Medium
+        rh-banner-wrapper--height-short: Short
+        rh-banner-wrapper--height-tall: Tall
+
+    banner_list_background_color:
+      type: select
+      title: 'Banner Background Color (If No Banner Image Has Been Uploaded)'
+      description: 'If no image has been uploaded, the selected banner background color will display.'
+      options:
+        rh-banner-wrapper--background-no-color: No Banner Color
+        rh-banner-wrapper--background-cardinal-red: Cardinal Red
+        rh-banner-wrapper--background-cardinal-red-light: Cardinal Red Light
+        rh-banner-wrapper--background-cardinal-red-dark: Cardinal Red Dark
+        rh-banner-wrapper--background-black: Black
+        rh-banner-wrapper--background-charcoal: Charcoal
+        rh-banner-wrapper--background-cool-grey: Cool Grey
+        rh-banner-wrapper--background-mist: Mist
+        rh-banner-wrapper--background-driftwood: Driftwood
+        rh-banner-wrapper--background-sand: Sand
+        rh-banner-wrapper--background-buckeye-lane-light: Buckeye Lane Light
+        rh-banner-wrapper--background-buckeye-lane-dark: Buckeye Lane Dark
+        rh-banner-wrapper--background-buckeye-lane: Buckeye Lane
+        rh-banner-wrapper--background-brick-light: Brick Light
+        rh-banner-wrapper--background-brick: Brick
+        rh-banner-wrapper--background-brick-dark: Brick Dark 
+        rh-banner-wrapper--background-bay-light: Bay Light
+        rh-banner-wrapper--background-bay: Bay
+        rh-banner-wrapper--background-bay-dark: Bay Dark
+        rh-banner-wrapper--background-lagunita-light: Lagunita Light
+        rh-banner-wrapper--background-lagunita: Lagunita
+        rh-banner-wrapper--background-lagunita-dark: Lagunita Dark
+        rh-banner-wrapper--background-palo-alto-light: Palo Alto Light
+        rh-banner-wrapper--background-palo-alto: Palo Alto
+        rh-banner-wrapper--background-palo-alto-dark: Palo Alto Dark
+        rh-banner-wrapper--background-palo-verde-light: Palo Verde Light
+        rh-banner-wrapper--background-palo-verde: Palo Verde
+        rh-banner-wrapper--background-palo-verde-dark: Palo Verde Dark
+        rh-banner-wrapper--background-new-sky-light: New Sky Light
+        rh-banner-wrapper--background-new-sky: New Sky
+        rh-banner-wrapper--background-new-sky-dark: New Sky Dark
+        rh-banner-wrapper--background-poppy-light: Poppy Light
+        rh-banner-wrapper--background-poppy: Poppy
+        rh-banner-wrapper--background-poppy-dark: Poppy Dark
+        rh-banner-wrapper--background-autumn-gingko-light: Autumn Gingko Light
+        rh-banner-wrapper--background-autumn-gingko: Autumn Gingko 
+        rh-banner-wrapper--background-autumn-gingko-dark: Autumn Gingko Dark
+        rh-banner-wrapper--background-macdonald-light: MacDonald Green Light
+        rh-banner-wrapper--background-macdonald: MacDonald Green
+        rh-banner-wrapper--background-macdonald-dark: MacDonald Green Dark
+        rh-banner-wrapper--background-digital-red-light: Digital Red Light
+        rh-banner-wrapper--background-digital-red: Digital Red
+        rh-banner-wrapper--background-digital-red-dark: Digital Red Dark
+        rh-banner-wrapper--background-digital-blue-light: Digital Blue Light
+        rh-banner-wrapper--background-digital-blue: Digital Blue
+        rh-banner-wrapper--background-digital-blue-dark: Digital Blue Dark
+        rh-banner-wrapper--background-digital-pink-light: Digital Pink Light
+        rh-banner-wrapper--background-digital-pink: Digital Pink
+        rh-banner-wrapper--background-digital-pink-dark: Digital Pink Dark
+      states:
+        invisible:
+          select[name="su_page_banner[0][behavior_plugins][react_paragraphs:banner_variant_info][banner_list_headline]"]:
+            - {value: overlay-left}
+            - {value: overlay-right}
+
+        

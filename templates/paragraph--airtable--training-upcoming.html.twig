@@ -95,12 +95,11 @@
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading upcoming training...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
-        <ul id="airtable-list-record-wrapper">
-        </ul>
+        <div id="airtable-list-record-wrapper" class="rh-list-layout"></div>
       </div>
 
       <template id="airtable-list-records-template">
-        <li class="airtable-list-record-row [rowClasses]">
+        <div class="airtable-list-record-row [rowClasses]">
           <h3 class="rh-training-title" data-field-key="Name">%Name%</h3>
           <div class="rh-training-event-date"><span class="rh-training-start-date" data-field-key="Event Start Date">%Event Start Date%</span><span class="rh-training-end-date" data-field-key="Event End Date"> - %Event End Date%</span></div>
           <!--<div class="rh-training-category" data-field-key="Category"><span class="rh-training-label">Category:</span> %Category%</div>-->
@@ -108,7 +107,7 @@
           <div class="rh-training-description" data-field-key="Description">%Description%</div>
           <div class="rh-training-presenter-wrapper" data-field-key="presenter_json"><span class="rh-training-label">Presented by:</span><br>%presenter_json%</div>
           <div class="rh-training-registration" data-field-key="Registration URL">%Registration URL%</div>
-        </li>
+        </div>
       </template>
 
       <template id="airtable-list-presenter-json-template">

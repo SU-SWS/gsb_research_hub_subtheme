@@ -1,20 +1,6 @@
 @charset "UTF-8";
 
-//Airtable list
-
-#airtable-list-record-wrapper {
-  @include margin(1.5rem 0);
-  list-style: none;
-
-  .airtable-list-record-row {
-    @include margin(1.5rem 0);
-    border-bottom: 1px solid $su-color-foggy;
-
-    &:last-child {
-      border-bottom: 0; // Remove the divider below the last row
-    }
-  }
-}
+// Airtable list filter dropdowns
 
 #airtable-list-filters {
   display: flex;
@@ -67,15 +53,32 @@
   }
 }
 
-//Airtable card
-
 #airtable-list-record-wrapper {
+  @include margin(1.5rem 0);
+
+  // list layout
+
+  &.rh-list-layout {
+
+    .airtable-list-record-row {
+      @include margin(1.5rem 0);
+      font-size: 2rem;
+      border-bottom: 1px solid $su-color-foggy;
+
+      &:last-child {
+        border-bottom: 0; // Remove the divider below the last row
+      }
+    }
+  }
+
+  // card layout
 
   &.rh-card-layout {
 
     @include grid-media-min("xl") { 
 
       .airtable-list-record-row {
+        @include margin(1.5rem 0); // space between cards
         @include flex-column(4 of 12);   // Item will span 3 out of 12 columns, i.e., one-third
         flex: 1 0 calc(33% - 1rem);
         max-width: calc(33% - 1rem);
@@ -105,6 +108,10 @@
         @include flex-column(6 of 12);   // Item will span 2 out of 12 columns, i.e., one-half
       }
     }
-  }
+  }  
 }
+
+
+
+
 

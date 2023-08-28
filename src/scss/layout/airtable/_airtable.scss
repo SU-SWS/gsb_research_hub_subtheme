@@ -1,0 +1,117 @@
+@charset "UTF-8";
+
+// Airtable list filter dropdowns
+
+#airtable-list-filters {
+  display: flex;
+  flex-wrap: wrap; // Allow wrapping of items
+  align-items: center;
+  @include margin(3rem 0 5rem 0);
+
+  .airtable-list-filter-group {
+    align-items: center;
+    border-radius: 4px;
+    margin-right: 2rem; // Spacing between the dropdowns
+    flex: 1 0 calc(50% - 1rem); // Take up half the width, minus margin
+
+    &:last-child {
+      margin-right: 0; // No right margin for the last dropdown
+    }
+
+    &.airtable-list-filter-header {
+      font-weight: $su-font-semi-bold;
+      text-transform: uppercase;
+
+      select {
+        width: 100%; // Use the full width of the parent
+        @include margin(.5rem 0);
+        font-size: 1.6rem;
+        border: 1px solid $su-color-digital-red;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:focus {
+          border-color: $su-color-lagunita-light;
+          box-shadow: $su-color-lagunita-light;
+        }
+
+        option {
+          padding: 0.5rem 1rem;
+        }
+      }
+    }
+  }
+
+  @include grid-media-max("md") { 
+
+    .airtable-list-filter-group {
+        display: block;
+        margin-right: 0; // Reset the margin on smaller screens
+        margin-bottom: 1rem; // Add some vertical spacing
+        flex: 1 0 100%; // Take up full width
+    }
+  }
+}
+
+#airtable-list-record-wrapper {
+  @include margin(1.5rem 0);
+
+  // list layout
+
+  &.rh-list-layout {
+
+    .airtable-list-record-row {
+      @include margin(1.5rem 0);
+      font-size: 2rem;
+      border-bottom: 1px solid $su-color-foggy;
+
+      &:last-child {
+        border-bottom: 0; // Remove the divider below the last row
+      }
+    }
+  }
+
+  // card layout
+
+  &.rh-card-layout {
+
+    @include grid-media-min("xl") { 
+
+      .airtable-list-record-row {
+        @include margin(1.5rem 0); // space between cards
+        @include flex-column(4 of 12);   // Item will span 3 out of 12 columns, i.e., one-third
+        flex: 1 0 calc(33% - 1rem);
+        max-width: calc(33% - 1rem);
+        border-bottom: 0;
+
+        .su-card {
+        
+          .su-card__contents {
+            @include padding(3rem);
+
+            h2 {
+              font-size: 2.3rem;
+            }
+            
+            div {
+              @include margin(1rem 0);
+            }
+          }
+        }
+      }
+    }
+
+    @include grid-media-max("lg") { 
+
+      .airtable-list-record-row {
+
+        @include flex-column(6 of 12);   // Item will span 2 out of 12 columns, i.e., one-half
+      }
+    }
+  }  
+}
+
+
+
+
+

@@ -11,14 +11,14 @@
 //
 
 
-.su-quote {
+.rh-quote {
   @include padding(1em 1.2em 1.5em 1.6em);
   overflow: hidden;
   border-radius: 2em;
   max-width: 800px;
   margin-bottom: 2em;
 
-  .su-quote__img {
+  .rh-quote__img {
     border-radius: 150px;
     border: 0;
     float: left;
@@ -28,8 +28,8 @@
     @include margin(null 0 null null);
   }
 
-  .su-quote__body {
-    .su-quote__name {
+  .rh-quote__body {
+    .rh-quote__name {
       font-size: .8em;
       font-weight: 600;
       line-height: 1.4;
@@ -37,11 +37,11 @@
       text-align: left;
     }
 
-    .su-quote__title {
+    .rh-quote__title {
       font-weight: 400;
     }
 
-   .su-quote__quote {
+   .rh-quote__quote {
       font-family: $su-font-serif;
       font-size: 1.2em;
       font-weight: 400;
@@ -60,10 +60,9 @@
   } 
 }
 
-
 .su-wysiwyg-text {
   p {
-    &.su-quote-text {
+    &.rh-quote-text {
       font-family: $su-font-serif;
       font-style: normal;
       font-size: 1.2em;

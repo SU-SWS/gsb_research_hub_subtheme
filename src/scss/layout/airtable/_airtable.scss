@@ -93,42 +93,48 @@
 
   &.rh-card-layout {
 
-    @include grid-media-min("xl") { 
+    .airtable-list-record-row {
+      @include margin(1.5rem 0); // space between cards
 
-      .airtable-list-record-row {
-        @include margin(1.5rem 0); // space between cards
-        @include flex-column(4 of 12);   // Item will span 3 out of 12 columns, i.e., one-third
-        flex: 1 0 calc(33% - 1rem);
-        max-width: calc(33% - 1rem);
-        border-bottom: 0;
+      // Below small screens
+      @include flex-column(12 of 12); // 100% width
+      flex: 1 0 calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
 
-        .su-card {
-        
-          .su-card__contents {
-            @include padding(3rem);
-
-            h2 {
-              font-size: 2.3rem;
-            }
-            
-            div {
-              @include margin(1rem 0);
-            }
-
-            .su-button {
-              @include margin(1rem);
-              font-size: 2rem;
-            }
-          }
+      // Small to Large screens
+      @include grid-media-min("sm") {
+        @include grid-media-max("lg") {
+            @include flex-column(6 of 12); // 50% width
+            flex: 1 0 calc(50% - 1rem);
+            max-width: calc(50% - 1rem);
         }
       }
-    }
 
-    @include grid-media-max("lg") { 
+      // Large screens and above
+      @include grid-media-min("xl") {
+          @include flex-column(4 of 12); // 33.33% width
+          flex: 1 0 calc(33.33% - 1rem);
+          max-width: calc(33.33% - 1rem);
+      }
 
-      .airtable-list-record-row {
+      .su-card {
+      
+        .su-card__contents {
+          @include padding(3rem);
 
-        @include flex-column(6 of 12);   // Item will span 2 out of 12 columns, i.e., one-half
+          h2 {
+            font-size: 2.3rem;
+          }
+          
+          div {
+            @include margin(1rem 0);
+          }
+
+          .su-button {
+            @include margin(1rem);
+            font-size: 2rem;
+          }
+        }
       }
     }
   }  

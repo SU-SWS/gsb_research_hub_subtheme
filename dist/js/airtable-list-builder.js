@@ -175,7 +175,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           }
 
           // Allow items to filter.
-          $('[data-filter-name!=""]').on("click", function (e) {
+          $('.airtable-list-filter').on("click", function (e) {
             e.preventDefault();
             var filterName = $(this).data('filter-name');
             var filterKey = $(this).data('filter-key');

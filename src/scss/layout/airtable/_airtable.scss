@@ -42,7 +42,7 @@
     }
   }
 
-  @include grid-media-max("md") { 
+  @include grid-media-max("xl") { 
 
     .airtable-list-filter-group {
         display: block;
@@ -103,7 +103,7 @@
 
       // Small to Large screens
       @include grid-media-min("sm") {
-        @include grid-media-max("lg") {
+        @include grid-media-max("xl") {
             @include flex-column(6 of 12); // 50% width
             flex: 1 0 calc(50% - 1rem);
             max-width: calc(50% - 1rem);
@@ -111,7 +111,7 @@
       }
 
       // Large screens and above
-      @include grid-media-min("xl") {
+      @include grid-media-min("2XL") {
           @include flex-column(4 of 12); // 33.33% width
           flex: 1 0 calc(33.33% - 1rem);
           max-width: calc(33.33% - 1rem);

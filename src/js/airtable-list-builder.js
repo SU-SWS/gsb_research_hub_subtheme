@@ -258,8 +258,9 @@
         var count = 0;
         for (item of content) {
           count++;
-          newContent += replaceToken(template, 'value', item);
-
+          var replacedContent = replaceToken(template, 'value', item);
+          replacedContent = replaceToken(replacedContent, 'class', stringToCSSClass(item));
+          newContent += replacedContent;
           if (format.hasOwnProperty('separator') && count != content.length) {
             newContent += format.separator;
           }

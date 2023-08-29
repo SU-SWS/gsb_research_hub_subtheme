@@ -296,7 +296,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
             item = _step4.value;
             count++;
-            newContent += replaceToken(template, 'value', item);
+            var replacedContent = replaceToken(template, 'value', item);
+            replacedContent = replaceToken(replacedContent, 'class', stringToCSSClass(item));
+            newContent += replacedContent;
             if (format.hasOwnProperty('separator') && count != content.length) {
               newContent += format.separator;
             }

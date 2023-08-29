@@ -3,3 +3,61 @@
 .rh-service-catalog-label {
     font-weight: $su-font-bold;
 }
+
+.computationally-intensive-research,
+.data-acquisition-and-governance,
+.data-analytics,
+.data-onboarding-and-storage,
+.human-subjects-research,
+.library-research-collections,
+.publication-support,
+.research-comms,
+.research-operations,
+.research-planning {
+    display: inline-block;
+    white-space: nowrap;
+    color: $su-color-white;
+    padding: 0 1rem;
+    border-radius: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
+    font-size: 1.6rem;
+
+    &:hover,
+    &:focus {
+      background-color: color(bg--reverse);
+      color: color(link--reverse);
+    }
+  
+    &:focus {
+      box-shadow: $su-focus-shadow;
+    }
+}
+
+.computationally-intensive-research,
+.data-analytics,
+.data-onboarding-and-storage {
+    background-color $su-color-brick-dark: 
+}
+.data-acquisition-and-governance {
+    background-color: $gsb-color-autumn-gingko;
+}
+
+.human-subjects-research {
+    background-color: $gsb-color-palo-verde;
+}
+
+.library-research-collections,
+.publication-support,
+.research-planning {
+    background-color: $gsb-color-palo-alto;
+}
+
+.research-comms,
+.research-operations {
+    background-color: $gsb-color-new-sky-dark;
+}
+
+
+

@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 .rh-service-catalog-label {
+    display: block;
     font-weight: $su-font-bold;
 }
 
@@ -41,7 +42,7 @@
     background-color: $su-color-brick-dark; 
 }
 .data-acquisition-and-governance {
-    background-color: $gsb-color-autumn-gingko;
+    background-color: $gsb-color-autumn-gingko-dark;
 }
 
 .human-subjects-research {

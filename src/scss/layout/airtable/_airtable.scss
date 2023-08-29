@@ -127,12 +127,16 @@
           }
           
           div {
-            @include margin(1rem 0);
+            @include margin(1.5rem 0);
           }
 
           .su-button {
             @include margin(1rem);
             font-size: 2rem;
+          }
+
+          .rh-service-catalog-request-services-wrapper {
+            @include margin(3rem 0 0 0);
           }
         }
       }

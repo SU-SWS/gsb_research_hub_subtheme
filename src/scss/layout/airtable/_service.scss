@@ -5,57 +5,96 @@
     font-weight: $su-font-bold;
 }
 
-.computationally-intensive-research,
-.data-acquisition-and-governance,
-.data-analytics,
-.data-onboarding-and-storage,
-.human-subjects-research,
-.library-research-collections,
-.publication-support,
-.research-comms,
-.research-operations,
-.research-planning {
-    display: inline-block;
-    white-space: nowrap;
-    color: $su-color-white;
-    padding: 0 1rem;
-    border-radius: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
-    font-size: 1.6rem;
+// Core service button links
+.rh-service-catalog-core-service {
 
-    &:hover,
-    &:focus {
-      background-color: color(bg--reverse);
-      color: color(link--reverse);
+    .computationally-intensive-research,
+    .data-acquisition-and-governance,
+    .data-analytics,
+    .data-onboarding-and-storage,
+    .human-subjects-research,
+    .library-research-collections,
+    .publication-support,
+    .research-comms,
+    .research-operations,
+    .research-planning {
+        display: inline-block;
+        white-space: nowrap;
+        color: $su-color-white;
+        padding: 0 1rem;
+        border-radius: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
+        font-size: 1.6rem;
+
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse);
+        color: color(link--reverse);
+        }
+    
+        &:focus {
+        box-shadow: $su-focus-shadow;
+        }
     }
-  
-    &:focus {
-      box-shadow: $su-focus-shadow;
+
+    .computationally-intensive-research,
+    .data-analytics,
+    .data-onboarding-and-storage {
+        background-color: $su-color-brick-light; 
+    }
+    .data-acquisition-and-governance {
+        background-color: $su-color-poppy-dark;
+    }
+
+    .human-subjects-research {
+        background-color: $su-color-bay-dark;
+    }
+
+    .library-research-collections,
+    .publication-support,
+    .research-planning {
+        background-color: $su-color-lagunita-dark;
+    }
+
+    .research-comms,
+    .research-operations {
+        background-color: $gsb-color-new-sky-dark;
     }
 }
 
-.computationally-intensive-research,
-.data-analytics,
-.data-onboarding-and-storage {
-    background-color: $su-color-brick-dark; 
-}
-.data-acquisition-and-governance {
-    background-color: $gsb-color-autumn-gingko-dark;
-}
+// Client button links
+.rh-service-catalog-clients {
 
-.human-subjects-research {
-    background-color: $gsb-color-palo-verde;
-}
+    .all-gsb,
+    .ces,
+    .csi,
+    .gsb-administration,
+    .gsb-faculty,
+    .gsb-faculty-assistants,
+    .gsb-phd-students,
+    .rh-labs-initiatives,
+    .research-hub {
+        display: inline-block;
+        white-space: nowrap;
+        background-color:  $su-color-foggy;
+        color: $su-color-black;
+        padding: 0 1rem;
+        border-radius: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
+        font-size: 1.6rem;
 
-.library-research-collections,
-.publication-support,
-.research-planning {
-    background-color: $gsb-color-palo-alto;
-}
-
-.research-comms,
-.research-operations {
-    background-color: $gsb-color-new-sky-dark;
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse);
+        color: color(link--reverse);
+        }
+    
+        &:focus {
+        box-shadow: $su-focus-shadow;
+        }
+    }
 }

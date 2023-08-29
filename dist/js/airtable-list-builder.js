@@ -174,6 +174,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             $('.airtable-list-record-row').height(largestHeight);
           }
 
+          // Allow items to filter.
+          $('[data-filter-name!=""]').on("click", function () {
+            var filterName = $(this).data('filter-name');
+            var filterKey = $(this).data('filter-key');
+            $('#airtable-list-' + filterName).val(filterKey).change();
+          });
+
           // Load isotope
           $contentArea.isotope({
             itemSelector: ".airtable-list-record-row",
@@ -216,7 +223,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
   // Replace the token in the template
   function replaceToken(template, token, value) {
-    return template.replace('%' + token + '%', value);
+    return template.replaceAll('%' + token + '%', value);
   }
 
   // Apply the data to the template.

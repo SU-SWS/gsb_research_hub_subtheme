@@ -63,14 +63,14 @@
       "Core Service": {
         "type": "Array",
         "options": {
-          "template_id": "metadata-item",
+          "template_id": "core-service-item",
           "separator": ", ",
         }
       },
       "Clients": {
         "type": "Array",
         "options": {
-          "template_id": "metadata-item",
+          "template_id": "clients-item",
           "separator": ", ",
         }
       }
@@ -103,8 +103,12 @@
         </div>
       </template>
 
-      <template id="airtable-list-metadata-item-template">
-        <span class="%class%">%value%</span>
+      <template id="airtable-list-core-service-item-template">
+        <span class="%class%" data-filter-name="core-service" data-filter-key="%class%">%value%</span>
+      </template>
+
+      <template id="airtable-list-clients-item-template">
+        <span class="%class%" data-filter-name="clients" data-filter-key="%class%">%value%</span>
       </template>
 
     {% endblock %}

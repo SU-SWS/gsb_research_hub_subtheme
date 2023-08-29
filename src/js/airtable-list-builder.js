@@ -145,7 +145,8 @@
           }
 
           // Allow items to filter.
-          $('[data-filter-name!=""]').on("click", function() {
+          $('[data-filter-name!=""]').on("click", function(e) {
+            e.preventDefault();
             var filterName = $(this).data('filter-name');
             var filterKey = $(this).data('filter-key');
             $('#airtable-list-' + filterName).val(filterKey).change();

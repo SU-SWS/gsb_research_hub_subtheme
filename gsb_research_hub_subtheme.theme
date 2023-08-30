@@ -113,31 +113,52 @@ function gsb_research_hub_subtheme_preprocess_field(&$variables) {
 // Alter the results of the people page.
 function gsb_research_hub_subtheme_views_pre_render(&$view) {
   if ($view->id() === 'taxonomy_term_pages' && $view->current_display == 'people_terms') {
-    $rows = $view->result;
 
+    // Get the Taxonomy Term IDs
+    $levelTerms = \Drupal::entityQuery('taxonomy_term')
+              ->condition('vid', 'su_shared_tags')
+              ->condition('name', 'People - Level', 'STARTS_WITH')
+              ->sort('name', 'ASC')
+              ->execute();
+
+    // Reset the index
+    $levelTerms = array_values($levelTerms);
+
+    // Determine the sort order.
     $newSort = array();
-    foreach ($rows as $key => $row) {
+    foreach ($view->result as $key => $row) {
       $personInfo = $row->_relationship_entities['reverse__node__su_person_type_group'];
+      $personTags = $personInfo->get('su_shared_tags')->getValue();
+
       $personDetails = array(
         'key' => $key,
-        'name' =>$personInfo->get('su_person_first_name')->getValue()[0]['value'] . ' ' . $personInfo->get('su_person_last_name')->getValue()[0]['value'],
+        'name' =>$personInfo->get('su_person_last_name')->getValue()[0]['value'] . ' ' . $personInfo->get('su_person_first_name')->getValue()[0]['value'],
+        'data_name' => $row->taxonomy_term_field_data_name,
+        'level' => count($levelTerms),
       );
-      // Assign groups depending on whether the title has faculty director in it.
-      if (str_contains($personInfo->get('su_person_short_title')->getValue()[0]['value'], 'Faculty Director')) {
-        $personDetails['type'] = 'Faculty Director';
+
+      // Assign level
+      foreach ($levelTerms as $levelKey => $levelTid) {
+        if (array_filter($personTags, function($term) use ($levelTid) { return $term['target_id'] == $levelTid; })) {
+          $personDetails['level'] = $levelKey;
+        }
       }
-      else {
-        $personDetails['type'] = 'Other';
-      }
+
       $newSort[] = $personDetails;
     }
 
+    // Sort the list.
     $name = array_column($newSort, 'name');
-    $type = array_column($newSort, 'type');
-    array_multisort($type, SORT_ASC, $name, SORT_ASC, $newSort);
+    $level = array_column($newSort, 'level');
+    $data_name = array_column($newSort, 'data_name');
+    array_multisort($data_name, SORT_ASC, $level, SORT_ASC, $name, SORT_ASC, $newSort);
 
+    // Set the index to the new order.
     foreach ($newSort as $key => $sortRow) {
       $view->result[$sortRow['key']]->index = $key;
+      $newResult[$key] = $view->result[$sortRow['key']];
     }
+
+    $view->result = $newResult;
   }
 }

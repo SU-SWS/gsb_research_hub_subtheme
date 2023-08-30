@@ -170,6 +170,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               var filterName = $(this).data('filter-name');
               var filterKey = $(this).data('filter-key');
               $('#airtable-list-' + filterName).val(filterKey).change();
+
+              // Jump back up to the top filters.
+              var $filterWrapper = $("#airtable-list-filters");
+              $('html,body').animate({
+                scrollTop: $filterWrapper.offset().top
+              }, 'slow');
             });
 
             // Load isotope

@@ -109,3 +109,35 @@ function gsb_research_hub_subtheme_preprocess_field(&$variables) {
     $su_paragraph_row__bgcolor = $variables['items'][0]['content']['#markup'];
   }
 }
+
+// Alter the results of the people page.
+function gsb_research_hub_subtheme_views_pre_render(&$view) {
+  if ($view->id() === 'taxonomy_term_pages' && $view->current_display == 'people_terms') {
+    $rows = $view->result;
+
+    $newSort = array();
+    foreach ($rows as $key => $row) {
+      $personInfo = $row->_relationship_entities['reverse__node__su_person_type_group'];
+      $personDetails = array(
+        'key' => $key,
+        'name' =>$personInfo->get('su_person_first_name')->getValue()[0]['value'] . ' ' . $personInfo->get('su_person_last_name')->getValue()[0]['value'],
+      );
+      // Assign groups depending on whether the title has faculty director in it.
+      if (str_contains($personInfo->get('su_person_short_title')->getValue()[0]['value'], 'Faculty Director')) {
+        $personDetails['type'] = 'Faculty Director';
+      }
+      else {
+        $personDetails['type'] = 'Other';
+      }
+      $newSort[] = $personDetails;
+    }
+
+    $name = array_column($newSort, 'name');
+    $type = array_column($newSort, 'type');
+    array_multisort($type, SORT_ASC, $name, SORT_ASC, $newSort);
+
+    foreach ($newSort as $key => $sortRow) {
+      $view->result[$sortRow['key']]->index = $key;
+    }
+  }
+}

@@ -19,9 +19,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var config = $contentArea.data('config');
       var configDefault = {
         "gutter": 10,
-        "equalHeight": false,
-        "filterValue": '',
-        "filterRedraw": false
+        "equalHeight": false
       };
       config = _objectSpread(_objectSpread({}, configDefault), config);
       for (filterKey in config.filters) {
@@ -159,9 +157,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               filters[filterGroup] = $filter.val() == '*' ? '' : '.' + filterGroup + '--' + $filter.val();
               // combine filters
               config.filterValue = concatValues(filters);
-              if (config.equalHeight) {
-                config.filterRedraw = true;
-              }
 
               // set filter for Isotope
               $contentArea.isotope({
@@ -188,19 +183,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
             // Set height to equal height
             if (config.equalHeight) {
-              equalRowHeight();
-              $contentArea.isotope();
+              equalRowHeight(config.gutter);
             }
             $contentArea.on("arrangeComplete", function (event, filteredItems) {
               // Set height to equal height
               if (config.equalHeight) {
-                equalRowHeight();
-                if (config.filterRedraw) {
-                  config.filterRedraw = false;
-                  $contentArea.isotope({
-                    filter: config.filterValue
-                  });
-                }
+                equalRowHeight(config.gutter);
               }
               if (!filteredItems.length) {
                 $('#airtable-list-no-results').show();
@@ -346,7 +334,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   }
 
   // Sets the rows to equal heights.
-  function equalRowHeight() {
+  function equalRowHeight(gutter) {
     // Remove all set row classes
     $(".airtable-list-record-row").removeClass(function (index, className) {
       return (className.match(/(^|\s)airtable-list-height-row-\S+/g) || []).join(' ');
@@ -389,6 +377,18 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         $('.airtable-list-height-row-' + rowIndex + ' [data-row-height-id="' + key + '"]').height(fieldHeights[key]);
       }
     }
+
+    // Set the height of each row.
+    var newTop = 0;
+    for (var i = 1; i <= rowNum; i++) {
+      $('.airtable-list-height-row-' + i).css({
+        top: newTop + 'px'
+      });
+      newTop = $('.airtable-list-height-row-' + i).height() + gutter * 2 + newTop;
+    }
+
+    // Set the height of the entire airtable-list.
+    $('#airtable-list').height(newTop);
   }
 })(jQuery, Drupal, drupalSettings);
 /******/ })()

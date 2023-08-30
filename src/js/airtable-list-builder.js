@@ -10,9 +10,7 @@
 
       var configDefault = {
         "gutter": 10,
-        "equalHeight": false,
-        "filterValue": '',
-        "filterRedraw": false
+        "equalHeight": false
       }
       config = {
         ...configDefault,
@@ -132,10 +130,6 @@
               // combine filters
               config.filterValue = concatValues( filters );
 
-              if (config.equalHeight) {
-                config.filterRedraw = true;
-              }
-
               // set filter for Isotope
               $contentArea.isotope({ filter: config.filterValue });
             });
@@ -159,18 +153,13 @@
 
             // Set height to equal height
             if (config.equalHeight) {
-              equalRowHeight();
-              $contentArea.isotope();
+              equalRowHeight(config.gutter);
             }
 
             $contentArea.on("arrangeComplete", function(event, filteredItems) {
               // Set height to equal height
               if (config.equalHeight) {
-                equalRowHeight();
-                if (config.filterRedraw) {
-                  config.filterRedraw = false;
-                  $contentArea.isotope({ filter: config.filterValue });
-                }
+                equalRowHeight(config.gutter);
               }
 
               if (!filteredItems.length) {
@@ -307,7 +296,7 @@
   }
 
   // Sets the rows to equal heights.
-  function equalRowHeight() {
+  function equalRowHeight(gutter) {
 
     // Remove all set row classes
     $(".airtable-list-record-row").removeClass (function (index, className) {
@@ -353,6 +342,16 @@
         $('.airtable-list-height-row-' + rowIndex + ' [data-row-height-id="' + key + '"]').height(fieldHeights[key]);
       }
     }
+
+    // Set the height of each row.
+    var newTop = 0;
+    for (var i=1; i <= rowNum; i++) {
+      $('.airtable-list-height-row-' + i).css({top: newTop + 'px'});
+      newTop = $('.airtable-list-height-row-' + i).height() + (gutter * 2) + newTop;
+    }
+
+    // Set the height of the entire airtable-list.
+    $('#airtable-list').height(newTop);
   }
 
 })(jQuery, Drupal, drupalSettings);

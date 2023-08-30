@@ -69,7 +69,17 @@ banner_variant_info:  # part of the key after the :
         rh-banner-wrapper--background-cool-grey: Cool Grey
         rh-banner-wrapper--background-mist: Mist
         rh-banner-wrapper--background-driftwood: Driftwood
+        rh-banner-wrapper--background-driftwood-75: Driftwood 75%
+        rh-banner-wrapper--background-driftwood-50: Driftwood 50%
+        rh-banner-wrapper--background-driftwood-25: Driftwood 25%
+        rh-banner-wrapper--background-stone: Stone
+        rh-banner-wrapper--background-stone-75: Stone 75%
+        rh-banner-wrapper--background-stone-50: Stone 50%
+        rh-banner-wrapper--background-stone-25: Stone 25%
         rh-banner-wrapper--background-sand: Sand
+        rh-banner-wrapper--background-sand-75: Sand 75%
+        rh-banner-wrapper--background-sand-50: Sand 50%
+        rh-banner-wrapper--background-sand-25: Sand 25%
         rh-banner-wrapper--background-buckeye-lane-light: Buckeye Lane Light
         rh-banner-wrapper--background-buckeye-lane-dark: Buckeye Lane Dark
         rh-banner-wrapper--background-buckeye-lane: Buckeye Lane

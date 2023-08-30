@@ -51,6 +51,7 @@
   set airtableConfig = {
     "table": "tbltFlPWqzu0V8RuD",
     "view": "viwCEu6klnwbAYCWE",
+    "equalHeight": true,
     "filters": {
       "Core Service": {
         "name": "Service Categories"
@@ -63,15 +64,15 @@
       "Core Service": {
         "type": "Array",
         "options": {
-          "template_id": "metadata-item",
-          "separator": ", ",
+          "template_id": "core-service-item",
+          "separator": " ",
         }
       },
       "Clients": {
         "type": "Array",
         "options": {
-          "template_id": "metadata-item",
-          "separator": ", ",
+          "template_id": "clients-item",
+          "separator": " ",
         }
       }
     }
@@ -92,19 +93,23 @@
         <div class="airtable-list-record-row [rowClasses]">
           <div class="su-card">
             <div class="su-card__contents">
-              <h2 class="rh-service-catalog-title" data-field-key="Service Name">%Service Name%</h2>
-              <div class="rh-service-catalog-description" data-field-key="Service Description">%Service Description%</div>
-              <div class="rh-service-catalog-core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
-              <div class="rh-service-catalog-clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
+              <h2 class="rh-service-catalog-title" data-row-height-id="service-name" data-field-key="Service Name">%Service Name%</h2>
+              <div class="rh-service-catalog-description" data-row-height-id="serivce-description" data-field-key="Service Description">%Service Description%</div>
+              <div class="rh-service-catalog-core-service" data-row-height-id="core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
+              <div class="rh-service-catalog-clients" data-row-height-id="clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
               
-              <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a class="su-button su-link" href="%Request Services%">Request Services</a></div>
+              <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a class="su-link--action" href="%Request Services%">Request Services</a></div>
             </div>
           </div>
         </div>
       </template>
 
-      <template id="airtable-list-metadata-item-template">
-        <span>%value%</span>
+      <template id="airtable-list-core-service-item-template">
+        <span class="%class% airtable-list-filter" data-filter-name="core-service" data-filter-key="%class%">%value%</span>
+      </template>
+
+      <template id="airtable-list-clients-item-template">
+        <span class="%class% airtable-list-filter" data-filter-name="clients" data-filter-key="%class%">%value%</span>
       </template>
 
     {% endblock %}

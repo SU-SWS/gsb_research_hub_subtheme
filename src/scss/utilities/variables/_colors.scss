@@ -11,12 +11,21 @@
 // GSB secondary colors
 $gsb-color-charcoal: #231F20;
 $gsb-color-driftwood: #B6B1A9;
+$gsb-color-driftwood-75: #CAC6BF;
+$gsb-color-driftwood-50: #D9D7D2;
+$gsb-color-driftwood-25: #ECEBE9;
+$gsb-color-stone-75: #A69F99; 
+$gsb-color-stone-50: #BFBAB6; 
+$gsb-color-stone-25: #DCD8D5; 
 $gsb-color-sand: #D2BA92;
+$gsb-color-sand-75: #E1CFAB; 
+$gsb-color-sand-50: #E9DBC1; 
+$gsb-color-sand-25: #F2EADD; 
 
 // GSB accent colors
-$gsb-color-buckeye-land: #53284F;
-$gsb-color-buckeye-land-light: #613863;
-$gsb-color-buckeye-land-dark: #350D36;
+$gsb-color-buckeye-lane: #53284F;
+$gsb-color-buckeye-lane-light: #613863;
+$gsb-color-buckeye-lane-dark: #350D36;
 $gsb-color-palo-alto: #175E54;
 $gsb-color-palo-alto-light: #2D716F;
 $gsb-color-palo-alto-dark: #014240;
@@ -28,8 +37,8 @@ $gsb-color-new-sky-dark: #267E9C;
 $gsb-color-autumn-gingko: #FFC915;
 $gsb-color-autumn-gingko-light: #FFDF50;
 $gsb-color-autumn-gingko-dark: #F1AD13;
-$gsb-color-macdonald: #bac405;
-$gsb-color-macdonald-light: #cfd650;
+$gsb-color-macdonald: #BAC405;
+$gsb-color-macdonald-light: #CFD650;
 $gsb-color-macdonald-dark: #636F00;
 
 // GSB digital colors
@@ -54,13 +63,22 @@ $gsb-colors: (
   // secondary colors
   charcoal:           $gsb-color-charcoal,
   driftwood:          $gsb-color-driftwood,
+  driftwood-75:       $gsb-color-driftwood-75,
+  driftwood-50:       $gsb-color-driftwood-50,
+  driftwood-25:       $gsb-color-driftwood-25,
   stone:              $su-color-stone,
+  stone-75:           $gsb-color-stone-75,
+  stone-50:           $gsb-color-stone-50,
+  stone-25:           $gsb-color-stone-25,
   sand:               $gsb-color-sand,
+  sand-75:            $gsb-color-sand-75,
+  sand-50:            $gsb-color-sand-50,
+  sand-25:            $gsb-color-sand-25,
 
   // accent colors
-  buckeye-lane:       $gsb-color-buckeye-land,
-  buckeye-lane-light: $gsb-color-buckeye-land-light,
-  buckeye-lane-dark:  $gsb-color-buckeye-land-dark,
+  buckeye-lane:       $gsb-color-buckeye-lane,
+  buckeye-lane-light: $gsb-color-buckeye-lane-light,
+  buckeye-lane-dark:  $gsb-color-buckeye-lane-dark,
   brick:              $su-color-brick,
   brick-light:        $su-color-brick-light,
   brick-dark:         $su-color-brick-dark,

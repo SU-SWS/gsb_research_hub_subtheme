@@ -44,13 +44,13 @@
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'rh-training-upcoming'
+    'rh-training-past'
   ]
 %}
 {%
   set airtableConfig = {
     "table": "tbl76xG6T8QA20lqn",
-    "view": "viwEAwOfMreLa7eVt",
+    "view": "viwyfokngnej2wXUZ",
     "filters": {
       "Category": {
         "name": "Categories"
@@ -64,23 +64,9 @@
         "type": "Date",
         "options": {
           "date": {
-            weekday: "long",
             year: "numeric",
             month: "long",
             day: "numeric"
-          },
-          "time": {
-            hour: "2-digit",
-            minute: "2-digit"
-          }
-        }
-      },
-      "Event End Date": {
-        "type": "Date",
-        "options": {
-          "time": {
-            hour: "2-digit",
-            minute: "2-digit"
           }
         }
       }
@@ -91,23 +77,32 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      {#<div id="airtable-list-filters"></div>#}
+      <div id="airtable-list-filters"></div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
-        <p id="airtable-list-loader">Loading upcoming training...</p>
+        <p id="airtable-list-loader">Loading past training...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
-        <p id="airtable-list-no-records" style="display: none;">Please check back soon for a list of upcoming events.</p>
-        <div id="airtable-list-record-wrapper" class="rh-list-layout"></div>
+        <div id="airtable-list-record-wrapper" class="rh-card-layout">
+        </div>
       </div>
 
       <template id="airtable-list-records-template">
         <div class="airtable-list-record-row [rowClasses]">
-          <h3 class="rh-training-title" data-field-key="Name">%Name%</h3>
-          <div class="rh-training-event-date"><span class="rh-training-start-date" data-field-key="Event Start Date">%Event Start Date%</span><span class="rh-training-end-date" data-field-key="Event End Date"> - %Event End Date%</span></div>
-          <!--<div class="rh-training-category" data-field-key="Category"><span class="rh-training-label">Category:</span> %Category%</div>-->
-          <div class="rh-training-series" data-field-key="Series"><span class="rh-training-label">Series:</span> %Series%</div>
-          <div class="rh-training-description" data-field-key="Description">%Description%</div>
-          <div class="rh-training-presenter-wrapper" data-field-key="presenter_json"><span class="rh-training-label">Presented by:</span><br>%presenter_json%</div>
-          <div class="rh-training-registration" data-field-key="Registration URL">%Registration URL%</div>
+            <div class="su-card">
+                <div class="su-card__contents">
+                    <h2 class="rh-training-title" data-field-key="Name">%Name%</h2>
+                    <div class="rh-training-past-event-date"><span class="rh-training-start-date" data-field-key="Event Start Date"><span class="rh-training-label">Date:</span> %Event Start Date%</span></div>
+                    <div class="rh-training-category" data-field-key="Category"><span class="rh-training-label">Category:</span> %Category%</div>
+                    <div class="rh-training-series" data-field-key="Series"><span class="rh-training-label">Series:</span> %Series%</div>
+                    <div class="rh-training-description" data-field-key="Description">%Description%</div>
+                    <div class="rh-training-presenter-wrapper" data-field-key="presenter_json"><span class="rh-training-label">Presented by:</span><br>%presenter_json%</div>
+                    <div class="rh-training-links">
+                        <ul class="rh-training-links-list">
+                        <li data-field-key="Recording"><a class="su-link--action" href="%Recording%">Watch Recording</a></li>
+                        %link_json%
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
       </template>
 
@@ -118,8 +113,8 @@
         </div>
       </template>
 
-      <template id="airtable-list-registration-url-template">
-        <a class="su-button su-link" href="%Registration URL%">Register</a>
+      <template id="airtable-list-link-json-template">
+        <li><a class="rh-training-link su-link--action" url="%url%">%name%</a></li>
       </template>
 
     {% endblock %}

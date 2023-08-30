@@ -121,6 +121,11 @@ function gsb_research_hub_subtheme_views_pre_render(&$view) {
               ->sort('name', 'ASC')
               ->execute();
 
+    // Exit immediately if there are no taxonomy terms.
+    if (!$levelTerms) {
+      return;
+    }
+
     // Reset the index
     $levelTerms = array_values($levelTerms);
 

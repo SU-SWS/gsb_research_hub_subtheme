@@ -111,7 +111,7 @@
       }
 
       // Large screens and above
-      @include grid-media-min("2XL") {
+      @include grid-media-min("2xl") {
           @include flex-column(4 of 12); // 33.33% width
           flex: 1 0 calc(33.33% - 1rem);
           max-width: calc(33.33% - 1rem);

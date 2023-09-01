@@ -269,8 +269,8 @@
       .su-hero__card {
 
         @include grid-media-min('md') {  
-          max-width: 40%; 
-          margin-left: 20rem; 
+          max-width: 50%; 
+          margin-left: 10rem; 
         }
 
         .su-card__contents {
@@ -303,8 +303,8 @@
       @include grid-media-min('md') {
 
         .su-hero__card {
-          max-width: 40%;
-          margin-right: 20rem;
+          max-width: 50%;
+          margin-right: 10rem;
 
           .su-card__contents {
             text-align: right;            

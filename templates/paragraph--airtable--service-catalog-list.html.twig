@@ -44,30 +44,34 @@
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'rh-training-past'
+    'rh-service-catalog'
   ]
 %}
 {%
   set airtableConfig = {
-    "table": "tbl76xG6T8QA20lqn",
-    "view": "viwyfokngnej2wXUZ",
+    "table": "tbltFlPWqzu0V8RuD",
+    "view": "viwCEu6klnwbAYCWE",
     "filters": {
-      "Category": {
-        "name": "Categories"
+      "Core Service": {
+        "name": "Service Categories"
       },
-      "Series": {
-        "name": "Series"
+      "Clients": {
+        "name": "Clients"
       }
     },
     "format": {
-      "Event Start Date": {
-        "type": "Date",
+      "Core Service": {
+        "type": "Array",
         "options": {
-          "date": {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          }
+          "template_id": "metadata-item",
+          "separator": ", ",
+        }
+      },
+      "Clients": {
+        "type": "Array",
+        "options": {
+          "template_id": "metadata-item",
+          "separator": ", ",
         }
       }
     }
@@ -79,38 +83,24 @@
       {# Filters #}
       <div id="airtable-list-filters"></div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
-        <p id="airtable-list-loader">Loading past training...</p>
+        <p id="airtable-list-loader">Loading service catalog...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
-        <div id="airtable-list-record-wrapper" class="rh-list-layout">
-        </div>
+        <div id="airtable-list-record-wrapper" class="rh-list-layout"></div>
       </div>
 
       <template id="airtable-list-records-template">
         <div class="airtable-list-record-row [rowClasses]">
-          <h2 class="rh-training-title" data-field-key="Name">%Name%</h2>
-          <div class="rh-training-past-event-date"><span class="rh-training-start-date" data-field-key="Event Start Date"><span class="rh-training-label">Date:</span> %Event Start Date%</span></div>
-          <div class="rh-training-category" data-field-key="Category"><span class="rh-training-label">Category:</span> %Category%</div>
-          <div class="rh-training-series" data-field-key="Series"><span class="rh-training-label">Series:</span> %Series%</div>
-          <div class="rh-training-description" data-field-key="Description">%Description%</div>
-          <div class="rh-training-presenter-wrapper" data-field-key="presenter_json"><span class="rh-training-label">Presented by:</span><br>%presenter_json%</div>
-          <div class="rh-training-links">
-            <ul class="rh-training-links-list">
-              <li data-field-key="Recording"><a class="su-link--action" title="Watch the recording of %Name%" aria-label="Watch the recording of %Name%" href="%Recording%">Watch Recording</a></li>
-              %link_json%
-            </ul>
-          </div>
-</div>
-      </template>
-
-      <template id="airtable-list-presenter-json-template">
-        <div class="rh-training-presenter-row">
-          <span class="rh-presenter-name" data-field-key="name">%name%</span><br>
-          <span class="rh-presenter-title" data-field-key="title">%title%</span>
+            <h2 class="rh-service-catalog-title" data-field-key="Service Name">%Service Name%</h2>
+            <div class="rh-service-catalog-description" data-field-key="Service Description">%Service Description%</div>
+            <div class="rh-service-catalog-core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
+            <div class="rh-service-catalog-clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
+            
+            <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a class="su-link--action" href="%Request Services%">Request Services</a></div>
         </div>
       </template>
 
-      <template id="airtable-list-link-json-template">
-        <li><a class="rh-training-link su-link--action" url="%url%">%name%</a></li>
+      <template id="airtable-list-metadata-item-template">
+        <span>%value%</span>
       </template>
 
     {% endblock %}

@@ -42,7 +42,7 @@
     }
   }
 
-  @include grid-media-max("md") { 
+  @include grid-media-max("xl") { 
 
     .airtable-list-filter-group {
         display: block;
@@ -54,19 +54,37 @@
 }
 
 #airtable-list-record-wrapper {
-  @include margin(1.5rem 0);
+  //@include margin(1.5rem 0);
 
   // list layout
 
   &.rh-list-layout {
 
     .airtable-list-record-row {
-      @include margin(1.5rem 0);
-      font-size: 2rem;
+      @include margin(1rem 0);
+      font-size: 2.1rem;
       border-bottom: 1px solid $su-color-foggy;
 
       &:last-child {
         border-bottom: 0; // Remove the divider below the last row
+      }
+
+      h2 {
+        font-size: 3.2rem;
+        @include margin(1.8rem 0);
+      }
+
+      h3 {
+        font-size: 3rem;
+        @include margin(2rem 0);
+      }
+
+      div {
+        @include margin(.7rem 0);
+      }
+
+      .su-button {
+        @include margin(2rem 0 3rem 0);
       }
     }
   }
@@ -75,37 +93,52 @@
 
   &.rh-card-layout {
 
-    @include grid-media-min("xl") { 
+    .airtable-list-record-row {
+      @include margin(1.5rem 0); // space between cards
 
-      .airtable-list-record-row {
-        @include margin(1.5rem 0); // space between cards
-        @include flex-column(4 of 12);   // Item will span 3 out of 12 columns, i.e., one-third
-        flex: 1 0 calc(33% - 1rem);
-        max-width: calc(33% - 1rem);
-        border-bottom: 0;
+      // Below small screens
+      @include flex-column(12 of 12); // 100% width
+      flex: 1 0 calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
 
-        .su-card {
-        
-          .su-card__contents {
-            @include padding(3rem);
-
-            h2 {
-              font-size: 2.3rem;
-            }
-            
-            div {
-              @include margin(1rem 0);
-            }
-          }
+      // Small to Large screens
+      @include grid-media-min("sm") {
+        @include grid-media-max("xl") {
+            @include flex-column(6 of 12); // 50% width
+            flex: 1 0 calc(50% - 1rem);
+            max-width: calc(50% - 1rem);
         }
       }
-    }
 
-    @include grid-media-max("lg") { 
+      // Large screens and above
+      @include grid-media-min("2xl") {
+          @include flex-column(4 of 12); // 33.33% width
+          flex: 1 0 calc(33.33% - 1rem);
+          max-width: calc(33.33% - 1rem);
+      }
 
-      .airtable-list-record-row {
+      .su-card {
+      
+        .su-card__contents {
+          @include padding(3rem);
 
-        @include flex-column(6 of 12);   // Item will span 2 out of 12 columns, i.e., one-half
+          h2 {
+            font-size: 2.3rem;
+          }
+          
+          div {
+            @include margin(1.5rem 0);
+          }
+
+          .su-button {
+            @include margin(1rem);
+            font-size: 2rem;
+          }
+
+          .rh-service-catalog-request-services-wrapper {
+            @include margin(3rem 0 0 0);
+          }
+        }
       }
     }
   }  

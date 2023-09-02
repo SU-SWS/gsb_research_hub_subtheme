@@ -30,138 +30,153 @@
         dataType: "json",
         url: "https://snaplogic-dev.stanford.edu/api/1/rest/feed-master/queue/StanfordDev/GSB/Research%20Hub/airtable-cache-ultra?airtable_table=" + config.table + "&airtable_view=" + config.view,
         success: function(data) {
+          $contentArea.find('#airtable-list-loader').remove();
           // Load the records.
           let records = data.records;
-          let $recordWrapper = $('#airtable-list-record-wrapper');
-          $contentArea.find('#airtable-list-loader').remove();
+          if (records.length) {
+            let $recordWrapper = $('#airtable-list-record-wrapper');
 
-          // Process each record.
-          for (recordIndex in records) {
-            let record = records[recordIndex];
-            let rowClasses = '';
+            // Process each record.
+            for (recordIndex in records) {
+              let record = records[recordIndex];
+              let rowClasses = '';
 
-            // Process each field.
-            for (fieldKey in record.fields) {
-              // Process the filter choices if it's in the config
-              if (fieldKey in config.filters) {
-                if (Array.isArray(record.fields[fieldKey])) {
-                  // Process Array
-                  for (item of record.fields[fieldKey]) {
+              // Process each field.
+              for (fieldKey in record.fields) {
+                // Process the filter choices if it's in the config
+                if (fieldKey in config.filters) {
+                  if (Array.isArray(record.fields[fieldKey])) {
+                    // Process Array
+                    for (item of record.fields[fieldKey]) {
+                      // See if the choice already exists.
+                      let existingChoice = config.filters[fieldKey].choices.filter(row => (row.name === item));
+
+                      // If the choice doesn't exist then add it to the list of choices.
+                      if (!existingChoice.length) {
+                        config.filters[fieldKey].choices.push(
+                          {
+                            "key": stringToCSSClass(item),
+                            "name": item
+                          }
+                        );
+                      }
+
+                      // Add to the list of classes for the row.
+                      rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(item);
+                    }
+                  }
+                  else {
                     // See if the choice already exists.
-                    let existingChoice = config.filters[fieldKey].choices.filter(row => (row.name === item));
+                    let existingChoice = config.filters[fieldKey].choices.filter(row => (row.name === record.fields[fieldKey]));
 
                     // If the choice doesn't exist then add it to the list of choices.
                     if (!existingChoice.length) {
                       config.filters[fieldKey].choices.push(
                         {
-                          "key": stringToCSSClass(item),
-                          "name": item
+                          "key": stringToCSSClass(record.fields[fieldKey]),
+                          "name": record.fields[fieldKey]
                         }
                       );
                     }
 
                     // Add to the list of classes for the row.
-                    rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(item);
+                    rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(record.fields[fieldKey]);
                   }
                 }
-                else {
-                  // See if the choice already exists.
-                  let existingChoice = config.filters[fieldKey].choices.filter(row => (row.name === record.fields[fieldKey]));
+              }
 
-                  // If the choice doesn't exist then add it to the list of choices.
-                  if (!existingChoice.length) {
-                    config.filters[fieldKey].choices.push(
-                      {
-                        "key": stringToCSSClass(record.fields[fieldKey]),
-                        "name": record.fields[fieldKey]
-                      }
-                    );
-                  }
+              // Build the record html.
+              let recordTemplate = processTemplate(config, 'records', record.fields);
 
-                  // Add to the list of classes for the row.
-                  rowClasses += ' ' + stringToCSSClass(fieldKey) + '--' + stringToCSSClass(record.fields[fieldKey]);
+              // Add rowClasses and add the record to the page.
+              recordTemplate = recordTemplate.replace('[rowClasses]', rowClasses);
+              $recordWrapper.append($(recordTemplate));
+            }
+
+            var defaultFilters = {}
+            // Add Filters on the page.
+            for (filterKey in config.filters) {
+              let filter = config.filters[filterKey];
+
+              // Build the select filter.
+              if (filter.choices.length > 0) {
+                let $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(filterKey));
+                $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(filter.name);
+                let $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(filterKey));
+                for (choice of filter.choices.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) {
+                  let $filterOption = $("<option>");
+                  $filterOption.val(choice.key).text(choice.name);
+                  $filterSelect.append($filterOption);
                 }
+
+                // Add the filter to the page.
+                $filterGroup.append($filterSelect);
+                $('div#airtable-list-filters').append($filterGroup);
               }
             }
 
-            // Build the record html.
-            let recordTemplate = processTemplate(config, 'records', record.fields);
+            // Handle the changing of the filters.
+            // store filter for each group
+            var filters = {};
+            $('#airtable-list-filters select').on( 'change', function( event ) {
 
-            // Add rowClasses and add the record to the page.
-            recordTemplate = recordTemplate.replace('[rowClasses]', rowClasses);
-            $recordWrapper.append($(recordTemplate));
-          }
+              var $filter = $( event.currentTarget );
+              // get group key
+              var $filterGroup = $filter.parents('.airtable-list-filter-group');
+              var filterGroup = $filterGroup.attr('data-filter-group');
 
-          // Add Filters on the page.
-          for (filterKey in config.filters) {
-            let filter = config.filters[filterKey];
+              // set filter for group
+              filters[ filterGroup ] = ($filter.val() =='*') ? '' : '.' + filterGroup + '--' + $filter.val();
+              // combine filters
+              config.filterValue = concatValues( filters );
 
-            // Build the select filter.
-            if (filter.choices.length > 0) {
-              let $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(filterKey));
-              $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(filter.name);
-              let $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(filterKey));
-              for (choice of filter.choices.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) {
-                let $filterOption = $("<option>");
-                $filterOption.val(choice.key).text(choice.name);
-                $filterSelect.append($filterOption);
-              }
+              // set filter for Isotope
+              $contentArea.isotope({ filter: config.filterValue });
+            });
 
-              // Add the filter to the page.
-              $filterGroup.append($filterSelect);
-              $('div#airtable-list-filters').append($filterGroup);
-            }
-          }
+            // Allow items to filter.
+            $('.airtable-list-filter').on("click", function(e) {
+              e.preventDefault();
+              var filterName = $(this).data('filter-name');
+              var filterKey = $(this).data('filter-key');
+              $('#airtable-list-' + filterName).val(filterKey).change();
 
-          // Handle the changing of the filters.
-          // store filter for each group
-          var filters = {};
-          $('#airtable-list-filters select').on( 'change', function( event ) {
+              // Jump back up to the top filters.
+              var $filterWrapper = $("#airtable-list-filters");
+              $('html,body').animate({scrollTop: $filterWrapper.offset().top},'slow');
+            });
 
-            var $filter = $( event.currentTarget );
-            // get group key
-            var $filterGroup = $filter.parents('.airtable-list-filter-group');
-            var filterGroup = $filterGroup.attr('data-filter-group');
-
-            // set filter for group
-            filters[ filterGroup ] = ($filter.val() =='*') ? '' : '.' + filterGroup + '--' + $filter.val();
-            // combine filters
-            var filterValue = concatValues( filters );
-
-            // set filter for Isotope
-            $contentArea.isotope({ filter: filterValue });
-          });
-
-          // Set height to equal height
-          if (config.equalHeight) {
-            var largestHeight = 0;
-            $('.airtable-list-record-row').each(function( index ) {
-              if ($(this).height() > largestHeight) {
-                largestHeight = $(this).height();
+            // Load isotope
+            $contentArea.isotope({
+              itemSelector: ".airtable-list-record-row",
+              layoutMode: "fitRows",
+              fitRows: {
+                gutter: config.gutter
               }
             });
 
-            $('.airtable-list-record-row').height(largestHeight);
+            // Set height to equal height
+            if (config.equalHeight) {
+              equalRowHeight(config.gutter);
+            }
+
+            $contentArea.on("arrangeComplete", function(event, filteredItems) {
+              // Set height to equal height
+              if (config.equalHeight) {
+                equalRowHeight(config.gutter);
+              }
+
+              if (!filteredItems.length) {
+                $('#airtable-list-no-results').show();
+              }
+              else {
+                $('#airtable-list-no-results').hide();
+              }
+            });
           }
-
-          // Load isotope
-          $contentArea.isotope({
-            itemSelector: ".airtable-list-record-row",
-            layoutMode: "fitRows",
-            fitRows: {
-              gutter: config.gutter,
-              equalheight: true
-            }
-          });
-
-          $contentArea.on("arrangeComplete", function(event, filteredItems) {
-            if (!filteredItems.length) {
-              $('#airtable-list-no-results').show();
-            }
-            else {
-              $('#airtable-list-no-results').hide();
-            }
-          });
+          else {
+            $('#airtable-list-no-records').show();
+          }
         }
       });
     }
@@ -189,7 +204,7 @@
 
   // Replace the token in the template
   function replaceToken(template, token, value) {
-    return template.replace('%' + token + '%', value);
+    return template.replaceAll('%' + token + '%', value);
   }
 
   // Apply the data to the template.
@@ -258,8 +273,9 @@
         var count = 0;
         for (item of content) {
           count++;
-          newContent += replaceToken(template, 'value', item);
-
+          var replacedContent = replaceToken(template, 'value', item);
+          replacedContent = replaceToken(replacedContent, 'class', stringToCSSClass(item));
+          newContent += replacedContent;
           if (format.hasOwnProperty('separator') && count != content.length) {
             newContent += format.separator;
           }
@@ -281,6 +297,65 @@
     }
 
     return newContent;
+  }
+
+  // Sets the rows to equal heights.
+  function equalRowHeight(gutter) {
+
+    // Remove all set row classes
+    $(".airtable-list-record-row").removeClass (function (index, className) {
+      return (className.match (/(^|\s)airtable-list-height-row-\S+/g) || []).join(' ');
+    });
+
+    // Reset the height to auto.
+    $('.airtable-list-record-row [data-row-height-id]').height("auto");
+    var rowNum = 0;
+    var previousTop = 0;
+    var fields = {};
+
+    // Loop through all visible records.
+    $('.airtable-list-record-row:visible').each(function() {
+      $this = $(this);
+
+      // Determine the rows.
+      var nextTop = $this.offset().top;
+      if (nextTop !== previousTop) {
+        rowNum++;
+        fields[rowNum] = {};
+        previousTop = nextTop;
+      }
+
+      // Loop through each field that needs to be equal in height and collect the necessary heights.
+      $this.find("[data-row-height-id]").each(function() {
+        $field = $(this);
+        var fieldId = $field.data('row-height-id');
+        var height = $field.height();
+
+        if (!fields[rowNum].hasOwnProperty(fieldId) || (fields[rowNum].hasOwnProperty(fieldId) && fields[rowNum][fieldId] < height)) {
+          fields[rowNum][fieldId] = height;
+        }
+      });
+
+      $this.addClass('airtable-list-height-row-' + rowNum);
+    });
+
+    // Set the height of each element.
+    for (rowIndex in fields) {
+      var fieldHeights = fields[rowIndex];
+      for (key in fieldHeights) {
+        $('.airtable-list-height-row-' + rowIndex + ' [data-row-height-id="' + key + '"]').height(fieldHeights[key]);
+      }
+    }
+
+    // Set the height of each row.
+    var newTop = 0;
+    for (var i=1; i <= rowNum; i++) {
+      $('.airtable-list-height-row-' + i).css({top: newTop + 'px'});
+      newTop = $('.airtable-list-height-row-' + i).height() + (gutter * 2) + newTop;
+    }
+
+    // Set the height of the entire airtable-list.
+    $('#airtable-list').height(newTop);
   }
 
 })(jQuery, Drupal, drupalSettings);

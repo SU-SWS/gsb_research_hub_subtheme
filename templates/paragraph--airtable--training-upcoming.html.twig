@@ -107,7 +107,7 @@
           <div class="rh-training-series" data-field-key="Series"><span class="rh-training-label">Series:</span> %Series%</div>
           <div class="rh-training-description" data-field-key="Description">%Description%</div>
           <div class="rh-training-presenter-wrapper" data-field-key="presenter_json"><span class="rh-training-label">Presented by:</span><br>%presenter_json%</div>
-          <div class="rh-training-registration" data-field-key="Registration URL">%Registration URL%</div>
+          <div class="rh-training-registration" data-field-key="Registration URL"><a title="Register for %Name%" aria-label="Register for %Name%" class="su-button su-link" href="%Registration URL%">Register</a></div>
         </div>
       </template>
 
@@ -116,10 +116,6 @@
           <span class="rh-presenter-name" data-field-key="name">%name%</span><br>
           <span class="rh-presenter-title" data-field-key="title">%title%</span>
         </div>
-      </template>
-
-      <template id="airtable-list-registration-url-template">
-        <a class="su-button su-link" href="%Registration URL%">Register</a>
       </template>
 
     {% endblock %}

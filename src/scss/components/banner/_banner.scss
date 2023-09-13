@@ -78,6 +78,8 @@
         left: auto;
 
         .su-card__contents {
+          
+          @include margin(3.8rem 1rem 1rem);
         
           > span {
             font-size: 1em;
@@ -93,7 +95,7 @@
           }
 
           .su-card__button {
-            margin-top: 4rem;
+            margin-top: 4.5rem;
             margin-bottom: unset;
             text-shadow: none;
           }
@@ -108,7 +110,7 @@
             @include box-shadow(shallow, 1px solid color(card-border));
 
           .su-card__contents {
-            @include padding(3rem 2rem);
+            @include padding(2rem);
 
             h2 {
               font-size: 2.1em;
@@ -332,6 +334,15 @@
 
       &::before {
         background-image: none !important;
+      }
+    }
+  }
+
+  .rh-banner-wrapper--background-no-color {
+    // Remove the white block above the text on smartphone screen
+    @include grid-media-max('sm') {
+      .su-hero__media {
+        display: none !important;
       }
     }
   }

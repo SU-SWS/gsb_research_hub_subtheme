@@ -14,15 +14,13 @@
 // ------------------------------------------------
 .su-local-footer {
   
-    a {
-      text-decoration: none;
+  a {
+    text-decoration: none;
 
-      &:hover {
-        text-decoration: underline;
-      }
+    &:hover {
+      text-decoration: underline;
     }
   }
-  
   
   // List heading element styles.
   // ------------------------------------------------
@@ -40,3 +38,4 @@
       }
     }
   }
+}

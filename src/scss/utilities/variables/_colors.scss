@@ -40,6 +40,7 @@ $gsb-color-autumn-gingko-dark: #F1AD13;
 $gsb-color-macdonald: #BAC405;
 $gsb-color-macdonald-light: #CFD650;
 $gsb-color-macdonald-dark: #636F00;
+$gsb-color-mist-dark: #DFE1E2;
 
 // GSB digital colors
 $gsb-color-digital-red-dark: #820000;
@@ -117,6 +118,6 @@ $gsb-colors: (
   digital-pink:       $gsb-color-digital-pink,
   digital-pink-light: $gsb-color-digital-pink-light,
   digital-pink-dark:  $gsb-color-digital-pink-dark,
-  mist:               $su-color-foggy,
-  mist-dark:          $su-color-foggy-dark
+  mist:               $su-color-foggy-light,
+  mist-dark:          $gsb-color-mist-dark
 ) !default;

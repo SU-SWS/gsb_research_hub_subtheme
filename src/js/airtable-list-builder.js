@@ -25,10 +25,10 @@
       $.ajax({
         type: "GET",
         beforeSend: function (xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer iQ7GGRoNRcGi8iZf28xSgDgaDDUslteL');
+          xhr.setRequestHeader('Authorization', 'Bearer 0mdOOeXqOuQdFUxwt9ngJ3KSlxh7v1z2');
         },
         dataType: "json",
-        url: "https://snaplogic-dev.stanford.edu/api/1/rest/feed-master/queue/StanfordDev/GSB/Research%20Hub/airtable-cache-ultra?airtable_table=" + config.table + "&airtable_view=" + config.view,
+        url: "https://snaplogic.stanford.edu/api/1/rest/feed-master/queue/StanfordProd/GSB/rh-airtable_proxy_cache?airtable_table=" + config.table + "&airtable_view=" + config.view,
         success: function(data) {
           $contentArea.find('#airtable-list-loader').remove();
           // Load the records.

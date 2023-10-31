@@ -116,6 +116,7 @@ function gsb_research_hub_subtheme_views_pre_render(&$view) {
 
     // Get the Taxonomy Term IDs
     $levelTerms = \Drupal::entityQuery('taxonomy_term')
+              ->accessCheck(TRUE)
               ->condition('vid', 'su_shared_tags')
               ->condition('name', 'People - Level', 'STARTS_WITH')
               ->sort('name', 'ASC')

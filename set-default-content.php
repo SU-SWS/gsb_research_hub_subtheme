@@ -10,7 +10,8 @@
 /********************
  ** Airtable Items **
  ********************/
-
+$at_menu = \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Airtable", "link" => ["uri" => "internal:/"], "menu_name" => "main", "parent" => "", "expanded" => TRUE, "weight" => 0]);
+$at_menu->save();
 $airtable_pages = [
   [
     'title' => 'Service Catalog',
@@ -82,15 +83,5 @@ foreach ($airtable_pages as $page) {
   $at_node->save();
 
   // Set Menu
-  \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $at_node->id()], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();
+  \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $at_node->id()], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_" . $at_menu->uuid() . "_und", "expanded" => TRUE, "weight" => 0])->save();
 }
-
-
-/****************
- ** Menu Items **
- ****************/
-// External Link
-\Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Submenu link", "link" => ["uri" => "https://google.com"], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();
-
-// Service Catalog
-\Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Service Catalog", "link" => ["uri" => "internal:/service-catalog"], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();

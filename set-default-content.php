@@ -59,7 +59,8 @@ $node->save();
 /****************
  ** Menu Items **
  ****************/
+// External Link
+\Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Submenu link", "link" => ["uri" => "https://google.com"], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();
 
 // Service Catalog
 \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Service Catalog", "link" => ["uri" => "internal:/service-catalog"], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();
-

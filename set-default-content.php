@@ -38,23 +38,23 @@ $sc_paragraph = \Drupal::entityTypeManager()->getStorage("paragraph")->create([
 ]);
 
 $sc_paragraph->setBehaviorSettings("layout_paragraphs", [
-  "parent_uuid" => $paragraph_layout->uuid(),
+  "parent_uuid" => $sc_paragraph_layout->uuid(),
   "region" => "main"
 ]);
 $sc_paragraph->save();
 
 // Add paragraph to service catalog node.
-$node->su_page_components = [
+$sc_node->su_page_components = [
   [
-    "target_id" => $paragraph_layout->id(),
-    "target_revision_id" => $paragraph_layout->getRevisionId()
+    "target_id" => $sc_paragraph_layout->id(),
+    "target_revision_id" => $sc_paragraph_layout->getRevisionId()
   ],
   [
-    "target_id" => $paragraph->id(),
-    "target_revision_id" => $paragraph->getRevisionId()
+    "target_id" => $sc_paragraph->id(),
+    "target_revision_id" => $sc_paragraph->getRevisionId()
   ]
 ];
-$node->save();
+$sc_node->save();
 
 
 /****************

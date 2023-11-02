@@ -1,4 +1,8 @@
 <?php
+/*******************
+ ** Enable Person **
+ *******************/
+\Drupal\node\Entity\Node::load(13)->setPublished()->save();
 
 /****************
  ** Menu Items **

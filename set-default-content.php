@@ -83,5 +83,5 @@ foreach ($airtable_pages as $page) {
   $at_node->save();
 
   // Set Menu
-  \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $at_node->id()], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_" . $at_menu->uuid() . "_und", "expanded" => TRUE, "weight" => 0])->save();
+  \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $at_node->id()], "menu_name" => "main", "parent" => "menu_link_content:" . $at_menu->uuid(), "expanded" => TRUE, "weight" => 0])->save();
 }

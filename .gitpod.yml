@@ -63,7 +63,6 @@ tasks:
       drush then $THEME_NAME &&
       drush cset system.theme default $THEME_NAME -y &&
       drush config:pages-set-field-value stanford_basic_site_settings su_site_dropdowns 1 &&
-      drush php-eval '\Drupal\node\Entity\Node::load(13)->setPublished()->save();' &&
       drush php-script set-default-content --script-path=$GITPOD_REPO_ROOT/docroot/themes/custom/$THEME_NAME
     command: |
       export THEME_NAME=${PWD##*/} &&

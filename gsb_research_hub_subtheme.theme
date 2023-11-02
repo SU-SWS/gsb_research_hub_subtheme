@@ -46,6 +46,24 @@ function gsb_research_hub_subtheme_preprocess_paragraph(&$variables) {
     $jsonConfig = Json::decode(strip_tags($paragraph->su_wysiwyg_text->value));
     if (!is_null($jsonConfig) && isset($jsonConfig['type']) && $jsonConfig['type'] == 'airtable') {
       $variables['#attached']['library'][] = 'gsb_research_hub_subtheme/airtable-list-builder';
+
+      $sl_env_conf = [
+        'dev' => [
+          'snaplogicURL' => 'https://snaplogic-dev.stanford.edu/api/1/rest/feed-master/queue/StanfordDev',
+          'snaplogicToken' => 'iQ7GGRoNRcGi8iZf28xSgDgaDDUslteL',
+        ],
+        'test' => [
+          'snaplogicURL' => 'https://snaplogic-uat.stanford.edu/api/1/rest/feed-master/queue/StanfordUAT',
+          'snaplogicToken' => 'J4G3SZC0cFVVZLr93TAJtm8Lnj6Jkuop',
+        ],
+        'prod' => [
+          'snaplogicURL' => 'https://snaplogic.stanford.edu/api/1/rest/feed-master/queue/StanfordProd',
+          'snaplogicToken' => '0mdOOeXqOuQdFUxwt9ngJ3KSlxh7v1z2',
+        ],
+      ];
+
+      $sl_env = theme_get_setting('gsb_research_hub_subtheme_sl_env', 'gsb_research_hub_subtheme');
+      $variables['#attached']['drupalSettings']['gsbResearchHubSubtheme'] = is_null($sl_env) ? $sl_env_conf['prod'] : $sl_env_conf[$sl_env];
     }
   }
 }

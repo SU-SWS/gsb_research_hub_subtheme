@@ -53,22 +53,22 @@
     "view": "viwkVEH2eez8BOgL3",
     "equalHeight": true,
     "filters": {
-      "Core Service": {
+      "core-service": {
         "name": "Service Categories"
       },
-      "Clients": {
+      "clients": {
         "name": "Clients"
       }
     },
     "format": {
-      "Core Service": {
+      "core-service": {
         "type": "Array",
         "options": {
           "template_id": "core-service-item",
           "separator": " ",
         }
       },
-      "Clients": {
+      "clients": {
         "type": "Array",
         "options": {
           "template_id": "clients-item",
@@ -93,12 +93,12 @@
         <div class="airtable-list-record-row [rowClasses]">
           <div class="su-card">
             <div class="su-card__contents">
-              <h2 class="rh-service-catalog-title" data-row-height-id="service-name" data-field-key="Service Name">%Service Name%</h2>
-              <div class="rh-service-catalog-description" data-row-height-id="service-description" data-field-key="Service Description">%Service Description%</div>
-              <div class="rh-service-catalog-core-service" data-row-height-id="core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
-              <div class="rh-service-catalog-clients" data-row-height-id="clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
+              <h2 class="rh-service-catalog-title" data-row-height-id="service-name" data-field-key="service-name">%service-name%</h2>
+              <div class="rh-service-catalog-description" data-row-height-id="service-description" data-field-key="service-description">%service-description%</div>
+              <div class="rh-service-catalog-core-service" data-row-height-id="core-service" data-field-key="core-service"><span class="rh-service-catalog-label">Core Services:</span> %core-service%</div>
+              <div class="rh-service-catalog-clients" data-row-height-id="clients" data-field-key="clients"><span class="rh-service-catalog-label">Clients:</span> %clients%</div>
               
-              <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a title="Request services for %Service Name%" aria-label="Request services for %Service Name%" class="su-link--action" href="%Request Services%">Request Services</a></div>
+              <div class="rh-service-catalog-request-services-wrapper" data-field-key="request-services"><a title="Request services for %service-name%" aria-label="Request services for %service-name%" class="su-link--action" href="%request-services%">Request Services</a></div>
             </div>
           </div>
         </div>

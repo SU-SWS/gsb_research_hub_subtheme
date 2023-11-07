@@ -34,6 +34,17 @@
           // Load the records.
           let records = data.records;
           if (records.length) {
+            for (recordIndex in records) {
+              for (fieldName in records[recordIndex].fields) {
+                if (fieldName.endsWith('_json') && records[recordIndex].fields[fieldName]) {
+                  records[recordIndex].fields[stringToCSSClass(fieldName)] = JSON.parse(records[recordIndex].fields[fieldName]);
+                }
+                else {
+                  records[recordIndex].fields[stringToCSSClass(fieldName)] = records[recordIndex].fields[fieldName];
+                }
+              }
+            }
+
             let $recordWrapper = $('#airtable-list-record-wrapper');
 
             // Process each record.
@@ -86,7 +97,7 @@
               }
 
               // Build the record html.
-              let recordTemplate = processTemplate(config, 'records', record.fields);
+              let recordTemplate = processTemplate(config, 'records', record.fields, record.fields);
 
               // Add rowClasses and add the record to the page.
               recordTemplate = recordTemplate.replace('[rowClasses]', rowClasses);
@@ -208,7 +219,7 @@
   }
 
   // Apply the data to the template.
-  function processTemplate(config, templateKey, data) {
+  function processTemplate(config, templateKey, data, allData) {
     var template = $('template#airtable-list-' + stringToCSSClass(templateKey) + '-template').html();
     if (template) {
       // Pull all of the tokens from the template.
@@ -220,14 +231,20 @@
       // Process each token.
       for (var token of tokens) {
         // If the token exists in the data then process it.
-        if (token in data) {
-          var content = data[token];
+        if (token in data || (token.startsWith('$') && token.substr(1) in allData)) {
+          var content = '';
+          if (token.startsWith('$')) {
+            content = allData[token.substr(1)];
+          }
+          else {
+            content = data[token];
+          }
+
           // If it's an array then process that array with its template.
-          if (token.endsWith('_json')) {
-            var jsonData = JSON.parse(content);
+          if (token.endsWith('-json')) {
             var templateHTML = '';
-            for (recordVal of jsonData) {
-              templateHTML += processTemplate(config, token, recordVal);
+            for (recordVal of content) {
+              templateHTML += processTemplate(config, token, recordVal, allData);
             }
             template = replaceToken(template, token, templateHTML);
           }

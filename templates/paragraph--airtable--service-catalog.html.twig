@@ -54,12 +54,13 @@
     "equalHeight": true,
     "filters": {
       "core-service": {
-        "name": "Service Categories"
+        "template_id": "filter-select"
       },
       "clients": {
-        "name": "Clients"
+        "template_id": "filter-select"
       }
     },
+    "search": true,
     "format": {
       "core-service": {
         "type": "Array",
@@ -82,7 +83,21 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      <div id="airtable-list-filters"></div>
+      <div class="airtable-list-search" data-filter-group="search">
+        <input id="airtable-search" type="text" />
+      </div>
+      <div id="airtable-list-filters" style="display: none;">
+        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="core-service">
+          Service Categories
+          <select id="airtable-list-core-service">
+          </select>
+        </div>
+        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="clients">
+          Clients
+          <select id="airtable-list-clients">
+          </select>
+          </div>
+      </div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading service catalog...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
@@ -93,8 +108,8 @@
         <div class="airtable-list-record-row [rowClasses]">
           <div class="su-card">
             <div class="su-card__contents">
-              <h2 class="rh-service-catalog-title" data-row-height-id="service-name" data-field-key="service-name">%service-name%</h2>
-              <div class="rh-service-catalog-description" data-row-height-id="service-description" data-field-key="service-description">%service-description%</div>
+              <h2 class="rh-service-catalog-title alb-searchable" data-row-height-id="service-name" data-field-key="service-name">%service-name%</h2>
+              <div class="rh-service-catalog-description alb-searchable" data-row-height-id="service-description" data-field-key="service-description">%service-description%</div>
               <div class="rh-service-catalog-core-service" data-row-height-id="core-service" data-field-key="core-service"><span class="rh-service-catalog-label">Core Services:</span> %core-service%</div>
               <div class="rh-service-catalog-clients" data-row-height-id="clients" data-field-key="clients"><span class="rh-service-catalog-label">Clients:</span> %clients%</div>
               

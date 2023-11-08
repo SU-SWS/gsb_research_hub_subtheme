@@ -104,46 +104,40 @@
               $recordWrapper.append($(recordTemplate));
             }
 
-            var defaultFilters = {}
+            var filters = {};
             // Add Filters on the page.
             for (filterKey in config.filters) {
               let filter = config.filters[filterKey];
 
               // Build the select filter.
               if (filter.choices.length > 0) {
-                let $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(filterKey));
-                $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(filter.name);
-                let $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(filterKey));
-                for (choice of filter.choices.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) {
-                  let $filterOption = $("<option>");
-                  $filterOption.val(choice.key).text(choice.name);
-                  $filterSelect.append($filterOption);
-                }
+                switch(filter.template_id) {
+                  case "filter-select":
+                    let $filterSelect = $('select#airtable-list-' + filterKey);
+                    for (choice of filter.choices.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) {
+                        let $filterOption = $("<option>");
+                        $filterOption.val(choice.key).text(choice.name);
+                        $filterSelect.append($filterOption);
+                    }
 
-                // Add the filter to the page.
-                $filterGroup.append($filterSelect);
-                $('div#airtable-list-filters').append($filterGroup);
+                    $filterSelect.on( 'change', function( event ) {
+                      // Reload isotope.
+                      $contentArea.isotope();
+                    });
+                    break;
+                }
               }
             }
 
-            // Handle the changing of the filters.
-            // store filter for each group
-            var filters = {};
-            $('#airtable-list-filters select').on( 'change', function( event ) {
+            // Show the filters.
+            $('div#airtable-list-filters').show();
 
-              var $filter = $( event.currentTarget );
-              // get group key
-              var $filterGroup = $filter.parents('.airtable-list-filter-group');
-              var filterGroup = $filterGroup.attr('data-filter-group');
-
-              // set filter for group
-              filters[ filterGroup ] = ($filter.val() =='*') ? '' : '.' + filterGroup + '--' + $filter.val();
-              // combine filters
-              config.filterValue = concatValues( filters );
-
-              // set filter for Isotope
-              $contentArea.isotope({ filter: config.filterValue });
-            });
+            if ('search' in config && config.search) {
+              // use value of search field to filter
+              $('#airtable-search').keyup( debounce( function() {
+                $contentArea.isotope();
+              }) );
+            }
 
             // Allow items to filter.
             $('.airtable-list-filter').on("click", function(e) {
@@ -163,6 +157,41 @@
               layoutMode: "fitRows",
               fitRows: {
                 gutter: config.gutter
+              },
+              filter: function() {
+                var $this = $(this);
+
+                // If using search box filter by the text.
+                var searchMatch = true;
+                if ('search' in config && config.search) {
+                  var $airtableSearch = $('#airtable-search');
+                  if ($airtableSearch.val() !== '') {
+                    var qsRegex = new RegExp( $airtableSearch.val(), 'gi' );
+                    searchMatch = qsRegex ? $this.find('.alb-searchable').text().match( qsRegex ) : true;
+                  }
+                }
+
+                // Handle Filters.
+                var filterMatch = true;
+                if ('filters' in config) {
+                  var filters = [];
+                  for (filterKey in config.filters) {
+                    var $filter = $('#airtable-list-' + filterKey);
+
+                    // get group key
+                    var $filterGroup = $filter.parents('.airtable-list-filter-group');
+                    var filterGroup = $filterGroup.attr('data-filter-group');
+
+                    // set filter for group
+                    filters[ filterGroup ] = ($filter.val() =='*') ? '' : '.' + filterGroup + '--' + $filter.val();
+                  }
+                }
+
+                // combine filters
+                let filterValue  = concatValues( filters );
+                filterMatch = filterValue ? $this.is(filterValue) : true;
+
+                return searchMatch && filterMatch;
               }
             });
 
@@ -373,6 +402,21 @@
 
     // Set the height of the entire airtable-list.
     $('#airtable-list').height(newTop);
+  }
+
+  // debounce so filtering doesn't happen every millisecond
+  function debounce( fn, threshold ) {
+    var timeout;
+    threshold = threshold || 100;
+    return function debounced() {
+      clearTimeout( timeout );
+      var args = arguments;
+      var _this = this;
+      function delayed() {
+        fn.apply( _this, args );
+      }
+      timeout = setTimeout( delayed, threshold );
+    };
   }
 
 })(jQuery, Drupal, drupalSettings);

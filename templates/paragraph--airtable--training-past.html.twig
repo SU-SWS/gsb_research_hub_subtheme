@@ -52,13 +52,14 @@
     "table": "tbl76xG6T8QA20lqn",
     "view": "viwyfokngnej2wXUZ",
     "filters": {
-      "Category": {
-        "name": "Categories"
+      "category": {
+        "template_id": "filter-select"
       },
-      "Series": {
-        "name": "Series"
+      "series": {
+        "template_id": "filter-select"
       }
     },
+    "search": true,
     "format": {
       "event-start-date": {
         "type": "Date",
@@ -77,7 +78,21 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      <div id="airtable-list-filters"></div>
+      <div class="airtable-list-search" data-filter-group="search">
+        <input id="airtable-search" type="text" />
+      </div>
+      <div id="airtable-list-filters" style="display: none;">
+        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="category">
+          Categories
+          <select id="airtable-list-category">
+          </select>
+        </div>
+        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
+          Series
+          <select id="airtable-list-series">
+          </select>
+          </div>
+      </div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading past training...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
@@ -87,11 +102,11 @@
 
       <template id="airtable-list-records-template">
         <div class="airtable-list-record-row [rowClasses]">
-          <h2 class="rh-training-title" data-field-key="name">%name%</h2>
+          <h2 class="rh-training-title alb-searchable" data-field-key="name">%name%</h2>
           <div class="rh-training-past-event-date"><span class="rh-training-start-date" data-field-key="event-start-date"><span class="rh-training-label">Date:</span> %event-start-date%</span></div>
           <div class="rh-training-category" data-field-key="category"><span class="rh-training-label">Category:</span> %category%</div>
           <div class="rh-training-series" data-field-key="series"><span class="rh-training-label">Series:</span> %series%</div>
-          <div class="rh-training-description" data-field-key="description">%description%</div>
+          <div class="rh-training-description alb-searchable" data-field-key="description">%description%</div>
           <div class="rh-training-presenter-wrapper" data-field-key="presenter-json"><span class="rh-training-label">Presented by:</span><br>%presenter-json%</div>
           <div class="rh-training-links">
             <ul class="rh-training-links-list">
@@ -104,7 +119,7 @@
 
       <template id="airtable-list-presenter-json-template">
         <div class="rh-training-presenter-row">
-          <span class="rh-presenter-name" data-field-key="name">%name%</span><br>
+          <span class="rh-presenter-name alb-searchable" data-field-key="name">%name%</span><br>
           <span class="rh-presenter-title" data-field-key="title">%title%</span>
         </div>
       </template>

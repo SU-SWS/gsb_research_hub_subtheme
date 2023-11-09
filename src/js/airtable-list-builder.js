@@ -104,6 +104,10 @@
               $recordWrapper.append($(recordTemplate));
             }
 
+            // Pull the url parameters to use later.
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+
             var filters = {};
             // Add Filters on the page.
             for (filterKey in config.filters) {
@@ -120,6 +124,12 @@
                         $filterSelect.append($filterOption);
                     }
 
+                    // Set the default value of the select item based on a given url parameter.
+                    var paramValue = urlParams.get(filterKey);
+                    if (paramValue !== null) {
+                      $filterSelect.val(paramValue);
+                    }
+
                     $filterSelect.on( 'change', function( event ) {
                       // Reload isotope.
                       $contentArea.isotope();
@@ -133,6 +143,11 @@
             $('div#airtable-list-filters').show();
 
             if ('search' in config && config.search) {
+
+              // If there is a predefined parameter set the default value of search
+              if (urlParams.get('search') !== null) {
+                $('#airtable-search').val(urlParams.get('search'));
+              }
               // use value of search field to filter
               $('#airtable-search').keyup( debounce( function() {
                 $contentArea.isotope();
@@ -161,11 +176,13 @@
               filter: function() {
                 var $this = $(this);
 
+                var urlParamaters = new URLSearchParams();
                 // If using search box filter by the text.
                 var searchMatch = true;
                 if ('search' in config && config.search) {
                   var $airtableSearch = $('#airtable-search');
                   if ($airtableSearch.val() !== '') {
+                    urlParamaters.set('search', $airtableSearch.val());
                     var qsRegex = new RegExp( $airtableSearch.val(), 'gi' );
                     searchMatch = qsRegex ? $this.find('.alb-searchable').text().match( qsRegex ) : true;
                   }
@@ -182,10 +199,18 @@
                     var $filterGroup = $filter.parents('.airtable-list-filter-group');
                     var filterGroup = $filterGroup.attr('data-filter-group');
 
+                    // Set the url parameters.
+                    if ($filter.val() !== '*') {
+                      urlParamaters.set(filterGroup, $filter.val());
+                    }
+
                     // set filter for group
                     filters[ filterGroup ] = ($filter.val() =='*') ? '' : '.' + filterGroup + '--' + $filter.val();
                   }
                 }
+
+                // Set the browser url.
+                window.history.replaceState(null, null,'?' + urlParamaters.toString());
 
                 // combine filters
                 let filterValue  = concatValues( filters );

@@ -16,18 +16,27 @@
  ********************/
 $at_menu = \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Airtable", "link" => ["uri" => "internal:/"], "menu_name" => "main", "parent" => "", "expanded" => TRUE, "weight" => 0]);
 $at_menu->save();
+$at_menu_id = "menu_link_content:" . $at_menu->uuid();
 $airtable_pages = [
   [
     'title' => 'Service Catalog',
     'wysiwyg_text' => '{"type":"airtable","view": "service_catalog"}',
+    'menu_parent' => $at_menu_id,
   ],
   [
     'title' => 'Past Trainings & Workshops',
     'wysiwyg_text' => '{"type":"airtable","view": "training_past"}',
+    'menu_parent' => $at_menu_id,
   ],
   [
     'title' => 'Upcoming Trainings & Workshops',
     'wysiwyg_text' => '{"type":"airtable","view": "training_upcoming"}',
+    'menu_parent' => $at_menu_id,
+  ],
+  [
+    'title' => 'All Training',
+    'wysiwyg_text' => '{"type":"airtable","view": "training"}',
+    'menu_parent' => '',
   ],
 ];
 
@@ -87,5 +96,5 @@ foreach ($airtable_pages as $page) {
   $at_node->save();
 
   // Set Menu
-  \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $at_node->id()], "menu_name" => "main", "parent" => "menu_link_content:" . $at_menu->uuid(), "expanded" => TRUE, "weight" => 0])->save();
+  \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $at_node->id()], "menu_name" => "main", "parent" => $page['menu_parent'], "expanded" => TRUE, "weight" => 0])->save();
 }

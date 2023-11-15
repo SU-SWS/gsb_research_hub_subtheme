@@ -175,7 +175,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               // use value of search field to filter
               $('#airtable-search').keyup(debounce(function () {
                 $contentArea.isotope();
-              }));
+              }, 500));
             }
 
             // Allow items to filter.

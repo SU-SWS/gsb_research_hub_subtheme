@@ -151,7 +151,7 @@
               // use value of search field to filter
               $('#airtable-search').keyup( debounce( function() {
                 $contentArea.isotope();
-              }) );
+              }, 500));
             }
 
             // Allow items to filter.

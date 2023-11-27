@@ -473,6 +473,23 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       timeout = setTimeout(delayed, threshold);
     };
   }
+
+  // Control spinner icon in the airtable search box
+  var typingTimer; // Timer identifier
+  var doneTypingInterval = 1000; // Time in ms (1 second, for example)
+
+  document.getElementById('airtable-search').addEventListener('input', function () {
+    var spinner = document.querySelector('.airtable-list-search i');
+    clearTimeout(typingTimer);
+    if (this.value.length > 0) {
+      spinner.classList.add('fa-pulse');
+      typingTimer = setTimeout(function () {
+        spinner.classList.remove('fa-pulse');
+      }, doneTypingInterval);
+    } else {
+      spinner.classList.remove('fa-pulse');
+    }
+  });
 })(jQuery, Drupal, drupalSettings);
 /******/ })()
 ;

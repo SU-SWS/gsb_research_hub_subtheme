@@ -1,58 +1,145 @@
 @charset "UTF-8";
 
-.rh-training-event-date {
-    font-weight: $su-font-semi-bold;
-    font-size: 2.2rem;
-}
-
-.rh-training-label {
-    font-weight: $su-font-semi-bold;
-}
-
-.rh-training-description {
-
-    p {
-        margin-bottom: .7rem;
-
-        a {
-            color: $su-color-digital-blue;
+.page-training-workshops {
+    .ptype-stanford-wysiwyg { //make the text paragraph full-width
+        max-width: 100%;  
+        .su-wysiwyg-text {
+          .su-intro-text, p, p.su-intro-text {
+            max-width: 100%;
+          }
         }
-    }
-
-    ul {
-        margin-left: 2rem;
-        list-style: disc;
-
-        li {
-            line-height: 1;
-        }
-    }
-}
-
-.rh-training-presenter-wrapper {
-    @include margin(1.5rem 0); 
+      }
     
-    .rh-training-presenter-row {
-        @include margin(.7rem 0);
+    // Training search box
+    #airtable-search {
+        font-size: 1.6rem;
+        border-radius: 3rem; // match rounded corners with the site search box
+        padding: 0.6rem 2rem 0.8rem;
     }
-}
 
-.rh-training-links {
+    #airtable-list-record-wrapper {
+        &.rh-card-layout {
+            .airtable-list-record-row {
+                @include margin(1.5rem 0); // space between cards
+          
+                // Below small screens
+                @include flex-column(12 of 12); // 100% width
+                flex: 1 0 calc(100% - 1rem);
+                max-width: calc(100% - 1rem);
+          
+                // Small to Large screens
+                @include grid-media-min("lg") {
+                  @include grid-media-max("xl") {
+                      @include flex-column(6 of 12); // 50% width
+                      flex: 1 0 calc(50% - 1rem);
+                      max-width: calc(50% - 1rem);
+                  }
+                }
+          
+                // Large screens and above
+                @include grid-media-min("2xl") {
+                    @include flex-column(4 of 12); // 33.33% width
+                    flex: 1 0 calc(33.33% - 1rem);
+                    max-width: calc(33.33% - 1rem);
+                }
+          
+                .su-card {
+                
+                    .su-card__contents {
+                        @include padding(3rem);
 
-    ul {
-        list-style: none;
-        padding-left: 0;
+                        .training-Past {
+                            display: none;
+                        }
 
-        li {
-            @include margin(0.5rem 0);  
+                        .training-Upcoming {
+                            //background: $gsb-color-charcoal;
+                            background: $gsb-color-palo-verde;
+                            color: $su-color-white;
+                            //width: 25%;
+                            @include padding(.5rem 1rem);
+                        }
+              
+                        h2 {
+                          font-size: 2.3rem;
+                        }
+                        
+                        div {
+                          @include margin(1.5rem 0);
+                        }
+              
+                        .su-button {
+                          @include margin(1rem);
+                          font-size: 2rem;
+                        }
+
+                    }
+                  
+                }
+              
+            }
+        }
+    }
+
+    .rh-training-event-date {
+        font-weight: $su-font-semi-bold;
+        font-size: 2.2rem;
+    }
+
+    .rh-training-past-event-date {
+        font-weight: $su-font-regular;
+    }
+
+    .rh-training-label {
+        font-weight: $su-font-semi-bold;
+    }
+
+    .rh-training-description {
+
+        p {
+            margin-bottom: .7rem;
+
+            a {
+                color: $su-color-digital-blue;
+            }
         }
 
-        a {
-            color: $su-color-digital-blue;
+        ul {
+            margin-left: 2rem;
+            list-style: disc;
+
+            li {
+                line-height: 1;
+            }
         }
     }
-}
 
-.rh-training-past-event-date {
-    font-weight: $su-font-regular;
+    .rh-training-presenter-wrapper {
+        @include margin(1.5rem 0); 
+        
+        .rh-training-presenter-row {
+            line-height: 1;
+
+            .rh-presenter-title {
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    .rh-training-links {
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+
+            li {
+                @include margin(0.5rem 0);  
+            }
+
+            a {
+                color: $su-color-digital-blue;
+            }
+        }
+    }
+
 }

@@ -109,21 +109,26 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      <div class="airtable-list-search" data-filter-group="search">
-        <input id="airtable-search" type="text" />
-      </div>
-      <div id="airtable-list-filters" style="display: none;">
-        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="category">
-          Categories
-          <select id="airtable-list-category">
-          </select>
-        </div>
-        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
-          Series
-          <select id="airtable-list-series">
-          </select>
+      <div class="airtable-filter-container">
+        <div id="airtable-list-filters" style="display: none;">
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="category">
+            Categories
+            <select id="airtable-list-category">
+            </select>
           </div>
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
+            Series
+            <select id="airtable-list-series">
+            </select>
+          </div>
+        </div>
+
+        <div class="airtable-list-search" data-filter-group="search">
+          <input id="airtable-search" class="is-loading" type="text" placeholder="Search training & workshops"/>
+          <i class="fas fa-spinner" id="spinner"></i>
+        </div>
       </div>
+
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading training...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
@@ -135,6 +140,7 @@
         <div class="airtable-list-record-row [rowClasses]">
           <div class="su-card">
             <div class="su-card__contents">
+              <div class="training-%type%">%type%</div>
               <h3 class="rh-training-title alb-searchable" data-field-key="name" data-row-height-id="name">%name%</h3>
               <div class="rh-training-upcoming-date" data-field-key="upcoming-start-date" data-row-height-id="date"><span class="rh-training-upcoming-date">%upcoming-start-date%</span><span class="rh-training-end-date" data-field-key="upcoming-end-date"> - %upcoming-end-date%</span></div>
               <div class="rh-training-past-date" data-field-key="past-date" data-row-height-id="date"><span class="rh-training-past-date">%past-date%</span></div>

@@ -143,15 +143,20 @@
             $('div#airtable-list-filters').show();
 
             if ('search' in config && config.search) {
-
+  
               // If there is a predefined parameter set the default value of search
               if (urlParams.get('search') !== null) {
                 $('#airtable-search').val(urlParams.get('search'));
               }
               // use value of search field to filter
               $('#airtable-search').keyup( debounce( function() {
+                $('.fas').hide();
                 $contentArea.isotope();
               }, 500));
+
+              $('#airtable-search').keyup(function() {
+                $('.fas').show();
+              });
             }
 
             // Allow items to filter.
@@ -443,25 +448,6 @@
       timeout = setTimeout( delayed, threshold );
     };
   }
-
-  // Control spinner icon in the airtable search box
-  let typingTimer; // Timer identifier
-  const doneTypingInterval = 1000; // Time in ms (1 second, for example)
   
-  document.getElementById('airtable-search').addEventListener('input', function() {
-      var spinner = document.querySelector('.airtable-list-search i');
-  
-      clearTimeout(typingTimer);
-      if (this.value.length > 0) {
-          spinner.classList.add('fa-pulse');
-          typingTimer = setTimeout(function() {
-              spinner.classList.remove('fa-pulse');
-          }, doneTypingInterval);
-      } else {
-          spinner.classList.remove('fa-pulse');
-      }
-  });
-  
-
 
 })(jQuery, Drupal, drupalSettings);

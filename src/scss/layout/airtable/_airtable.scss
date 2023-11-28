@@ -5,17 +5,19 @@
 .airtable-filter-container {
   display: flex;
   flex-wrap: wrap; // Allows items to wrap in smaller screens
-  gap: 2rem;
   margin-bottom: 3rem;
+  //justify-content: center; // Ensures that children are centered in the container
 
   #airtable-list-filters {
     display: flex;
-    flex: 1 0 53%; // Flex-grow, Flex-shrink, Flex-basis
-    gap: 1rem; // Spacing between the dropdowns
+    flex: 1 0; // Flex-grow, Flex-shrink, Flex-basis
+    gap: 1.5rem; // Spacing between the dropdowns
+    //justify-content: center; // Ensures that children are centered in the container
 
     .airtable-list-filter-group {
       border-radius: 4px;
       flex: 1; // Each group takes equal space in the row
+      max-width: 100%;
       min-width: 0; // Prevents flex items from not shrinking below their content size
 
       &.airtable-list-filter-header {
@@ -43,65 +45,60 @@
         }
       }
     }
+    .airtable-list-search {
+      flex: 1;
+      position: relative; // This positions the children absolutely within this container
+
+      .search-container {
+        position: relative;
+        width: 100%; // Ensures the search container takes full width of its flex parent
+        margin-right: auto; // Keeps the container aligned to the left
+        margin-left: auto; // Keeps the container centered
+      }
+  
+      #airtable-search {
+        border: 1px solid $su-color-digital-red; //red border for training
+        width: 100%; // Ensures the search box takes the full width of its container
+        margin-top: 3rem;
+        height: 4rem;
+        padding-right: 30px; // Adjusted to prevent the icon from overlapping the text
+      }
+  
+      i { // spinner icon in search box
+        position: absolute;
+        right: 4rem;
+        top: 20%;
+        transform: translateY(-50%);
+        font-size: 3rem;
+        display: none;
+      }
+    }
   }
 
-  .airtable-list-search {
-    //flex-grow: 1; // Prevents the search box from growing
-    flex: 1 0 20%;
-    align-self: stretch;
-    position: relative;
-
-    #airtable-search {
-      border: 1px solid $su-color-digital-red; //red border for training 
-      margin-top: 3rem;
-      height: 4rem;
-      padding-right: 30px;
-    }
-
-    i { // spinner icon in search box
-      position: absolute;
-      right: 6.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 3rem;
-      visibility: hidden;
-
-      &.fa-pulse {
-        visibility: visible;
-      }
-
-    }
-
-    /*input {
-      &.is-loading {
-        background-color: aqua;
-      }
-    }*/
-  }
-
-  @include grid-media-max("xl") { 
-
-    #airtable-list-filters, .airtable-list-search {
-      flex-basis: 100%; // Each element takes full width on small screens
-      max-width: 100%;
-    }
-
+  @include grid-media-max("md") {
     #airtable-list-filters {
       flex-direction: column; // Stack filter groups vertically
-      gap: 1rem; // Optional: Adjust gap between filters if needed
-  
-      .airtable-list-filter-group {
-        flex-basis: 100%; // Full width for each filter group
-        max-width: 100%; // Ensures the element does not exceed the container's width
-      }
-    }
 
-    .airtable-list-search {
-      #airtable-search {
-        margin-top: 0; // Adjust the margin for smaller screens
+      .airtable-list-filter-group,
+      .airtable-list-search .search-container {
+        width: 100%; // Set a specific width for the dropdowns and the search box
+        //margin-left: auto; // Centers the dropdowns and the search box
+        //margin-right: auto; // Centers the dropdowns and the search box
+      }
+
+      .airtable-list-search {
+  
+        #airtable-search {
+          margin-top: 1rem; // Adjust the margin for smaller screens
+          max-width: 100%;
+        }
+  
+        i {
+          right: 3rem;
+        }
       }
     }
-  }
+  }  
 }
 
 #airtable-list-record-wrapper {

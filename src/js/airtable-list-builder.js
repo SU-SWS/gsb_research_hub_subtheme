@@ -143,15 +143,20 @@
             $('div#airtable-list-filters').show();
 
             if ('search' in config && config.search) {
-
+  
               // If there is a predefined parameter set the default value of search
               if (urlParams.get('search') !== null) {
                 $('#airtable-search').val(urlParams.get('search'));
               }
               // use value of search field to filter
               $('#airtable-search').keyup( debounce( function() {
+                $('.fas').hide();
                 $contentArea.isotope();
               }, 500));
+
+              $('#airtable-search').keyup(function() {
+                $('.fas').show();
+              });
             }
 
             // Allow items to filter.
@@ -443,5 +448,6 @@
       timeout = setTimeout( delayed, threshold );
     };
   }
+  
 
 })(jQuery, Drupal, drupalSettings);

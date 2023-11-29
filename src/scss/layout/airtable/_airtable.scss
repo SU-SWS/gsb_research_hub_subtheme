@@ -1,56 +1,104 @@
 @charset "UTF-8";
 
-// Airtable list filter dropdowns
+// Airtable list filter dropdowns and search box
 
-#airtable-list-filters {
+.airtable-filter-container {
   display: flex;
-  flex-wrap: wrap; // Allow wrapping of items
-  align-items: center;
-  @include margin(3rem 0 5rem 0);
+  flex-wrap: wrap; // Allows items to wrap in smaller screens
+  margin-bottom: 3rem;
+  //justify-content: center; // Ensures that children are centered in the container
 
-  .airtable-list-filter-group {
-    align-items: center;
-    border-radius: 4px;
-    margin-right: 2rem; // Spacing between the dropdowns
-    flex: 1 0 calc(50% - 1rem); // Take up half the width, minus margin
+  #airtable-list-filters {
+    display: flex;
+    flex: 1 0; // Flex-grow, Flex-shrink, Flex-basis
+    gap: 1.5rem; // Spacing between the dropdowns
+    //justify-content: center; // Ensures that children are centered in the container
 
-    &:last-child {
-      margin-right: 0; // No right margin for the last dropdown
+    .airtable-list-filter-group {
+      border-radius: 4px;
+      flex: 1; // Each group takes equal space in the row
+      max-width: 100%;
+      min-width: 0; // Prevents flex items from not shrinking below their content size
+
+      &.airtable-list-filter-header {
+        font-weight: $su-font-semi-bold;
+        text-transform: uppercase;
+
+        select {
+          width: 100%; // Use the full width of the parent
+          @include margin(.5rem 0);
+          font-size: 1.6rem;
+          border: 1px solid $su-color-digital-red;
+          border-radius: 4px;
+          cursor: pointer;
+          max-width: 100%; 
+          height: 4rem;
+
+          &:focus {
+            border-color: $su-color-lagunita-light;
+            box-shadow: $su-color-lagunita-light;
+          }
+
+          option {
+            padding: 0.5rem 1rem;
+          }
+        }
+      }
     }
+    .airtable-list-search {
+      flex: 1;
+      position: relative; // This positions the children absolutely within this container
 
-    &.airtable-list-filter-header {
-      font-weight: $su-font-semi-bold;
-      text-transform: uppercase;
-
-      select {
-        width: 100%; // Use the full width of the parent
-        @include margin(.5rem 0);
-        font-size: 1.6rem;
-        border: 1px solid $su-color-digital-red;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:focus {
-          border-color: $su-color-lagunita-light;
-          box-shadow: $su-color-lagunita-light;
-        }
-
-        option {
-          padding: 0.5rem 1rem;
-        }
+      .search-container {
+        position: relative;
+        width: 100%; // Ensures the search container takes full width of its flex parent
+        margin-right: auto; // Keeps the container aligned to the left
+        margin-left: auto; // Keeps the container centered
+      }
+  
+      #airtable-search {
+        border: 1px solid $su-color-digital-red; //red border for training
+        width: 100%; // Ensures the search box takes the full width of its container
+        margin-top: 3rem;
+        height: 4rem;
+        padding-right: 30px; // Adjusted to prevent the icon from overlapping the text
+      }
+  
+      i { // spinner icon in search box
+        position: absolute;
+        right: 4rem;
+        top: 20%;
+        transform: translateY(-50%);
+        font-size: 3rem;
+        display: none;
       }
     }
   }
 
-  @include grid-media-max("xl") { 
+  @include grid-media-max("md") {
+    #airtable-list-filters {
+      flex-direction: column; // Stack filter groups vertically
 
-    .airtable-list-filter-group {
-        display: block;
-        margin-right: 0; // Reset the margin on smaller screens
-        margin-bottom: 1rem; // Add some vertical spacing
-        flex: 1 0 100%; // Take up full width
+      .airtable-list-filter-group,
+      .airtable-list-search .search-container {
+        width: 100%; // Set a specific width for the dropdowns and the search box
+        //margin-left: auto; // Centers the dropdowns and the search box
+        //margin-right: auto; // Centers the dropdowns and the search box
+      }
+
+      .airtable-list-search {
+  
+        #airtable-search {
+          margin-top: 1rem; // Adjust the margin for smaller screens
+          max-width: 100%;
+        }
+  
+        i {
+          right: 3rem;
+        }
+      }
     }
-  }
+  }  
 }
 
 #airtable-list-record-wrapper {
@@ -144,6 +192,3 @@
   }
 }
 
-.su-page-components .ptype-stanford-wysiwyg.rh-training {
-  max-width: 100%;
-}

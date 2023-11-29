@@ -174,8 +174,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               }
               // use value of search field to filter
               $('#airtable-search').keyup(debounce(function () {
+                $('.fas').hide();
                 $contentArea.isotope();
               }, 500));
+              $('#airtable-search').keyup(function () {
+                $('.fas').show();
+              });
             }
 
             // Allow items to filter.

@@ -61,7 +61,10 @@
         width: 100%; // Ensures the search box takes the full width of its container
         margin-top: 3rem;
         height: 4rem;
-        padding-right: 30px; // Adjusted to prevent the icon from overlapping the text
+        //padding-right: 30px; // Adjusted to prevent the icon from overlapping the text
+        font-size: 1.6rem;
+        border-radius: 3rem; // match rounded corners with the site search box
+        padding: 1rem 2rem 0.8rem;
       }
   
       i { // spinner icon in search box

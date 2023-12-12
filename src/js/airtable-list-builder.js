@@ -18,12 +18,9 @@
       }
 
       for (filterKey in config.filters) {
-        // If it's a multivalue select then don't have an all.
-        if (("multiple" in config.filters[filterKey]) && config.filters[filterKey].multiple) {
+        // Set the default array of choices if choices are not provided for us.
+        if (!("choices" in config.filters[filterKey])) {
           config.filters[filterKey].choices = [];
-        }
-        else {
-          config.filters[filterKey].choices = [{"key": "*", "name": "All"}];
         }
       }
 
@@ -127,6 +124,11 @@
                     for (choice of filter.choices.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) {
                         let $filterOption = $("<option>");
                         $filterOption.val(choice.key).text(choice.name);
+
+                        // Set the default selection.
+                        if ("selected" in choice && choice.selected) {
+                          $filterOption.attr("selected", "selected");
+                        }
                         $filterSelect.append($filterOption);
                     }
 
@@ -147,7 +149,13 @@
                     });
 
                     // Add default options in chosenOptions.
-                    var chosenOptions = {"width": "100%"};
+                    var chosenOptions = {
+                      "width": "100%",
+                      "placeholder_text_single": "All",
+                      "placeholder_text_multiple": "All",
+                      "hide_results_on_select": false,
+                      "display_selected_options": false
+                    };
                     if ("chosenOptions" in filter) {
                       chosenOptions = {
                         ...chosenOptions,

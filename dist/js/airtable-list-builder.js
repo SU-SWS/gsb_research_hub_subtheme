@@ -23,14 +23,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       };
       config = _objectSpread(_objectSpread({}, configDefault), config);
       for (filterKey in config.filters) {
-        // If it's a multivalue select then don't have an all.
-        if ("multiple" in config.filters[filterKey] && config.filters[filterKey].multiple) {
+        // Set the default array of choices if choices are not provided for us.
+        if (!("choices" in config.filters[filterKey])) {
           config.filters[filterKey].choices = [];
-        } else {
-          config.filters[filterKey].choices = [{
-            "key": "*",
-            "name": "All"
-          }];
         }
       }
 
@@ -148,6 +143,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                         choice = _step.value;
                         var $filterOption = $("<option>");
                         $filterOption.val(choice.key).text(choice.name);
+
+                        // Set the default selection.
+                        if ("selected" in choice && choice.selected) {
+                          $filterOption.attr("selected", "selected");
+                        }
                         $filterSelect.append($filterOption);
                       }
 
@@ -172,7 +172,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
                     // Add default options in chosenOptions.
                     var chosenOptions = {
-                      "width": "100%"
+                      "width": "100%",
+                      "placeholder_text_single": "All",
+                      "placeholder_text_multiple": "All",
+                      "hide_results_on_select": false,
+                      "display_selected_options": false
                     };
                     if ("chosenOptions" in filter) {
                       chosenOptions = _objectSpread(_objectSpread({}, chosenOptions), filter.chosenOptions);

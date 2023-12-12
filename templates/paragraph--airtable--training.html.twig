@@ -55,12 +55,7 @@
     "filters": {
       "category": {
         "templateID": "filter-select",
-        "multiple": true,
-        "chosenOptions": {
-          placeholder_text_multiple: "All",
-          hide_results_on_select: false,
-          display_selected_options: false
-        }
+        "multiple": true
       },
       "series": {
         "templateID": "filter-select"
@@ -125,6 +120,7 @@
           <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
             Series
             <select id="airtable-list-series">
+              <option class="select-all" value="*">All</option>
             </select>
           </div>
           <div class="airtable-list-search" data-filter-group="search">

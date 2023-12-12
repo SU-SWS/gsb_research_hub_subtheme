@@ -83,20 +83,25 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      <div class="airtable-list-search" data-filter-group="search">
-        <input id="airtable-search" type="text" />
-      </div>
-      <div id="airtable-list-filters" style="display: none;">
-        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="core-service">
-          Service Categories
-          <select id="airtable-list-core-service">
-          </select>
-        </div>
-        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="clients">
-          Clients
-          <select id="airtable-list-clients">
-          </select>
+      <div class="airtable-filter-container">
+        <div id="airtable-list-filters" style="display: none;">
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="core-service">
+            Service Categories
+            <select id="airtable-list-core-service">
+            </select>
           </div>
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="clients">
+            Clients
+            <select id="airtable-list-clients">
+            </select>
+          </div>
+          <div class="airtable-list-search" data-filter-group="search">
+            <div class="search-container">
+              <input id="airtable-search" type="text" placeholder="Search services"/>
+              <i class="fas fa-spinner fa-pulse" id="spinner"></i>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading service catalog...</p>

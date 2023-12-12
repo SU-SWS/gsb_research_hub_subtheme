@@ -54,10 +54,11 @@
     "equalHeight": true,
     "filters": {
       "category": {
-        "template_id": "filter-select"
+        "templateID": "filter-select",
+        "multiple": true
       },
       "series": {
-        "template_id": "filter-select"
+        "templateID": "filter-select"
       }
     },
     "search": true,
@@ -113,12 +114,13 @@
         <div id="airtable-list-filters" style="display: none;">
           <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="category">
             Categories
-            <select id="airtable-list-category">
+            <select id="airtable-list-category" multiple>
             </select>
           </div>
           <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
             Series
             <select id="airtable-list-series">
+              <option class="select-all" value="*">All</option>
             </select>
           </div>
           <div class="airtable-list-search" data-filter-group="search">

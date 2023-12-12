@@ -23,10 +23,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       };
       config = _objectSpread(_objectSpread({}, configDefault), config);
       for (filterKey in config.filters) {
-        config.filters[filterKey].choices = [{
-          "key": "*",
-          "name": "All"
-        }];
+        // Set the default array of choices if choices are not provided for us.
+        if (!("choices" in config.filters[filterKey])) {
+          config.filters[filterKey].choices = [];
+        }
       }
 
       // Load the airtable data
@@ -128,12 +128,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             // Add Filters on the page.
             for (filterKey in config.filters) {
               var filter = config.filters[filterKey];
-
               // Build the select filter.
               if (filter.choices.length > 0) {
-                switch (filter.template_id) {
+                switch (filter.templateID) {
                   case "filter-select":
                     var $filterSelect = $('select#airtable-list-' + filterKey);
+                    // Build the options list.
                     var _iterator = _createForOfIteratorHelper(filter.choices.sort(function (a, b) {
                         return a.name > b.name ? 1 : b.name > a.name ? -1 : 0;
                       })),
@@ -143,6 +143,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                         choice = _step.value;
                         var $filterOption = $("<option>");
                         $filterOption.val(choice.key).text(choice.name);
+
+                        // Set the default selection.
+                        if ("selected" in choice && choice.selected) {
+                          $filterOption.attr("selected", "selected");
+                        }
                         $filterSelect.append($filterOption);
                       }
 
@@ -154,12 +159,29 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                     }
                     var paramValue = urlParams.get(filterKey);
                     if (paramValue !== null) {
+                      // If it's a multiselect filter then convert parameter to an array
+                      if ("multiple" in filter && filter.multiple) {
+                        paramValue = paramValue.split("|");
+                      }
                       $filterSelect.val(paramValue);
                     }
                     $filterSelect.on('change', function (event) {
                       // Reload isotope.
                       $contentArea.isotope();
                     });
+
+                    // Add default options in chosenOptions.
+                    var chosenOptions = {
+                      "width": "100%",
+                      "placeholder_text_single": "All",
+                      "placeholder_text_multiple": "All",
+                      "hide_results_on_select": false,
+                      "display_selected_options": false
+                    };
+                    if ("chosenOptions" in filter) {
+                      chosenOptions = _objectSpread(_objectSpread({}, chosenOptions), filter.chosenOptions);
+                    }
+                    $filterSelect.chosen(chosenOptions);
                     break;
                 }
               }
@@ -229,12 +251,21 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                     var filterGroup = $filterGroup.attr('data-filter-group');
 
                     // Set the url parameters.
-                    if ($filter.val() !== '*') {
-                      urlParamaters.set(filterGroup, $filter.val());
+                    var currentFilterValue = $filter.val();
+                    filters[filterGroup] = [];
+                    if (currentFilterValue !== '*' && currentFilterValue !== '' && currentFilterValue.length !== 0) {
+                      // Set parameters and filter if it's multiple values.
+                      if (Array.isArray(currentFilterValue)) {
+                        urlParamaters.set(filterGroup, currentFilterValue.join('|'));
+                        currentFilterValue = currentFilterValue.map(function (x) {
+                          return '.' + filterGroup + '--' + x;
+                        });
+                      } else {
+                        urlParamaters.set(filterGroup, currentFilterValue);
+                        currentFilterValue = ['.' + filterGroup + '--' + currentFilterValue];
+                      }
+                      filters[filterGroup] = currentFilterValue;
                     }
-
-                    // set filter for group
-                    filters[filterGroup] = $filter.val() == '*' ? '' : '.' + filterGroup + '--' + $filter.val();
                   }
                 }
 
@@ -242,7 +273,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 window.history.replaceState(null, null, '?' + urlParamaters.toString());
 
                 // combine filters
-                var filterValue = concatValues(filters);
+                var filterValue = buildFilters(filters);
                 filterMatch = filterValue ? $this.is(filterValue) : true;
                 return searchMatch && filterMatch;
               }
@@ -271,13 +302,33 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   };
 
-  // flatten object by concatting values
-  function concatValues(obj) {
-    var value = '';
-    for (var prop in obj) {
-      value += obj[prop];
+  // Build the filters into a jquery search string
+  function buildFilters(chosenFilters) {
+    var combo = [];
+    for (var prop in chosenFilters) {
+      var group = chosenFilters[prop];
+      if (!group.length) {
+        // no filters in group, carry on
+        continue;
+      }
+      // add first group
+      if (!combo.length) {
+        combo = group.slice(0);
+        continue;
+      }
+      // add additional groups
+      var nextCombo = [];
+      // split group into combo: [ A, B ] & [ 1, 2 ] => [ A1, A2, B1, B2 ]
+      for (var i = 0; i < combo.length; i++) {
+        for (var j = 0; j < group.length; j++) {
+          var item = combo[i] + group[j];
+          nextCombo.push(item);
+        }
+      }
+      combo = nextCombo;
     }
-    return value;
+    var comboFilter = combo.join(', ');
+    return comboFilter;
   }
 
   // Convert a string into a class friendly string.
@@ -369,7 +420,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     var newContent = '';
     switch (type) {
       case 'Array':
-        var template = $('template#airtable-list-' + stringToCSSClass(format.template_id) + '-template').html();
+        var template = $('template#airtable-list-' + stringToCSSClass(format.templateID) + '-template').html();
         var count = 0;
         var _iterator4 = _createForOfIteratorHelper(content),
           _step4;

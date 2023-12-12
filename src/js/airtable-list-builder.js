@@ -18,7 +18,10 @@
       }
 
       for (filterKey in config.filters) {
-        config.filters[filterKey].choices = [{"key": "*", "name": "All"}];
+        // Set the default array of choices if choices are not provided for us.
+        if (!("choices" in config.filters[filterKey])) {
+          config.filters[filterKey].choices = [];
+        }
       }
 
       // Load the airtable data
@@ -112,21 +115,31 @@
             // Add Filters on the page.
             for (filterKey in config.filters) {
               let filter = config.filters[filterKey];
-
               // Build the select filter.
               if (filter.choices.length > 0) {
-                switch(filter.template_id) {
+                switch(filter.templateID) {
                   case "filter-select":
                     let $filterSelect = $('select#airtable-list-' + filterKey);
+                    // Build the options list.
                     for (choice of filter.choices.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) {
                         let $filterOption = $("<option>");
                         $filterOption.val(choice.key).text(choice.name);
+
+                        // Set the default selection.
+                        if ("selected" in choice && choice.selected) {
+                          $filterOption.attr("selected", "selected");
+                        }
                         $filterSelect.append($filterOption);
                     }
 
                     // Set the default value of the select item based on a given url parameter.
                     var paramValue = urlParams.get(filterKey);
                     if (paramValue !== null) {
+                      // If it's a multiselect filter then convert parameter to an array
+                      if ("multiple" in filter && filter.multiple) {
+                        paramValue = paramValue.split("|");
+                      }
+
                       $filterSelect.val(paramValue);
                     }
 
@@ -134,6 +147,22 @@
                       // Reload isotope.
                       $contentArea.isotope();
                     });
+
+                    // Add default options in chosenOptions.
+                    var chosenOptions = {
+                      "width": "100%",
+                      "placeholder_text_single": "All",
+                      "placeholder_text_multiple": "All",
+                      "hide_results_on_select": false,
+                      "display_selected_options": false
+                    };
+                    if ("chosenOptions" in filter) {
+                      chosenOptions = {
+                        ...chosenOptions,
+                        ...filter.chosenOptions
+                      }
+                    }
+                    $filterSelect.chosen(chosenOptions);
                     break;
                 }
               }
@@ -205,12 +234,21 @@
                     var filterGroup = $filterGroup.attr('data-filter-group');
 
                     // Set the url parameters.
-                    if ($filter.val() !== '*') {
-                      urlParamaters.set(filterGroup, $filter.val());
-                    }
+                    var currentFilterValue = $filter.val();
+                    filters[filterGroup] = [];
+                    if (currentFilterValue !== '*' && currentFilterValue !== '' && currentFilterValue.length !== 0) {
+                      // Set parameters and filter if it's multiple values.
+                      if (Array.isArray(currentFilterValue)) {
+                        urlParamaters.set(filterGroup, currentFilterValue.join('|'));
+                        currentFilterValue = currentFilterValue.map((x) => '.' + filterGroup + '--' + x);
+                      }
+                      else {
+                        urlParamaters.set(filterGroup, currentFilterValue);
+                        currentFilterValue = ['.' + filterGroup + '--' + currentFilterValue];
+                      }
 
-                    // set filter for group
-                    filters[ filterGroup ] = ($filter.val() =='*') ? '' : '.' + filterGroup + '--' + $filter.val();
+                      filters[filterGroup] = currentFilterValue;
+                    }
                   }
                 }
 
@@ -218,7 +256,7 @@
                 window.history.replaceState(null, null,'?' + urlParamaters.toString());
 
                 // combine filters
-                let filterValue  = concatValues( filters );
+                let filterValue = buildFilters(filters);
                 filterMatch = filterValue ? $this.is(filterValue) : true;
 
                 return searchMatch && filterMatch;
@@ -252,13 +290,33 @@
     }
   }
 
-  // flatten object by concatting values
-  function concatValues( obj ) {
-    var value = '';
-    for ( var prop in obj ) {
-      value += obj[ prop ];
+  // Build the filters into a jquery search string
+  function buildFilters(chosenFilters) {
+    var combo = [];
+    for ( var prop in chosenFilters ) {
+      var group = chosenFilters[ prop ];
+      if ( !group.length ) {
+        // no filters in group, carry on
+        continue;
+      }
+      // add first group
+      if ( !combo.length ) {
+        combo = group.slice(0);
+        continue;
+      }
+      // add additional groups
+      var nextCombo = [];
+      // split group into combo: [ A, B ] & [ 1, 2 ] => [ A1, A2, B1, B2 ]
+      for ( var i=0; i < combo.length; i++ ) {
+        for ( var j=0; j < group.length; j++ ) {
+          var item = combo[i] + group[j];
+          nextCombo.push( item );
+        }
+      }
+      combo = nextCombo;
     }
-    return value;
+    var comboFilter = combo.join(', ');
+    return comboFilter;
   }
 
   // Convert a string into a class friendly string.
@@ -345,7 +403,7 @@
     var newContent = '';
     switch(type) {
       case 'Array':
-        var template = $('template#airtable-list-' + stringToCSSClass(format.template_id) + '-template').html();
+        var template = $('template#airtable-list-' + stringToCSSClass(format.templateID) + '-template').html();
         var count = 0;
         for (item of content) {
           count++;
@@ -448,6 +506,5 @@
       timeout = setTimeout( delayed, threshold );
     };
   }
-  
 
 })(jQuery, Drupal, drupalSettings);

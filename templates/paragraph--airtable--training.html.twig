@@ -102,6 +102,13 @@
             minute: "2-digit"
           }
         }
+      },
+      "categories": {
+        "type": "Array",
+        "options": {
+          "templateID": "categories-item",
+          "separator": " ",
+        }
       }
     }
   }
@@ -147,7 +154,7 @@
               <h3 class="rh-training-title alb-searchable" data-field-key="name" data-row-height-id="name">%name%</h3>
               <div class="rh-training-upcoming-date" data-field-key="upcoming-start-date" data-row-height-id="date"><span class="rh-training-upcoming-date">%upcoming-start-date%</span><span class="rh-training-end-date" data-field-key="upcoming-end-date"> - %upcoming-end-date%</span></div>
               <div class="rh-training-past-date" data-field-key="past-date" data-row-height-id="date"><span class="rh-training-past-date">%past-date%</span></div>
-              <div class="rh-training-category" data-field-key="category" data-row-height-id="category"><span class="rh-training-label">Category:</span> %category%</div>
+              <div class="rh-training-category" data-field-key="category" data-row-height-id="category"><span class="rh-training-label">Category:</span> %categories%</div>
               <div class="rh-training-series" data-field-key="series" data-row-height-id="series"><span class="rh-training-label">Series:</span> %series%</div>
               <div class="rh-training-description alb-searchable" data-field-key="description" data-row-height-id="description">%description%</div>
               <div class="rh-training-presenter-wrapper" data-field-key="presenter-json" data-row-height-id="presenter-json"><span class="rh-training-label">Presented by:</span><br>%presenter-json%</div>
@@ -172,6 +179,10 @@
 
       <template id="airtable-list-link-json-template">
         <li><a class="rh-training-link su-link--action" aria-label="%name% for %$name%" title="%name% for %$name%" href="%url%">%name%</a></li>
+      </template>
+
+      <template id="airtable-list-categories-item-template">
+        <span class="%class% airtable-list-filter" data-filter-name="category" data-filter-key="%class%">%value%</span>
       </template>
 
     {% endblock %}

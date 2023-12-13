@@ -209,7 +209,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               e.preventDefault();
               var filterName = $(this).data('filter-name');
               var filterKey = $(this).data('filter-key');
-              $('#airtable-list-' + filterName).val(filterKey).change();
+              $('#airtable-list-' + filterName).val(filterKey).change().trigger("chosen:updated");
 
               // Jump back up to the top filters.
               var $filterWrapper = $("#airtable-list-filters");

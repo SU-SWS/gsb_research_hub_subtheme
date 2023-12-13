@@ -6,13 +6,11 @@
   display: flex;
   flex-wrap: wrap; // Allows items to wrap in smaller screens
   margin-bottom: 3rem;
-  //justify-content: center; // Ensures that children are centered in the container
 
   #airtable-list-filters {
     display: flex;
     flex: 1 0; // Flex-grow, Flex-shrink, Flex-basis
     gap: 1.5rem; // Spacing between the dropdowns
-    //justify-content: center; // Ensures that children are centered in the container
 
     .airtable-list-filter-group {
       border-radius: 4px;
@@ -24,27 +22,119 @@
         font-weight: $su-font-semi-bold;
         text-transform: uppercase;
 
-        select {
-          width: 100%; // Use the full width of the parent
-          @include margin(.5rem 0);
+        .chosen-container {
+          display: flex !important;
           font-size: 1.6rem;
-          border: 1px solid $su-color-digital-red;
-          border-radius: 4px;
-          cursor: pointer;
-          max-width: 100%; 
-          height: 4rem;
 
-          &:focus {
-            border-color: $su-color-lagunita-light;
-            box-shadow: $su-color-lagunita-light;
+          &.chosen-container-single {
+            .chosen-single {
+              display: flex;
+              width: 100%; // Use the full width of the parent
+              @include margin(.5rem 0);
+              @include padding(0);
+              font-size: 1.6rem;
+              line-height: 1.15;
+              border: 1px solid $su-color-digital-red !important;
+              border-radius: 4px;
+              cursor: pointer;
+              max-width: 100%; 
+              min-height: 4rem;
+              background-image: none;
+      
+              &:focus {
+                border-color: $su-color-lagunita-light;
+                box-shadow: $su-color-lagunita-light;
+              }
+  
+              span {
+                @include margin(1rem);
+                display: flex;
+                color: $su-color-black;
+                text-transform: none;
+              } 
+              
+              div {
+                right: 1.5rem; // Right-align the icon
+
+                b {
+                  //background-image: url("./../assets/svg/arrow-down.svg") !important;
+                  //background-image: url("#{$su-image-path}/arrow-down.svg");
+                  background-size: 10rem !important;
+                }
+              }
+            }
           }
 
-          option {
-            padding: 0.5rem 1rem;
+          &.chosen-container-active {
+            .chosen-single {
+              box-shadow: none;
+              font-size: 1.6rem;
+            }
           }
-        }
+
+          &.chosen-container-multi {
+            .chosen-choices {
+              width: 100%; // Use the full width of the parent
+              display: block;
+              @include margin(.5rem 0);
+              font-size: 1.6rem;
+              background-image:url(https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen-sprite@2x.png);
+              //background-image: url(#{$su-image-path}/arrow-down.svg);
+              background-repeat: no-repeat;
+              background-position: 118% 0; // position to display the desired icon
+              background-size: 10rem; 
+              padding-right: 3rem; 
+
+              border: 1px solid $su-color-digital-red !important;
+              border-radius: 4px;
+              max-width: 100%; 
+              height: auto;
+              min-height: 4rem;
+      
+              &:focus {
+                border-color: $su-color-lagunita-light;
+                box-shadow: $su-color-lagunita-light;
+              }
+
+              li.search-choice {
+                line-height: 1.15;
+              }
+
+              li.search-field input[type=text] {
+                @include margin(.6rem);
+                font-family: inherit;
+                font-size: 1.6rem;
+                color: $su-color-black;
+                font-weight: $su-font-semi-bold;
+                height: 2.5rem;
+              }
+
+              span {
+                text-transform: none;
+                font-weight: $su-font-semi-bold;
+              }
+            }
+          }
+          .chosen-drop {
+            text-transform: none;
+            font-family: inherit;
+            font-size: 1.6rem;
+            line-height: 1.15;
+
+            .chosen-results {
+              li {
+                &.highlighted {
+                  background-image: none; // Remove from source code
+                  background-color: $su-color-cardinal-red; // Set hover color for dropdown list
+                  color: #fff
+                }
+              }
+            }
+          }
+        }        
       }
     }
+
     .airtable-list-search {
       flex: 1;
       position: relative; // This positions the children absolutely within this container
@@ -62,6 +152,7 @@
         margin-top: 3rem;
         height: 4rem;
         //padding-right: 30px; // Adjusted to prevent the icon from overlapping the text
+        font-family: inherit;
         font-size: 1.6rem;
         border-radius: 3rem; // match rounded corners with the site search box
         padding: 1rem 2rem 0.8rem;
@@ -194,4 +285,3 @@
     }
   }
 }
-

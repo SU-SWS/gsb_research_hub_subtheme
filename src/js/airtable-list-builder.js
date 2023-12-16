@@ -193,7 +193,7 @@
               e.preventDefault();
               var filterName = $(this).data('filter-name');
               var filterKey = $(this).data('filter-key');
-              $('#airtable-list-' + filterName).val(filterKey).change();
+              $('#airtable-list-' + filterName).val(filterKey).change().trigger("chosen:updated");
 
               // Jump back up to the top filters.
               var $filterWrapper = $("#airtable-list-filters");
@@ -347,14 +347,24 @@
 
       // Process each token.
       for (var token of tokens) {
+        var filterOptions = token.split('|');
+        var baseToken = filterOptions.shift();
+
         // If the token exists in the data then process it.
-        if (token in data || (token.startsWith('$') && token.substr(1) in allData)) {
-          var content = '';
-          if (token.startsWith('$')) {
-            content = allData[token.substr(1)];
-          }
-          else {
-            content = data[token];
+        if (baseToken in data || baseToken in allData) {
+          var content = data[baseToken];
+
+          // Process any filtering options.
+          for (filter of filterOptions) {
+            switch(filter) {
+              case "cssClass":
+                content = stringToCSSClass(content);
+                break;
+
+              case "parent":
+                content = allData[baseToken];
+                break;
+            }
           }
 
           // If it's an array then process that array with its template.

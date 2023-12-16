@@ -127,14 +127,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             var filters = {};
             // Add Filters on the page.
             for (filterKey in config.filters) {
-              var filter = config.filters[filterKey];
+              var _filter = config.filters[filterKey];
               // Build the select filter.
-              if (filter.choices.length > 0) {
-                switch (filter.templateID) {
+              if (_filter.choices.length > 0) {
+                switch (_filter.templateID) {
                   case "filter-select":
                     var $filterSelect = $('select#airtable-list-' + filterKey);
                     // Build the options list.
-                    var _iterator = _createForOfIteratorHelper(filter.choices.sort(function (a, b) {
+                    var _iterator = _createForOfIteratorHelper(_filter.choices.sort(function (a, b) {
                         return a.name > b.name ? 1 : b.name > a.name ? -1 : 0;
                       })),
                       _step;
@@ -160,7 +160,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                     var paramValue = urlParams.get(filterKey);
                     if (paramValue !== null) {
                       // If it's a multiselect filter then convert parameter to an array
-                      if ("multiple" in filter && filter.multiple) {
+                      if ("multiple" in _filter && _filter.multiple) {
                         paramValue = paramValue.split("|");
                       }
                       $filterSelect.val(paramValue);
@@ -178,8 +178,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                       "hide_results_on_select": false,
                       "display_selected_options": false
                     };
-                    if ("chosenOptions" in filter) {
-                      chosenOptions = _objectSpread(_objectSpread({}, chosenOptions), filter.chosenOptions);
+                    if ("chosenOptions" in _filter) {
+                      chosenOptions = _objectSpread(_objectSpread({}, chosenOptions), _filter.chosenOptions);
                     }
                     $filterSelect.chosen(chosenOptions);
                     break;
@@ -359,29 +359,48 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       // Process each token.
       for (var _i = 0, _tokens = tokens; _i < _tokens.length; _i++) {
         var token = _tokens[_i];
-        // If the token exists in the data then process it.
-        if (token in data || token.startsWith('$') && token.substr(1) in allData) {
-          var content = '';
-          if (token.startsWith('$')) {
-            content = allData[token.substr(1)];
-          } else {
-            content = data[token];
-          }
+        var filterOptions = token.split('|');
+        var baseToken = filterOptions.shift();
 
-          // If it's an array then process that array with its template.
+        // If the token exists in the data then process it.
+        if (baseToken in data || baseToken in allData) {
+          var content = data[baseToken];
+
+          // Process any filtering options.
+          var _iterator3 = _createForOfIteratorHelper(filterOptions),
+            _step3;
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              filter = _step3.value;
+              switch (filter) {
+                case "cssClass":
+                  content = stringToCSSClass(content);
+                  break;
+                case "parent":
+                  content = allData[baseToken];
+                  break;
+              }
+            }
+
+            // If it's an array then process that array with its template.
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
+          }
           if (token.endsWith('-json')) {
             var templateHTML = '';
-            var _iterator3 = _createForOfIteratorHelper(content),
-              _step3;
+            var _iterator4 = _createForOfIteratorHelper(content),
+              _step4;
             try {
-              for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                recordVal = _step3.value;
+              for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                recordVal = _step4.value;
                 templateHTML += processTemplate(config, token, recordVal, allData);
               }
             } catch (err) {
-              _iterator3.e(err);
+              _iterator4.e(err);
             } finally {
-              _iterator3.f();
+              _iterator4.f();
             }
             template = replaceToken(template, token, templateHTML);
           } else {
@@ -422,11 +441,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       case 'Array':
         var template = $('template#airtable-list-' + stringToCSSClass(format.templateID) + '-template').html();
         var count = 0;
-        var _iterator4 = _createForOfIteratorHelper(content),
-          _step4;
+        var _iterator5 = _createForOfIteratorHelper(content),
+          _step5;
         try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            item = _step4.value;
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+            item = _step5.value;
             count++;
             var replacedContent = replaceToken(template, 'value', item);
             replacedContent = replaceToken(replacedContent, 'class', stringToCSSClass(item));
@@ -436,9 +455,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             }
           }
         } catch (err) {
-          _iterator4.e(err);
+          _iterator5.e(err);
         } finally {
-          _iterator4.f();
+          _iterator5.f();
         }
         break;
       case 'Date':

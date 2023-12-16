@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.page-training-workshops {
+.section-training-workshops {
     .ptype-stanford-wysiwyg { //make the text paragraph full-width
         max-width: 100%;  
         .su-wysiwyg-text {
@@ -112,7 +112,7 @@
         @include margin(1.5rem 0); 
         
         .rh-training-presenter-row {
-            line-height: 1;
+            line-height: 1.1;
 
             .rh-presenter-title {
                 font-size: 1.6rem;

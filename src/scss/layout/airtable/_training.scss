@@ -61,6 +61,170 @@
                         div {
                           @include margin(1rem 0);
                         }
+
+                        .rh-training-event-date {
+                            font-weight: $su-font-semi-bold;
+                            font-size: 2.2rem;
+                        }
+                    
+                        .rh-training-past-event-date {
+                            font-weight: $su-font-regular;
+                        }
+                    
+                        // Lables for Category and Series
+                        .rh-training-label {
+                            font-weight: $su-font-semi-bold;
+                        }
+
+                        .airtable-list-filter {
+                            display: inline-block;
+                            white-space: nowrap;
+                            background-color:  $rh-color-default;
+                            color: $su-color-black;
+                            padding: 0 1rem;
+                            border-radius: 2rem;
+                            text-align: center;
+                            cursor: pointer;
+                            transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
+                            font-size: 1.5rem;
+                    
+                            &:hover,
+                            &:focus {
+                            background-color: color(bg--reverse);
+                            color: color(link--reverse);
+                            }
+                        
+                            &:focus {
+                            box-shadow: $su-focus-shadow;
+                            }
+                        }
+                    
+                        .rh-training-category {
+                            
+                            // Category button links
+                            .artificial-intelligence,
+                            .computing-and-analytics,
+                            .computationally-intensive-research,
+                            .data-acquisition-and-governance,
+                            .data-analytics,
+                            .data-licensing,
+                            .data-onboarding-and-storage,
+                            .data-stewardship,
+                            .human-subjects-research,
+                            .library-research-collections,
+                            .library-resources,
+                            .publication-support,
+                            .research-comms,
+                            .research-computing,
+                            .research-data-sources,
+                            .research-grants,
+                            .research-operations,
+                            .research-planning,
+                            .survey-methodology,
+                            .using-research-resources {
+                                color: $su-color-white;
+                        
+                                &:hover,
+                                &:focus {
+                                background-color: color(bg--reverse);
+                                color: color(link--reverse);
+                                }
+                            
+                                &:focus {
+                                box-shadow: $su-focus-shadow;
+                                }
+                            }
+                        
+                            //Color for DARC
+                            .artificial-intelligence,
+                            .computing-and-analytics,
+                            .computationally-intensive-research,
+                            .data-analytics,
+                            .data-onboarding-and-storage,
+                            .research-computing {
+                                background-color: $rh-color-darc; 
+                            }
+                    
+                            //Color for DAG
+                            .data-acquisition-and-governance,
+                            .data-licensing,
+                            .data-stewardship {
+                                //background-color: darken($su-color-poppy-dark, 10%);
+                                background-color: $rh-color-dag;
+                                color: $su-color-black;
+                            }
+                    
+                            //Color for BLab
+                            .human-subjects-research,
+                            .survey-methodology {
+                                background-color: $rh-color-blab;
+                            }
+                        
+                            //Color for Library
+                            .library-research-collections,
+                            .library-resources,
+                            .publication-support,
+                            .research-data-sources,
+                            .research-planning,       
+                            .using-research-resources {
+                                background-color: $rh-color-library;
+                            }
+                        
+                            //Color for RO
+                            .research-comms,
+                            .research-operations,
+                            .research-grants {
+                                background-color: $rh-color-ro;
+                            }    
+                        }
+                    
+                        .rh-training-description {
+                    
+                            p {
+                                margin-bottom: .7rem;
+                    
+                                a {
+                                    color: $su-color-digital-blue;
+                                }
+                            }
+                    
+                            ul {
+                                margin-left: 2rem;
+                                list-style: disc;
+                    
+                                li {
+                                    line-height: 1;
+                                }
+                            }
+                        }
+                    
+                        .rh-training-presenter-wrapper {
+                            @include margin(1.5rem 0); 
+                            
+                            .rh-training-presenter-row {
+                                line-height: 1.1;
+                    
+                                .rh-presenter-title {
+                                    font-size: 1.6rem;
+                                }
+                            }
+                        }
+                    
+                        .rh-training-links {
+                    
+                            ul {
+                                list-style: none;
+                                padding-left: 0;
+                    
+                                li {
+                                    @include margin(0.5rem 0);  
+                                }
+                    
+                                a {
+                                    color: $su-color-digital-blue;
+                                }
+                            }
+                        }
               
                         .su-button {
                           @include margin(.5rem);
@@ -71,187 +235,6 @@
                   
                 }
               
-            }
-        }
-    }
-
-    .rh-training-event-date {
-        font-weight: $su-font-semi-bold;
-        font-size: 2.2rem;
-    }
-
-    .rh-training-past-event-date {
-        font-weight: $su-font-regular;
-    }
-
-    // Lables for Category and Series
-    .rh-training-label {
-        font-weight: $su-font-semi-bold;
-    }
-
-    .rh-training-category {
-        
-        // Category button links
-        .artificial-intelligence,
-        .computing-and-analytics,
-        .computationally-intensive-research,
-        .data-acquisition-and-governance,
-        .data-analytics,
-        .data-licensing,
-        .data-onboarding-and-storage,
-        .data-stewardship,
-        .human-subjects-research,
-        .library-research-collections,
-        .library-resources,
-        .publication-support,
-        .research-comms,
-        .research-computing,
-        .research-data-sources,
-        .research-grants,
-        .research-operations,
-        .research-planning,
-        .survey-methodology,
-        .using-research-resources {
-            display: inline-block;
-            white-space: nowrap;
-            max-width: calc(112% - 0rem);  // Width of the pill minus padding
-            color: $su-color-white;
-            padding: 0 1rem;
-            border-radius: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
-            font-size: 1.6rem;
-    
-            &:hover,
-            &:focus {
-            background-color: color(bg--reverse);
-            color: color(link--reverse);
-            }
-        
-            &:focus {
-            box-shadow: $su-focus-shadow;
-            }
-        }
-    
-        //Color for DARC
-        .artificial-intelligence,
-        .computing-and-analytics,
-        .computationally-intensive-research,
-        .data-analytics,
-        .data-onboarding-and-storage,
-        .research-computing {
-            background-color: $su-color-brick-light; 
-        }
-
-        //Color for DAG
-        .data-acquisition-and-governance,
-        .data-licensing,
-        .data-stewardship {
-            //background-color: darken($su-color-poppy-dark, 10%);
-            background-color: $gsb-color-autumn-gingko;
-            color: $su-color-black;
-        }
-
-        //Color for BLab
-        .human-subjects-research,
-        .survey-methodology {
-            background-color: $su-color-bay-dark;
-        }
-    
-        //Color for Library
-        .library-research-collections,
-        .library-resources,
-        .publication-support,
-        .research-data-sources,
-        .research-planning,       
-        .using-research-resources {
-            background-color: $su-color-lagunita-dark;
-        }
-    
-        //Color for RO
-        .research-comms,
-        .research-operations,
-        .research-grants {
-            background-color: $gsb-color-new-sky-dark;
-        }    
-    }
-
-    .rh-training-series {
-
-        // Event series button links
-        .darc-workshop-series,
-        .data-quality-evaluation-awareness-competencies,
-        .data-quality-evaluation,
-        .hub-how-to-series {
-            display: inline-block;
-            white-space: nowrap;
-            background-color:  $gsb-color-sand-25;
-            color: $su-color-black;
-            padding: 0 1rem;
-            border-radius: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
-            font-size: 1.5rem;
-    
-            &:hover,
-            &:focus {
-            background-color: color(bg--reverse);
-            color: color(link--reverse);
-            }
-        
-            &:focus {
-            box-shadow: $su-focus-shadow;
-            }
-        }
-
-    }
-
-    .rh-training-description {
-
-        p {
-            margin-bottom: .7rem;
-
-            a {
-                color: $su-color-digital-blue;
-            }
-        }
-
-        ul {
-            margin-left: 2rem;
-            list-style: disc;
-
-            li {
-                line-height: 1;
-            }
-        }
-    }
-
-    .rh-training-presenter-wrapper {
-        @include margin(1.5rem 0); 
-        
-        .rh-training-presenter-row {
-            line-height: 1.1;
-
-            .rh-presenter-title {
-                font-size: 1.6rem;
-            }
-        }
-    }
-
-    .rh-training-links {
-
-        ul {
-            list-style: none;
-            padding-left: 0;
-
-            li {
-                @include margin(0.5rem 0);  
-            }
-
-            a {
-                color: $su-color-digital-blue;
             }
         }
     }

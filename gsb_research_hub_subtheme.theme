@@ -63,7 +63,13 @@ function gsb_research_hub_subtheme_preprocess_paragraph(&$variables) {
       ];
 
       $sl_env = theme_get_setting('gsb_research_hub_subtheme_sl_env', 'gsb_research_hub_subtheme');
-      $variables['#attached']['drupalSettings']['gsbResearchHubSubtheme'] = is_null($sl_env) ? $sl_env_conf['prod'] : $sl_env_conf[$sl_env];
+
+      $jsVars = is_null($sl_env) ? $sl_env_conf['prod'] : $sl_env_conf[$sl_env];
+      if (isset($jsonConfig['variables'])) {
+        $jsVars = array_merge($jsonConfig['variables'], $jsVars);
+      }
+
+      $variables['#attached']['drupalSettings']['gsbResearchHubSubtheme'] = $jsVars;
     }
   }
 }

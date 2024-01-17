@@ -349,6 +349,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   // Apply the data to the template.
   function processTemplate(config, templateKey, data, allData) {
     var template = $('template#airtable-list-' + stringToCSSClass(templateKey) + '-template').html();
+    var settings = drupalSettings.gsbResearchHubSubtheme;
     if (template) {
       // Pull all of the tokens from the template.
       var tokens = [];
@@ -406,7 +407,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           } else {
             // If there is any field that needs formatting format it.
             if ("format" in config && token in config.format) {
-              content = formatString(config.format[token].type, config.format[token].options, content);
+              // Pull in any additional config passed in from the text area.
+              var additionalConfig = [];
+              if ("arrayFormatConfig" in settings && token in settings.arrayFormatConfig) {
+                additionalConfig = settings.arrayFormatConfig[token];
+              }
+              content = formatString(config.format[token].type, config.format[token].options, content, additionalConfig);
             }
             var fieldTemplate = $('template#airtable-list-' + stringToCSSClass(token) + '-template').html();
             if (fieldTemplate) {
@@ -435,7 +441,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   }
 
   // Formats a string into the given type.
-  function formatString(type, format, content) {
+  function formatString(type, format, content, additionalConfig) {
     var newContent = '';
     switch (type) {
       case 'Array':
@@ -448,7 +454,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             item = _step5.value;
             count++;
             var replacedContent = replaceToken(template, 'value', item);
-            replacedContent = replaceToken(replacedContent, 'class', stringToCSSClass(item));
+            var classes = stringToCSSClass(item);
+            if ("classMap" in additionalConfig && item in additionalConfig.classMap) {
+              classes += " " + additionalConfig.classMap[item];
+            }
+            replacedContent = replaceToken(replacedContent, 'class', classes);
             newContent += replacedContent;
             if (format.hasOwnProperty('separator') && count != content.length) {
               newContent += format.separator;

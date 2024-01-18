@@ -2,29 +2,109 @@
 
 // Behavioral Lab
 .blab {
-    background-color: $rh-color-blab !important;
+
+    &.tag {
+        background-color: $rh-color-blab !important;
+        
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse) !important;
+        color: color(link--reverse)  !important;
+        }
+
+        &:focus {
+        box-shadow: $su-focus-shadow  !important;
+        }
+    }
 }
 
 .dag {
-    background-color: $rh-color-dag !important;
+
+    &.tag-light {
+        background-color: $rh-color-dag-light !important;
+        color: $su-color-black !important;
+        font-weight: $su-font-semi-bold !important;
+        
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse) !important;
+        color: color(link--reverse)  !important;
+        }
+
+        &:focus {
+        box-shadow: $su-focus-shadow  !important;
+        }
+    }
 }
 
 // DARC
 .darc {
-    background-color: $rh-color-darc !important;
+
+    &.tag {
+        background-color: $rh-color-darc !important;
+        
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse) !important;
+        color: color(link--reverse)  !important;
+        }
+
+        &:focus {
+        box-shadow: $su-focus-shadow  !important;
+        }
+    }
 }
 
 // GSB Library
 .library {
-    background-color: $rh-color-library !important;
+
+    &.tag {
+        background-color: $rh-color-library !important;
+        
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse) !important;
+        color: color(link--reverse)  !important;
+        }
+
+        &:focus {
+        box-shadow: $su-focus-shadow  !important;
+        }
+    }
 }
 
 // Research Labs & Initiatives
 .rli {
-    background-color: $rh-color-rli  !important;
+
+    &.tag {
+        background-color: $rh-color-rli !important;
+        
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse) !important;
+        color: color(link--reverse)  !important;
+        }
+
+        &:focus {
+        box-shadow: $su-focus-shadow  !important;
+        }
+    }
 }
 
 // Research Operations
 .ro {
-    background-color: $rh-color-ro  !important;
+
+    &.tag {
+        background-color: $rh-color-ro !important;
+        
+        &:hover,
+        &:focus {
+        background-color: color(bg--reverse) !important;
+        color: color(link--reverse)  !important;
+        }
+
+        &:focus {
+        box-shadow: $su-focus-shadow  !important;
+        }
+    }
 }

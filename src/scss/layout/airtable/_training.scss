@@ -47,13 +47,6 @@
                             text-transform: uppercase;
                             height: 2.6rem;
 
-                            // /*
-                            // Green bar
-                            background: $gsb-color-palo-verde;
-                            color: $su-color-white;
-                            text-align: center;
-                            // */
-
 
                              /*
                             background: $su-color-black;
@@ -62,29 +55,10 @@
                              */
 
                              /*
-                            background: $gsb-color-charcoal;
-                            color: $su-color-white;
-                            max-width: 11rem;
-                             */
-
-                             /*
                             background: $su-color-black;
                             color: $su-color-white;
                             max-width: 11rem;
                              */
-                          
-                              /*
-                            //Green text, no background
-                            @include padding(.5rem 0);
-                            color: $gsb-color-palo-verde-dark;
-                              */
-
-                             /*
-                            //Black text, no background
-                            @include padding(.5rem 0);
-                            font-size: 2rem;
-                            color: $su-color-black;
-                              */
 
                               /*
                             //Italic black text, no background
@@ -94,6 +68,36 @@
                             text-transform: capitalize;
                             font-style: italic;
                               */
+
+                            // **************************
+
+                            //  /*
+                            // Green bar
+                            background: $gsb-color-palo-verde;
+                            color: $su-color-white;
+                            text-align: center;
+                            //  */
+
+                             /*
+                            // Charcoal label
+                            background: $gsb-color-charcoal;
+                            color: $su-color-white;
+                            max-width: 11rem;
+                             */
+
+                              /*
+                            // Green text, no background
+                            @include padding(.5rem 0);
+                            color: $gsb-color-palo-verde-dark;
+                              */
+
+                             /*
+                            // Black text, no background
+                            @include padding(.5rem 0);
+                            font-size: 2rem;
+                            color: $su-color-black;
+                              */
+
                         }
               
                         h2 {

@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-.section-training-workshops {
+.section-training-workshops,
+.section-training-workshops-test {
     .ptype-stanford-wysiwyg { //make the text paragraph full-width
         max-width: 100%;  
         .su-wysiwyg-text {
@@ -36,18 +37,63 @@
 
                         .training-Past {
                             visibility: hidden;
-                            @include padding(.1rem 1rem);
-                            height: 2.3rem;
                         }
 
                         .training-Upcoming {
+                            @include padding(.3rem 1rem);
+                            letter-spacing: .05rem;
+                            font-size: 1.8rem;
+                            font-weight: $su-font-semi-bold;
+                            text-transform: uppercase;
+                            height: 2.6rem;
+
+                            // /*
+                            // Green bar
                             background: $gsb-color-palo-verde;
                             color: $su-color-white;
-                            font-size: 1.5rem;
-                            text-transform: uppercase;
-                            font-weight: $su-font-semi-bold;
-                            @include padding(.1rem 1rem);
-                            height: 2.3rem;
+                            text-align: center;
+                            // */
+
+
+                             /*
+                            background: $su-color-black;
+                            color: $su-color-white;
+                            text-align: center;
+                             */
+
+                             /*
+                            background: $gsb-color-charcoal;
+                            color: $su-color-white;
+                            max-width: 11rem;
+                             */
+
+                             /*
+                            background: $su-color-black;
+                            color: $su-color-white;
+                            max-width: 11rem;
+                             */
+                          
+                              /*
+                            //Green text, no background
+                            @include padding(.5rem 0);
+                            color: $gsb-color-palo-verde-dark;
+                              */
+
+                             /*
+                            //Black text, no background
+                            @include padding(.5rem 0);
+                            font-size: 2rem;
+                            color: $su-color-black;
+                              */
+
+                              /*
+                            //Italic black text, no background
+                            @include padding(.5rem 0);
+                            font-size: 2rem;
+                            color: $su-color-black;
+                            text-transform: capitalize;
+                            font-style: italic;
+                              */
                         }
               
                         h2 {
@@ -75,7 +121,8 @@
                         .rh-training-label {
                             font-weight: $su-font-semi-bold;
                         }
-
+                        
+                        // Default tag button style
                         .airtable-list-filter {
                             display: inline-block;
                             white-space: nowrap;
@@ -100,30 +147,11 @@
                         }
                     
                         .rh-training-category {
-                            
-                            // Category button links
-                            .artificial-intelligence,
-                            .computing-and-analytics,
-                            .computationally-intensive-research,
-                            .data-acquisition-and-governance,
-                            .data-analytics,
-                            .data-licensing,
-                            .data-onboarding-and-storage,
-                            .data-stewardship,
-                            .human-subjects-research,
-                            .library-research-collections,
-                            .library-resources,
-                            .publication-support,
-                            .research-comms,
-                            .research-computing,
-                            .research-data-sources,
-                            .research-grants,
-                            .research-operations,
-                            .research-planning,
-                            .survey-methodology,
-                            .using-research-resources {
+                            // Default category tag button style
+                            .airtable-list-filter {
+                                background-color: $rh-color-default-dark;
                                 color: $su-color-white;
-                        
+
                                 &:hover,
                                 &:focus {
                                 background-color: color(bg--reverse);
@@ -134,8 +162,10 @@
                                 box-shadow: $su-focus-shadow;
                                 }
                             }
-                        
-                            //Color for DARC
+                            
+                            /*
+                            // Category button links
+                            // Color for DARC
                             .artificial-intelligence,
                             .computing-and-analytics,
                             .computationally-intensive-research,
@@ -145,7 +175,7 @@
                                 background-color: $rh-color-darc; 
                             }
                     
-                            //Color for DAG
+                            // Color for DAG
                             .data-acquisition-and-governance,
                             .data-licensing,
                             .data-stewardship {
@@ -154,13 +184,13 @@
                                 color: $su-color-black;
                             }
                     
-                            //Color for BLab
+                            // Color for BLab
                             .human-subjects-research,
                             .survey-methodology {
                                 background-color: $rh-color-blab;
                             }
                         
-                            //Color for Library
+                            // Color for Library
                             .library-research-collections,
                             .library-resources,
                             .publication-support,
@@ -170,12 +200,13 @@
                                 background-color: $rh-color-library;
                             }
                         
-                            //Color for RO
+                            // Color for RO
                             .research-comms,
                             .research-operations,
                             .research-grants {
                                 background-color: $rh-color-ro;
-                            }    
+                            }   
+                            */ 
                         }
                     
                         .rh-training-description {

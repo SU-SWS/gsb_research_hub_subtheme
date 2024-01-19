@@ -47,57 +47,10 @@
                             text-transform: uppercase;
                             height: 2.6rem;
 
-
-                             /*
-                            background: $su-color-black;
-                            color: $su-color-white;
-                            text-align: center;
-                             */
-
-                             /*
-                            background: $su-color-black;
-                            color: $su-color-white;
-                            max-width: 11rem;
-                             */
-
-                              /*
-                            //Italic black text, no background
-                            @include padding(.5rem 0);
-                            font-size: 2rem;
-                            color: $su-color-black;
-                            text-transform: capitalize;
-                            font-style: italic;
-                              */
-
-                            // **************************
-
-                            //  /*
-                            // Green bar
+                            // Green upcoming bar across the top
                             background: $gsb-color-palo-verde;
                             color: $su-color-white;
                             text-align: center;
-                            //  */
-
-                             /*
-                            // Charcoal label
-                            background: $gsb-color-charcoal;
-                            color: $su-color-white;
-                            max-width: 11rem;
-                             */
-
-                              /*
-                            // Green text, no background
-                            @include padding(.5rem 0);
-                            color: $gsb-color-palo-verde-dark;
-                              */
-
-                             /*
-                            // Black text, no background
-                            @include padding(.5rem 0);
-                            font-size: 2rem;
-                            color: $su-color-black;
-                              */
-
                         }
               
                         h2 {
@@ -137,17 +90,8 @@
                             text-align: center;
                             cursor: pointer;
                             transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
-                            font-size: 1.5rem;
-                    
-                            &:hover,
-                            &:focus {
-                            background-color: color(bg--reverse);
-                            color: color(link--reverse);
-                            }
-                        
-                            &:focus {
-                            box-shadow: $su-focus-shadow;
-                            }
+                            font-size: 1.5rem; 
+                            @include rh-tag-hover-focus;
                         }
                     
                         .rh-training-category {
@@ -155,62 +99,8 @@
                             .airtable-list-filter {
                                 background-color: $rh-color-default-dark;
                                 color: $su-color-white;
-
-                                &:hover,
-                                &:focus {
-                                background-color: color(bg--reverse);
-                                color: color(link--reverse);
-                                }
-                            
-                                &:focus {
-                                box-shadow: $su-focus-shadow;
-                                }
+                                @include rh-tag-hover-focus;
                             }
-                            
-                            /*
-                            // Category button links
-                            // Color for DARC
-                            .artificial-intelligence,
-                            .computing-and-analytics,
-                            .computationally-intensive-research,
-                            .data-analytics,
-                            .data-onboarding-and-storage,
-                            .research-computing {
-                                background-color: $rh-color-darc; 
-                            }
-                    
-                            // Color for DAG
-                            .data-acquisition-and-governance,
-                            .data-licensing,
-                            .data-stewardship {
-                                //background-color: darken($su-color-poppy-dark, 10%);
-                                background-color: $rh-color-dag;
-                                color: $su-color-black;
-                            }
-                    
-                            // Color for BLab
-                            .human-subjects-research,
-                            .survey-methodology {
-                                background-color: $rh-color-blab;
-                            }
-                        
-                            // Color for Library
-                            .library-research-collections,
-                            .library-resources,
-                            .publication-support,
-                            .research-data-sources,
-                            .research-planning,       
-                            .using-research-resources {
-                                background-color: $rh-color-library;
-                            }
-                        
-                            // Color for RO
-                            .research-comms,
-                            .research-operations,
-                            .research-grants {
-                                background-color: $rh-color-ro;
-                            }   
-                            */ 
                         }
                     
                         .rh-training-description {
@@ -262,8 +152,8 @@
                         }
               
                         .su-button {
-                          @include margin(.5rem);
-                          font-size: 2rem;
+                          @include margin(1rem 0);
+                          font-size: 1.8rem;
                         }
 
                     }

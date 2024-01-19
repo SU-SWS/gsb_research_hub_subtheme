@@ -10,6 +10,7 @@
             font-weight: $su-font-bold;
         }        
 
+        // Default tag button style
         .airtable-list-filter {
             display: inline-block;
             white-space: nowrap;
@@ -22,59 +23,16 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
             font-size: 1.5rem;
-    
-            &:hover,
-            &:focus {
-            background-color: color(bg--reverse);
-            color: color(link--reverse);
-            }
-        
-            &:focus {
-            box-shadow: $su-focus-shadow;
-            }
+            @include rh-tag-hover-focus;
         }
 
         // Core service button links
         .rh-service-catalog-core-service {
-
-            .artificial-intelligence,
-            .computationally-intensive-research,
-            .data-acquisition-and-governance,
-            .data-analytics,
-            .data-onboarding-and-storage,
-            .human-subjects-research,
-            .library-research-collections,
-            .publication-support,
-            .research-comms,
-            .research-operations,
-            .research-planning {
+            // Default category tag button style
+            .airtable-list-filter {
+                background-color: $rh-color-default-dark;
                 color: $su-color-white;
-            }
-
-            .artificial-intelligence,
-            .computationally-intensive-research,
-            .data-analytics,
-            .data-onboarding-and-storage {
-                background-color: $rh-color-darc; 
-            }
-            .data-acquisition-and-governance {
-                background-color: $rh-color-dag;
-                color: $su-color-black;
-            }
-
-            .human-subjects-research {
-                background-color: $rh-color-blab;
-            }
-
-            .library-research-collections,
-            .publication-support,
-            .research-planning {
-                background-color: $rh-color-library;
-            }
-
-            .research-comms,
-            .research-operations {
-                background-color: $rh-color-ro;
+                @include rh-tag-hover-focus;
             }
         }
     }

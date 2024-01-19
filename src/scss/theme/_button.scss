@@ -7,3 +7,11 @@
 //    include button mixins here
 //  }
 //}
+
+.rh-button-sm {
+    @include button-primary;
+    @include margin(1rem 0 0.5rem);
+    @include padding(0.8rem 1rem 1rem); 
+    font-size: 1.5rem;
+    font-weight: $su-font-semi-bold;
+}

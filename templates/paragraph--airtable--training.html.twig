@@ -53,7 +53,7 @@
     "view": "viwysR9e3XfdJQX8K",
     "equalHeight": true,
     "filters": {
-      "category": {
+      "categories": {
         "templateID": "filter-select",
         "multiple": true
       },
@@ -83,7 +83,7 @@
             day: "numeric"
           },
           "time": {
-            hour: "2-digit",
+            hour: "numeric",
             minute: "2-digit"
           }
         }
@@ -91,14 +91,8 @@
       "upcoming-end-date": {
         "type": "Date",
         "options": {
-          "date": {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          },
           "time": {
-            hour: "2-digit",
+            hour: "numeric",
             minute: "2-digit"
           }
         }
@@ -119,9 +113,9 @@
       {# Filters #}
       <div class="airtable-filter-container">
         <div id="airtable-list-filters" style="display: none;">
-          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="category">
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="categories">
             Categories
-            <select id="airtable-list-category" multiple>
+            <select id="airtable-list-categories" multiple>
             </select>
           </div>
           <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
@@ -160,7 +154,11 @@
               <div class="rh-training-series" data-field-key="series" data-row-height-id="series"><span class="rh-training-label">Series:</span> <span class="%series|cssClass% airtable-list-filter" data-filter-name="series" data-filter-key="%series|cssClass%">%series%</div>
               <div class="rh-training-description alb-searchable" data-field-key="description" data-row-height-id="description">%description%</div>
               <div class="rh-training-presenter-wrapper" data-field-key="presenter-json" data-row-height-id="presenter-json"><span class="rh-training-label">Presented by:</span><br>%presenter-json%</div>
-              <div data-field-key="upcoming-start-date" data-row-height-id="links"><div class="rh-training-registration" data-field-key="registration-url"><a title="Register for %name%" aria-label="Register for %name%" class="su-button su-link" href="%registration-url%">Register</a></div></div>
+              <div data-field-key="upcoming-start-date" data-row-height-id="links">
+                <div class="rh-training-registration" data-field-key="registration-url">
+                  <a title="Register for %name%" aria-label="Register for %name%" class="su-button su-link" href="%registration-url%">Register</a>
+                </div>
+              </div>
               <div class="rh-training-links" data-field-key="recording" data-row-height-id="links">
                 <ul class="rh-training-links-list">
                   <li><a class="su-link--action" title="Watch the recording of %name%" aria-label="Watch the recording of %name%" href="%recording%">Watch Recording</a></li>
@@ -184,7 +182,7 @@
       </template>
 
       <template id="airtable-list-categories-item-template">
-        <span class="%class% airtable-list-filter" data-filter-name="category" data-filter-key="%class%">%value%</span>
+        <span class="%class% tag airtable-list-filter" data-filter-name="category" data-filter-key="%class%">%value%</span>
       </template>
 
     {% endblock %}

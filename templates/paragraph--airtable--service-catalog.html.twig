@@ -53,25 +53,26 @@
     "view": "viwkVEH2eez8BOgL3",
     "equalHeight": true,
     "filters": {
-      "Core Service": {
-        "name": "Service Categories"
+      "core-service": {
+        "templateID": "filter-select"
       },
-      "Clients": {
-        "name": "Clients"
+      "clients": {
+        "templateID": "filter-select"
       }
     },
+    "search": true,
     "format": {
-      "Core Service": {
+      "core-service": {
         "type": "Array",
         "options": {
-          "template_id": "core-service-item",
+          "templateID": "core-service-item",
           "separator": " ",
         }
       },
-      "Clients": {
+      "clients": {
         "type": "Array",
         "options": {
-          "template_id": "clients-item",
+          "templateID": "clients-item",
           "separator": " ",
         }
       }
@@ -82,7 +83,28 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      <div id="airtable-list-filters"></div>
+      <div class="airtable-filter-container">
+        <div id="airtable-list-filters" style="display: none;">
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="core-service">
+            Service Categories
+            <select id="airtable-list-core-service">
+            <option class="select-all" value="*">All</option>
+            </select>
+          </div>
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="clients">
+            Clients
+            <select id="airtable-list-clients">
+            <option class="select-all" value="*">All</option>
+            </select>
+          </div>
+          <div class="airtable-list-search" data-filter-group="search">
+            <div class="search-container">
+              <input id="airtable-search" type="text" placeholder="Search services"/>
+              <i class="fas fa-spinner fa-pulse" id="spinner"></i>
+            </div>
+          </div>
+        </div>
+      </div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading service catalog...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
@@ -93,19 +115,19 @@
         <div class="airtable-list-record-row [rowClasses]">
           <div class="su-card">
             <div class="su-card__contents">
-              <h2 class="rh-service-catalog-title" data-row-height-id="service-name" data-field-key="Service Name">%Service Name%</h2>
-              <div class="rh-service-catalog-description" data-row-height-id="service-description" data-field-key="Service Description">%Service Description%</div>
-              <div class="rh-service-catalog-core-service" data-row-height-id="core-service" data-field-key="Core Service"><span class="rh-service-catalog-label">Core Services:</span> %Core Service%</div>
-              <div class="rh-service-catalog-clients" data-row-height-id="clients" data-field-key="Clients"><span class="rh-service-catalog-label">Clients:</span> %Clients%</div>
+              <h2 class="rh-service-catalog-title alb-searchable" data-row-height-id="service-name" data-field-key="service-name">%service-name%</h2>
+              <div class="rh-service-catalog-description alb-searchable" data-row-height-id="service-description" data-field-key="service-description">%service-description%</div>
+              <div class="rh-service-catalog-core-service" data-row-height-id="core-service" data-field-key="core-service"><span class="rh-service-catalog-label">Core Services:</span> %core-service%</div>
+              <div class="rh-service-catalog-clients" data-row-height-id="clients" data-field-key="clients"><span class="rh-service-catalog-label">Clients:</span> %clients%</div>
               
-              <div class="rh-service-catalog-request-services-wrapper" data-field-key="Request Services"><a title="Request services for %Service Name%" aria-label="Request services for %Service Name%" class="su-link--action" href="%Request Services%">Request Services</a></div>
+              <div class="rh-service-catalog-request-services-wrapper" data-field-key="request-services"><a title="Request services for %service-name%" aria-label="Request services for %service-name%" class="su-link--action" href="%request-services%">Request Services</a></div>
             </div>
           </div>
         </div>
       </template>
 
       <template id="airtable-list-core-service-item-template">
-        <span class="%class% airtable-list-filter" data-filter-name="core-service" data-filter-key="%class%">%value%</span>
+        <span class="%class% tag airtable-list-filter" data-filter-name="core-service" data-filter-key="%class%">%value%</span>
       </template>
 
       <template id="airtable-list-clients-item-template">

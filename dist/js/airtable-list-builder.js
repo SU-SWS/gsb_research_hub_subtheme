@@ -23,25 +23,34 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       };
       config = _objectSpread(_objectSpread({}, configDefault), config);
       for (filterKey in config.filters) {
-        config.filters[filterKey].choices = [{
-          "key": "*",
-          "name": "All"
-        }];
+        // Set the default array of choices if choices are not provided for us.
+        if (!("choices" in config.filters[filterKey])) {
+          config.filters[filterKey].choices = [];
+        }
       }
 
       // Load the airtable data
       $.ajax({
         type: "GET",
         beforeSend: function beforeSend(xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer 0mdOOeXqOuQdFUxwt9ngJ3KSlxh7v1z2');
+          xhr.setRequestHeader('Authorization', 'Bearer ' + settings.gsbResearchHubSubtheme.snaplogicToken);
         },
         dataType: "json",
-        url: "https://snaplogic.stanford.edu/api/1/rest/feed-master/queue/StanfordProd/GSB/rh-airtable_proxy_cache/output?airtable_table=" + config.table + "&airtable_view=" + config.view,
+        url: settings.gsbResearchHubSubtheme.snaplogicURL + "/GSB/rh-airtable_proxy_cache/output?airtable_table=" + config.table + "&airtable_view=" + config.view,
         success: function success(data) {
           $contentArea.find('#airtable-list-loader').remove();
           // Load the records.
           var records = data.records;
           if (records.length) {
+            for (recordIndex in records) {
+              for (fieldName in records[recordIndex].fields) {
+                if (fieldName.endsWith('_json') && records[recordIndex].fields[fieldName]) {
+                  records[recordIndex].fields[stringToCSSClass(fieldName)] = JSON.parse(records[recordIndex].fields[fieldName]);
+                } else {
+                  records[recordIndex].fields[stringToCSSClass(fieldName)] = records[recordIndex].fields[fieldName];
+                }
+              }
+            }
             var $recordWrapper = $('#airtable-list-record-wrapper');
 
             // Process each record.
@@ -102,7 +111,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               }
 
               // Build the record html.
-              var recordTemplate = processTemplate(config, 'records', record.fields);
+              var recordTemplate = processTemplate(config, 'records', record.fields, record.fields);
 
               // Add rowClasses and add the record to the page.
               recordTemplate = recordTemplate.replace('[rowClasses]', rowClasses);
@@ -111,65 +120,96 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             for (recordIndex in records) {
               _loop();
             }
-            var defaultFilters = {};
+
+            // Pull the url parameters to use later.
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var filters = {};
             // Add Filters on the page.
             for (filterKey in config.filters) {
-              var filter = config.filters[filterKey];
-
+              var _filter = config.filters[filterKey];
               // Build the select filter.
-              if (filter.choices.length > 0) {
-                var $filterGroup = $('<div>').addClass("airtable-list-filter-group").attr('data-filter-group', stringToCSSClass(filterKey));
-                $filterGroup.append('<h2>').addClass('airtable-list-filter-header').text(filter.name);
-                var $filterSelect = $('<select>').attr("id", "airtable-list-" + stringToCSSClass(filterKey));
-                var _iterator = _createForOfIteratorHelper(filter.choices.sort(function (a, b) {
-                    return a.name > b.name ? 1 : b.name > a.name ? -1 : 0;
-                  })),
-                  _step;
-                try {
-                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                    choice = _step.value;
-                    var $filterOption = $("<option>");
-                    $filterOption.val(choice.key).text(choice.name);
-                    $filterSelect.append($filterOption);
-                  }
+              if (_filter.choices.length > 0) {
+                switch (_filter.templateID) {
+                  case "filter-select":
+                    var $filterSelect = $('select#airtable-list-' + filterKey);
+                    // Build the options list.
+                    var _iterator = _createForOfIteratorHelper(_filter.choices.sort(function (a, b) {
+                        return a.name > b.name ? 1 : b.name > a.name ? -1 : 0;
+                      })),
+                      _step;
+                    try {
+                      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                        choice = _step.value;
+                        var $filterOption = $("<option>");
+                        $filterOption.val(choice.key).text(choice.name);
 
-                  // Add the filter to the page.
-                } catch (err) {
-                  _iterator.e(err);
-                } finally {
-                  _iterator.f();
+                        // Set the default selection.
+                        if ("selected" in choice && choice.selected) {
+                          $filterOption.attr("selected", "selected");
+                        }
+                        $filterSelect.append($filterOption);
+                      }
+
+                      // Set the default value of the select item based on a given url parameter.
+                    } catch (err) {
+                      _iterator.e(err);
+                    } finally {
+                      _iterator.f();
+                    }
+                    var paramValue = urlParams.get(filterKey);
+                    if (paramValue !== null) {
+                      // If it's a multiselect filter then convert parameter to an array
+                      if ("multiple" in _filter && _filter.multiple) {
+                        paramValue = paramValue.split("|");
+                      }
+                      $filterSelect.val(paramValue);
+                    }
+                    $filterSelect.on('change', function (event) {
+                      // Reload isotope.
+                      $contentArea.isotope();
+                    });
+
+                    // Add default options in chosenOptions.
+                    var chosenOptions = {
+                      "width": "100%",
+                      "placeholder_text_single": "All",
+                      "placeholder_text_multiple": "All",
+                      "hide_results_on_select": false,
+                      "display_selected_options": false
+                    };
+                    if ("chosenOptions" in _filter) {
+                      chosenOptions = _objectSpread(_objectSpread({}, chosenOptions), _filter.chosenOptions);
+                    }
+                    $filterSelect.chosen(chosenOptions);
+                    break;
                 }
-                $filterGroup.append($filterSelect);
-                $('div#airtable-list-filters').append($filterGroup);
               }
             }
 
-            // Handle the changing of the filters.
-            // store filter for each group
-            var filters = {};
-            $('#airtable-list-filters select').on('change', function (event) {
-              var $filter = $(event.currentTarget);
-              // get group key
-              var $filterGroup = $filter.parents('.airtable-list-filter-group');
-              var filterGroup = $filterGroup.attr('data-filter-group');
-
-              // set filter for group
-              filters[filterGroup] = $filter.val() == '*' ? '' : '.' + filterGroup + '--' + $filter.val();
-              // combine filters
-              config.filterValue = concatValues(filters);
-
-              // set filter for Isotope
-              $contentArea.isotope({
-                filter: config.filterValue
+            // Show the filters.
+            $('div#airtable-list-filters').show();
+            if ('search' in config && config.search) {
+              // If there is a predefined parameter set the default value of search
+              if (urlParams.get('search') !== null) {
+                $('#airtable-search').val(urlParams.get('search'));
+              }
+              // use value of search field to filter
+              $('#airtable-search').keyup(debounce(function () {
+                $('.fas').hide();
+                $contentArea.isotope();
+              }, 500));
+              $('#airtable-search').keyup(function () {
+                $('.fas').show();
               });
-            });
+            }
 
             // Allow items to filter.
             $('.airtable-list-filter').on("click", function (e) {
               e.preventDefault();
               var filterName = $(this).data('filter-name');
               var filterKey = $(this).data('filter-key');
-              $('#airtable-list-' + filterName).val(filterKey).change();
+              $('#airtable-list-' + filterName).val(filterKey).change().trigger("chosen:updated");
 
               // Jump back up to the top filters.
               var $filterWrapper = $("#airtable-list-filters");
@@ -184,6 +224,58 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               layoutMode: "fitRows",
               fitRows: {
                 gutter: config.gutter
+              },
+              filter: function filter() {
+                var $this = $(this);
+                var urlParamaters = new URLSearchParams();
+                // If using search box filter by the text.
+                var searchMatch = true;
+                if ('search' in config && config.search) {
+                  var $airtableSearch = $('#airtable-search');
+                  if ($airtableSearch.val() !== '') {
+                    urlParamaters.set('search', $airtableSearch.val());
+                    var qsRegex = new RegExp($airtableSearch.val(), 'gi');
+                    searchMatch = qsRegex ? $this.find('.alb-searchable').text().match(qsRegex) : true;
+                  }
+                }
+
+                // Handle Filters.
+                var filterMatch = true;
+                if ('filters' in config) {
+                  var filters = [];
+                  for (filterKey in config.filters) {
+                    var $filter = $('#airtable-list-' + filterKey);
+
+                    // get group key
+                    var $filterGroup = $filter.parents('.airtable-list-filter-group');
+                    var filterGroup = $filterGroup.attr('data-filter-group');
+
+                    // Set the url parameters.
+                    var currentFilterValue = $filter.val();
+                    filters[filterGroup] = [];
+                    if (currentFilterValue !== '*' && currentFilterValue !== '' && currentFilterValue.length !== 0) {
+                      // Set parameters and filter if it's multiple values.
+                      if (Array.isArray(currentFilterValue)) {
+                        urlParamaters.set(filterGroup, currentFilterValue.join('|'));
+                        currentFilterValue = currentFilterValue.map(function (x) {
+                          return '.' + filterGroup + '--' + x;
+                        });
+                      } else {
+                        urlParamaters.set(filterGroup, currentFilterValue);
+                        currentFilterValue = ['.' + filterGroup + '--' + currentFilterValue];
+                      }
+                      filters[filterGroup] = currentFilterValue;
+                    }
+                  }
+                }
+
+                // Set the browser url.
+                window.history.replaceState(null, null, '?' + urlParamaters.toString());
+
+                // combine filters
+                var filterValue = buildFilters(filters);
+                filterMatch = filterValue ? $this.is(filterValue) : true;
+                return searchMatch && filterMatch;
               }
             });
 
@@ -210,13 +302,33 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   };
 
-  // flatten object by concatting values
-  function concatValues(obj) {
-    var value = '';
-    for (var prop in obj) {
-      value += obj[prop];
+  // Build the filters into a jquery search string
+  function buildFilters(chosenFilters) {
+    var combo = [];
+    for (var prop in chosenFilters) {
+      var group = chosenFilters[prop];
+      if (!group.length) {
+        // no filters in group, carry on
+        continue;
+      }
+      // add first group
+      if (!combo.length) {
+        combo = group.slice(0);
+        continue;
+      }
+      // add additional groups
+      var nextCombo = [];
+      // split group into combo: [ A, B ] & [ 1, 2 ] => [ A1, A2, B1, B2 ]
+      for (var i = 0; i < combo.length; i++) {
+        for (var j = 0; j < group.length; j++) {
+          var item = combo[i] + group[j];
+          nextCombo.push(item);
+        }
+      }
+      combo = nextCombo;
     }
-    return value;
+    var comboFilter = combo.join(', ');
+    return comboFilter;
   }
 
   // Convert a string into a class friendly string.
@@ -235,8 +347,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   }
 
   // Apply the data to the template.
-  function processTemplate(config, templateKey, data) {
+  function processTemplate(config, templateKey, data, allData) {
     var template = $('template#airtable-list-' + stringToCSSClass(templateKey) + '-template').html();
+    var settings = drupalSettings.gsbResearchHubSubtheme;
     if (template) {
       // Pull all of the tokens from the template.
       var tokens = [];
@@ -247,30 +360,59 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       // Process each token.
       for (var _i = 0, _tokens = tokens; _i < _tokens.length; _i++) {
         var token = _tokens[_i];
+        var filterOptions = token.split('|');
+        var baseToken = filterOptions.shift();
+
         // If the token exists in the data then process it.
-        if (token in data) {
-          var content = data[token];
-          // If it's an array then process that array with its template.
-          if (token.endsWith('_json')) {
-            var jsonData = JSON.parse(content);
+        if (baseToken in data || baseToken in allData) {
+          var content = data[baseToken];
+
+          // Process any filtering options.
+          var _iterator3 = _createForOfIteratorHelper(filterOptions),
+            _step3;
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              filter = _step3.value;
+              switch (filter) {
+                case "cssClass":
+                  content = stringToCSSClass(content);
+                  break;
+                case "parent":
+                  content = allData[baseToken];
+                  break;
+              }
+            }
+
+            // If it's an array then process that array with its template.
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
+          }
+          if (token.endsWith('-json')) {
             var templateHTML = '';
-            var _iterator3 = _createForOfIteratorHelper(jsonData),
-              _step3;
+            var _iterator4 = _createForOfIteratorHelper(content),
+              _step4;
             try {
-              for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                recordVal = _step3.value;
-                templateHTML += processTemplate(config, token, recordVal);
+              for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                recordVal = _step4.value;
+                templateHTML += processTemplate(config, token, recordVal, allData);
               }
             } catch (err) {
-              _iterator3.e(err);
+              _iterator4.e(err);
             } finally {
-              _iterator3.f();
+              _iterator4.f();
             }
             template = replaceToken(template, token, templateHTML);
           } else {
             // If there is any field that needs formatting format it.
             if ("format" in config && token in config.format) {
-              content = formatString(config.format[token].type, config.format[token].options, content);
+              // Pull in any additional config passed in from the text area.
+              var additionalConfig = [];
+              if ("arrayFormatConfig" in settings && token in settings.arrayFormatConfig) {
+                additionalConfig = settings.arrayFormatConfig[token];
+              }
+              content = formatString(config.format[token].type, config.format[token].options, content, additionalConfig);
             }
             var fieldTemplate = $('template#airtable-list-' + stringToCSSClass(token) + '-template').html();
             if (fieldTemplate) {
@@ -299,29 +441,33 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   }
 
   // Formats a string into the given type.
-  function formatString(type, format, content) {
+  function formatString(type, format, content, additionalConfig) {
     var newContent = '';
     switch (type) {
       case 'Array':
-        var template = $('template#airtable-list-' + stringToCSSClass(format.template_id) + '-template').html();
+        var template = $('template#airtable-list-' + stringToCSSClass(format.templateID) + '-template').html();
         var count = 0;
-        var _iterator4 = _createForOfIteratorHelper(content),
-          _step4;
+        var _iterator5 = _createForOfIteratorHelper(content),
+          _step5;
         try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            item = _step4.value;
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+            item = _step5.value;
             count++;
             var replacedContent = replaceToken(template, 'value', item);
-            replacedContent = replaceToken(replacedContent, 'class', stringToCSSClass(item));
+            var classes = stringToCSSClass(item);
+            if ("classMap" in additionalConfig && item in additionalConfig.classMap) {
+              classes += " " + additionalConfig.classMap[item];
+            }
+            replacedContent = replaceToken(replacedContent, 'class', classes);
             newContent += replacedContent;
             if (format.hasOwnProperty('separator') && count != content.length) {
               newContent += format.separator;
             }
           }
         } catch (err) {
-          _iterator4.e(err);
+          _iterator5.e(err);
         } finally {
-          _iterator4.f();
+          _iterator5.f();
         }
         break;
       case 'Date':
@@ -395,6 +541,21 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
     // Set the height of the entire airtable-list.
     $('#airtable-list').height(newTop);
+  }
+
+  // debounce so filtering doesn't happen every millisecond
+  function debounce(fn, threshold) {
+    var timeout;
+    threshold = threshold || 100;
+    return function debounced() {
+      clearTimeout(timeout);
+      var args = arguments;
+      var _this = this;
+      function delayed() {
+        fn.apply(_this, args);
+      }
+      timeout = setTimeout(delayed, threshold);
+    };
   }
 })(jQuery, Drupal, drupalSettings);
 /******/ })()

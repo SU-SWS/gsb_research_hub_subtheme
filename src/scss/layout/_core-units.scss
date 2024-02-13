@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+// Behavioral Lab
+.blab {
+
+    &.tag {
+        background-color: $rh-color-blab !important;
+        @include rh-tag-hover-focus;
+    }
+}
+
+.dag {
+
+    &.tag {
+        background-color: $rh-color-dag-light !important;
+        color: $su-color-black !important;
+        font-weight: $su-font-semi-bold !important;
+        @include rh-tag-hover-focus;
+    }
+}
+
+// DARC
+.darc {
+
+    &.tag {
+        background-color: $rh-color-darc !important;
+        @include rh-tag-hover-focus;
+    }
+}
+
+// GSB Library
+.library {
+
+    &.tag {
+        background-color: $rh-color-library !important;
+        @include rh-tag-hover-focus;
+    }
+}
+
+// Research Labs & Initiatives
+.rli {
+
+    &.tag {
+        background-color: $rh-color-rli !important;
+        @include rh-tag-hover-focus;
+    }
+}
+
+// Research Operations
+.ro {
+
+    &.tag {
+        background-color: $rh-color-ro !important;
+        @include rh-tag-hover-focus;
+    }
+}

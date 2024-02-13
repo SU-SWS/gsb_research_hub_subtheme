@@ -1,0 +1,190 @@
+{#
+/**
+ * @file
+ * Training Theme File
+ *
+ * Available variables:
+ * - paragraph: Full paragraph entity.
+ *   Only method names starting with "get", "has", or "is" and a few common
+ *   methods such as "id", "label", and "bundle" are available. For example:
+ *   - paragraph.getCreatedTime() will return the paragraph creation timestamp.
+ *   - paragraph.id(): The paragraph ID.
+ *   - paragraph.bundle(): The type of the paragraph, for example, "image" or "text".
+ *   - paragraph.getOwnerId(): The user ID of the paragraph author.
+ *   See Drupal\paragraphs\Entity\Paragraph for a full list of public properties
+ *   and methods for the paragraph object.
+ * - content: All paragraph items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - paragraphs: The current template type (also known as a "theming hook").
+ *   - paragraphs--type-[type]: The current paragraphs type. For example, if the paragraph is an
+ *     "Image" it would result in "paragraphs--type--image". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - paragraphs--view-mode--[view_mode]: The View Mode of the paragraph; for example, a
+ *     preview would result in: "paragraphs--view-mode--preview", and
+ *     default: "paragraphs--view-mode--default".
+ * - view_mode: View mode; for example, "preview" or "full".
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    'rh-training'
+  ]
+%}
+{%
+  set airtableConfig = {
+    "table": "tbl76xG6T8QA20lqn",
+    "view": "viwysR9e3XfdJQX8K",
+    "equalHeight": true,
+    "filters": {
+      "categories": {
+        "templateID": "filter-select",
+        "multiple": true
+      },
+      "series": {
+        "templateID": "filter-select"
+      }
+    },
+    "search": true,
+    "format": {
+      "past-date": {
+        "type": "Date",
+        "options": {
+          "date": {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          }
+        }
+      },
+      "upcoming-start-date": {
+        "type": "Date",
+        "options": {
+          "date": {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          },
+          "time": {
+            hour: "numeric",
+            minute: "2-digit"
+          }
+        }
+      },
+      "upcoming-end-date": {
+        "type": "Date",
+        "options": {
+          "time": {
+            hour: "numeric",
+            minute: "2-digit"
+          }
+        }
+      },
+      "categories": {
+        "type": "Array",
+        "options": {
+          "templateID": "categories-item",
+          "separator": " ",
+        }
+      }
+    }
+  }
+%}
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {# Filters #}
+      <div class="airtable-filter-container">
+        <div id="airtable-list-filters" style="display: none;">
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="categories">
+            Categories
+            <select id="airtable-list-categories" multiple>
+            </select>
+          </div>
+          <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
+            Series
+            <select id="airtable-list-series" multiple>
+            </select>
+            <!-- <select id="airtable-list-series">
+              <option class="select-all" value="*">All</option>
+            </select> -->
+          </div>
+          <div class="airtable-list-search" data-filter-group="search">
+            <div class="search-container">
+              <input id="airtable-search" type="text" placeholder="Search training & workshops"/>
+              <i class="fas fa-spinner fa-pulse" id="spinner"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
+        <p id="airtable-list-loader">Loading training...</p>
+        <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
+        <p id="airtable-list-no-records" style="display: none;">Please check back soon for a list of new trainings.</p>
+        <div id="airtable-list-record-wrapper" class="rh-card-layout"></div>
+      </div>
+
+      <template id="airtable-list-records-template">
+        <div class="airtable-list-record-row [rowClasses]">
+          <div class="su-card">
+            <div class="su-card__contents">
+              <div class="training-%type%">%type%</div>
+              <h3 class="rh-training-title alb-searchable" data-field-key="name" data-row-height-id="name">%name%</h3>
+              <div class="rh-training-upcoming-date" data-field-key="upcoming-start-date" data-row-height-id="date"><span class="rh-training-upcoming-date">%upcoming-start-date%</span><span class="rh-training-end-date" data-field-key="upcoming-end-date"> - %upcoming-end-date%</span></div>
+              <div class="rh-training-past-date" data-field-key="past-date" data-row-height-id="date"><span class="rh-training-past-date">%past-date%</span></div>
+              <div class="rh-training-category" data-field-key="category" data-row-height-id="category"><span class="rh-training-label">Category:</span> %categories%</div>
+              <div class="rh-training-series" data-field-key="series" data-row-height-id="series"><span class="rh-training-label">Series:</span> <span class="%series|cssClass% airtable-list-filter" data-filter-name="series" data-filter-key="%series|cssClass%">%series%</div>
+              <div class="rh-training-description alb-searchable" data-field-key="description" data-row-height-id="description">%description%</div>
+              <div class="rh-training-presenter-wrapper" data-field-key="presenter-json" data-row-height-id="presenter-json"><span class="rh-training-label">Presented by:</span><br>%presenter-json%</div>
+              <div data-field-key="upcoming-start-date" data-row-height-id="links">
+                <div class="rh-training-registration" data-field-key="registration-url">
+                  <a title="Register for %name%" aria-label="Register for %name%" class="su-button su-link" href="%registration-url%">Register</a>
+                </div>
+              </div>
+              <div class="rh-training-links" data-field-key="recording" data-row-height-id="links">
+                <ul class="rh-training-links-list">
+                  <li><a class="su-link--action" title="Watch the recording of %name%" aria-label="Watch the recording of %name%" href="%recording%">Watch Recording</a></li>
+                  %link-json%
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template id="airtable-list-presenter-json-template">
+        <div class="rh-training-presenter-row">
+          <span class="rh-presenter-name alb-searchable" data-field-key="name">%name%</span><br>
+          <span class="rh-presenter-title" data-field-key="title">%title%</span>
+        </div>
+      </template>
+
+      <template id="airtable-list-link-json-template">
+        <li><a class="rh-training-link su-link--action" aria-label="%name% for %name|parent%" title="%name% for %name|parent%" href="%url%">%name%</a></li>
+      </template>
+
+      <template id="airtable-list-categories-item-template">
+        <span class="%class% tag airtable-list-filter" data-filter-name="category" data-filter-key="%class%">%value%</span>
+      </template>
+
+    {% endblock %}
+  </div>
+{% endblock paragraph %}

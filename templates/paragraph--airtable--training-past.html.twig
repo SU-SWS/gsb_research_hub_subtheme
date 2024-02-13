@@ -52,15 +52,16 @@
     "table": "tbl76xG6T8QA20lqn",
     "view": "viwyfokngnej2wXUZ",
     "filters": {
-      "Category": {
-        "name": "Categories"
+      "category": {
+        "templateID": "filter-select"
       },
-      "Series": {
-        "name": "Series"
+      "series": {
+        "templateID": "filter-select"
       }
     },
+    "search": true,
     "format": {
-      "Event Start Date": {
+      "event-start-date": {
         "type": "Date",
         "options": {
           "date": {
@@ -77,7 +78,21 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
-      <div id="airtable-list-filters"></div>
+      <div class="airtable-list-search" data-filter-group="search">
+        <input id="airtable-search" type="text" />
+      </div>
+      <div id="airtable-list-filters" style="display: none;">
+        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="category">
+          Categories
+          <select id="airtable-list-category">
+          </select>
+        </div>
+        <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="series">
+          Series
+          <select id="airtable-list-series">
+          </select>
+          </div>
+      </div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>
         <p id="airtable-list-loader">Loading past training...</p>
         <p id="airtable-list-no-results" style="display: none;">There are no results matching your current criteria.</p>
@@ -87,16 +102,16 @@
 
       <template id="airtable-list-records-template">
         <div class="airtable-list-record-row [rowClasses]">
-          <h2 class="rh-training-title" data-field-key="Name">%Name%</h2>
-          <div class="rh-training-past-event-date"><span class="rh-training-start-date" data-field-key="Event Start Date"><span class="rh-training-label">Date:</span> %Event Start Date%</span></div>
-          <div class="rh-training-category" data-field-key="Category"><span class="rh-training-label">Category:</span> %Category%</div>
-          <div class="rh-training-series" data-field-key="Series"><span class="rh-training-label">Series:</span> %Series%</div>
-          <div class="rh-training-description" data-field-key="Description">%Description%</div>
-          <div class="rh-training-presenter-wrapper" data-field-key="presenter_json"><span class="rh-training-label">Presented by:</span><br>%presenter_json%</div>
+          <h2 class="rh-training-title alb-searchable" data-field-key="name">%name%</h2>
+          <div class="rh-training-past-event-date"><span class="rh-training-start-date" data-field-key="event-start-date"><span class="rh-training-label">Date:</span> %event-start-date%</span></div>
+          <div class="rh-training-category" data-field-key="category"><span class="rh-training-label">Category:</span> %category%</div>
+          <div class="rh-training-series" data-field-key="series"><span class="rh-training-label">Series:</span> %series%</div>
+          <div class="rh-training-description alb-searchable" data-field-key="description">%description%</div>
+          <div class="rh-training-presenter-wrapper" data-field-key="presenter-json"><span class="rh-training-label">Presented by:</span><br>%presenter-json%</div>
           <div class="rh-training-links">
             <ul class="rh-training-links-list">
-              <li data-field-key="Recording"><a class="su-link--action" title="Watch the recording of %Name%" aria-label="Watch the recording of %Name%" href="%Recording%">Watch Recording</a></li>
-              %link_json%
+              <li data-field-key="recording"><a class="su-link--action" title="Watch the recording of %name%" aria-label="Watch the recording of %name%" href="%recording%">Watch Recording</a></li>
+              %link-json%
             </ul>
           </div>
 </div>
@@ -104,13 +119,13 @@
 
       <template id="airtable-list-presenter-json-template">
         <div class="rh-training-presenter-row">
-          <span class="rh-presenter-name" data-field-key="name">%name%</span><br>
+          <span class="rh-presenter-name alb-searchable" data-field-key="name">%name%</span><br>
           <span class="rh-presenter-title" data-field-key="title">%title%</span>
         </div>
       </template>
 
       <template id="airtable-list-link-json-template">
-        <li><a class="rh-training-link su-link--action" href="%url%">%name%</a></li>
+        <li><a class="rh-training-link su-link--action" aria-label="%name% for %name|parent%" title="%name% for %name|parent%" href="%url%">%name%</a></li>
       </template>
 
     {% endblock %}

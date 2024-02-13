@@ -1,113 +1,39 @@
 @charset "UTF-8";
 
-.rh-service-catalog-label {
-    display: block;
-    font-weight: $su-font-bold;
-}
-
-// Core service button links
-.rh-service-catalog-core-service {
-
-    .artificial-intelligence,
-    .computationally-intensive-research,
-    .data-acquisition-and-governance,
-    .data-analytics,
-    .data-onboarding-and-storage,
-    .human-subjects-research,
-    .library-research-collections,
-    .publication-support,
-    .research-comms,
-    .research-operations,
-    .research-planning {
-        display: inline-block;
-        white-space: nowrap;
-        max-width: calc(112% - 0rem);  // Width of the pill minus padding
-        color: $su-color-white;
-        padding: 0 1rem;
-        border-radius: 2rem;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
-        font-size: 1.6rem;
-
-        &:hover,
-        &:focus {
-        background-color: color(bg--reverse);
-        color: color(link--reverse);
-        }
+.su-card {
+                
+    .su-card__contents {
+        @include padding(2rem 3rem);
     
-        &:focus {
-        box-shadow: $su-focus-shadow;
+        .rh-service-catalog-label {
+            display: block;
+            font-weight: $su-font-bold;
+        }        
+
+        // Default tag button style
+        .airtable-list-filter {
+            display: inline-block;
+            white-space: nowrap;
+            //max-width: calc(112% - 0rem);  // Width of the pill minus padding
+            background-color:  $rh-color-default;
+            color: $su-color-black;
+            padding: 0 1rem;
+            border-radius: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
+            font-size: 1.5rem;
+            @include rh-tag-hover-focus;
         }
-    }
-    
-    .artificial-intelligence,
-    .computationally-intensive-research,
-    .data-analytics,
-    .data-onboarding-and-storage {
-        background-color: $su-color-brick-light; 
-    }
-    .data-acquisition-and-governance {
-        //background-color: darken($su-color-poppy-dark, 10%);
-        background-color: $gsb-color-autumn-gingko;
-        color: $su-color-black;
-    }
 
-    .human-subjects-research {
-        background-color: $su-color-bay-dark;
-    }
-
-    .library-research-collections,
-    .publication-support,
-    .research-planning {
-        background-color: $su-color-lagunita-dark;
-    }
-
-    .research-comms,
-    .research-operations {
-        background-color: $gsb-color-new-sky-dark;
-    }
-}
-
-// Client button links
-.rh-service-catalog-clients {
-
-    .all-gsb,
-    .ces,
-    .csi,
-    .ces-csi,
-    .gsb,
-    .gsb-administration,
-    .gsb-community,
-    .gsb-faculty,
-    .gsb-faculty-assistants,
-    .gsb-fas,
-    .gsb-mba-msx-students,
-    .gsb-mba-students,
-    .gsb-msx-students,
-    .gsb-phd-students,
-    .gsb-students,
-    .rh-labs-initiatives,
-    .research-hub {
-        display: inline-block;
-        white-space: nowrap;
-        background-color:  $gsb-color-sand-25;
-        color: $su-color-black;
-        padding: 0 1rem;
-        border-radius: 2rem;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s; // smooth transition for hover effects
-        font-size: 1.5rem;
-
-        &:hover,
-        &:focus {
-        background-color: color(bg--reverse);
-        color: color(link--reverse);
-        }
-    
-        &:focus {
-        box-shadow: $su-focus-shadow;
+        // Core service button links
+        .rh-service-catalog-core-service {
+            // Default category tag button style
+            .airtable-list-filter {
+                background-color: $rh-color-default-dark;
+                color: $su-color-white;
+                @include rh-tag-hover-focus;
+            }
         }
     }
 }

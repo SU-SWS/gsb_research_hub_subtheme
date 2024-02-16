@@ -459,6 +459,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               classes += " " + additionalConfig.classMap[item];
             }
             replacedContent = replaceToken(replacedContent, 'class', classes);
+
+            // Replace the variable key with the key version of the option value.
+            var key = stringToCSSClass(item);
+            replacedContent = replaceToken(replacedContent, 'key', key);
             newContent += replacedContent;
             if (format.hasOwnProperty('separator') && count != content.length) {
               newContent += format.separator;

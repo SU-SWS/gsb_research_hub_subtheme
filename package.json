@@ -1,6 +1,6 @@
 {
   "name": "gsb_research_hub_subtheme",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "Changelog: [CHANGELOG.md](CHANGELOG.md)",
   "main": "webpack.config.js",
   "scripts": {

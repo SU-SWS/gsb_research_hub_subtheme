@@ -1,5 +1,5 @@
 # [GSB Research Hub Subtheme](https://github.com/SU-SWS/gsb_research_hub_subtheme)
-##### Version: 1.1.2
+##### Version: 1.1.3
 
 Changelog: [Changelog.txt](CHANGELOG.txt)
 

@@ -10,14 +10,14 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const config = {
   isProd: process.env.NODE_ENV === "production",
   hmrEnabled: process.env.NODE_ENV !== "production" && !process.env.NO_HMR,
-  distFolder: path.resolve(__dirname, "./dist/css"),
+  distFolder: path.resolve(__dirname, "./dist"),
   wdsPort: 3001,
 };
 
 var webpackConfig = {
   entry: {
-    "main": ["./src/scss/main.scss"],
-    "ckeditor5": ["./src/scss/ckeditor5.scss"],
+    "css/main": ["./src/scss/main.scss"],
+    "css/ckeditor5": ["./src/scss/ckeditor5.scss"],
     "js/airtable-list-builder": "./src/js/airtable-list-builder.js"
   },
   output: {

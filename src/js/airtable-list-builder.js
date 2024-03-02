@@ -5,8 +5,11 @@
       // Get the content area
       var $contentArea = $("#airtable-list");
 
+      // Load settings configured in textarea
+      var textAreaConfig = ("gsbResearchHubSubtheme" in drupalSettings) ? drupalSettings.gsbResearchHubSubtheme : {};
+
       // Grab the airtable variables.
-      let config = $contentArea.data('config');
+      let templateConfig = $contentArea.data('config');
 
       var configDefault = {
         "gutter": 10,
@@ -14,7 +17,8 @@
       }
       config = {
         ...configDefault,
-        ...config
+        ...templateConfig,
+        ...textAreaConfig
       }
 
       for (filterKey in config.filters) {
@@ -27,15 +31,12 @@
       // Load the airtable data
       $.ajax({
         type: "GET",
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer ' + settings.gsbResearchHubSubtheme.snaplogicToken);
-        },
         dataType: "json",
-        url: settings.gsbResearchHubSubtheme.snaplogicURL + "/GSB/rh-airtable_proxy_cache/output?airtable_table=" + config.table + "&airtable_view=" + config.view,
+        url: "https://gsbrh-airtable-cache.s3.us-west-2.amazonaws.com/airtable-proxy-cache-" + config.table + "-" + config.view + ".json",
         success: function(data) {
           $contentArea.find('#airtable-list-loader').remove();
           // Load the records.
-          let records = data.records;
+          let records = data.data.records;
           if (records.length) {
             for (recordIndex in records) {
               for (fieldName in records[recordIndex].fields) {
@@ -338,7 +339,7 @@
   // Apply the data to the template.
   function processTemplate(config, templateKey, data, allData) {
     var template = $('template#airtable-list-' + stringToCSSClass(templateKey) + '-template').html();
-    var settings = drupalSettings.gsbResearchHubSubtheme;
+
     if (template) {
       // Pull all of the tokens from the template.
       var tokens = [];
@@ -382,8 +383,8 @@
 
               // Pull in any additional config passed in from the text area.
               var additionalConfig = [];
-              if ("arrayFormatConfig" in settings && token in settings.arrayFormatConfig) {
-                additionalConfig = settings.arrayFormatConfig[token];
+              if ("arrayFormatConfig" in config && token in config.arrayFormatConfig) {
+                additionalConfig = config.arrayFormatConfig[token];
               }
               content = formatString(config.format[token].type, config.format[token].options, content, additionalConfig);
             }

@@ -254,7 +254,15 @@
                 }
 
                 // Set the browser url.
-                window.history.replaceState(null, null,'?' + urlParamaters.toString());
+                let params = urlParamaters.toString();
+                // If there are no parameters set then reset the url to no parameters.
+                // Otherwise set it to the given filters.
+                if (params === '') {
+                  window.history.replaceState(null, null, window.location.pathname);
+                }
+                else {
+                  window.history.replaceState(null, null,'?' + params);
+                }
 
                 // combine filters
                 let filterValue = buildFilters(filters);

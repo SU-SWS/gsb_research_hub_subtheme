@@ -20,24 +20,14 @@ $at_menu_id = "menu_link_content:" . $at_menu->uuid();
 $airtable_pages = [
   [
     'title' => 'Service Catalog',
-    'wysiwyg_text' => '{"type":"airtable","view": "service_catalog"}',
+    'wysiwyg_text' => '{"type":"airtable","view": "service_catalog","variables": {"arrayFormatConfig": {"core-service": {"classMap":{"Artificial Intelligence": "darc","Computationally Intensive Research": "darc","Data Acquisition and Governance": "dag","Data Analytics": "darc","Data Onboarding and Storage": "darc","Human Subjects Research": "blab","Library Research Collections": "library","Publication Support": "library","Research Comms": "ro","Research Operations": "ro","Research Planning": "library"}}}}}',
     'menu_parent' => $at_menu_id,
   ],
   [
-    'title' => 'Past Trainings & Workshops',
-    'wysiwyg_text' => '{"type":"airtable","view": "training_past"}',
+    'title' => 'Trainings & Workshops',
+    'wysiwyg_text' => '{"type":"airtable","view": "training","variables": {"arrayFormatConfig": {"categories": {"classMap":{"Research Data Sources": "library","Library Resources": "library","Data Stewardship": "dag","Data Licensing": "dag tag","Data Onboarding and Storage": "darc","Data Analytics": "darc","Artificial Intelligence": "darc","Research Computing": "darc","Human Subjects Research": "blab","Survey Methodology": "blab","Publication Support": "library","Research Grants": "ro"}}}}}',
     'menu_parent' => $at_menu_id,
-  ],
-  [
-    'title' => 'Upcoming Trainings & Workshops',
-    'wysiwyg_text' => '{"type":"airtable","view": "training_upcoming"}',
-    'menu_parent' => $at_menu_id,
-  ],
-  [
-    'title' => 'All Training',
-    'wysiwyg_text' => '{"type":"airtable","view": "training"}',
-    'menu_parent' => '',
-  ],
+  ]
 ];
 
 

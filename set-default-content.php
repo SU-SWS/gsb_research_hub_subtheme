@@ -89,6 +89,7 @@ foreach ($pages as $page) {
   $node->save();
 
   // Set Menu
-  $menu = \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $node->id()], "menu_name" => "main", "parent" => $parent_menu_links[$page['menu_parent']], "expanded" => TRUE, "weight" => 0])->save();
-  $parent_menu_links[$page_title] = "menu_link_content:" . $menu->uuid();
+  $menu = \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $node->id()], "menu_name" => "main", "parent" => $parent_menu_links[$page['menu_parent']], "expanded" => TRUE, "weight" => 0]);
+  $menu->save();
+  $parent_menu_links[$page['title']] = "menu_link_content:" . $menu->uuid();
 }

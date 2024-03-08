@@ -27,7 +27,7 @@ $pages = [
     'menu_parent' => 'Services',
   ],
   [
-    'title' => 'Trainings & Workshops',
+    'title' => 'Training & Workshops',
     'wysiwyg_text' => '{"type":"airtable","view": "training","variables": {"arrayFormatConfig": {"categories": {"classMap":{"Research Data Sources": "library","Library Resources": "library","Data Stewardship": "dag","Data Licensing": "dag tag","Data Onboarding and Storage": "darc","Data Analytics": "darc","Artificial Intelligence": "darc","Research Computing": "darc","Human Subjects Research": "blab","Survey Methodology": "blab","Publication Support": "library","Research Grants": "ro"}}}}}',
     'menu_parent' => 'main',
   ]

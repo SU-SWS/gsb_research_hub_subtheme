@@ -9,22 +9,21 @@
 
   #airtable-list-filters {
     display: flex;
-    flex: 1; // Flex-grow, Flex-shrink, Flex-basis
+    flex: 1; 
     gap: 1.5rem; // Spacing between the dropdowns
 
     label {
-      font-size: 1.6rem;
+      font-size: $rh-filter-font-size;
       font-weight: $su-font-semi-bold;
       text-transform: uppercase;
       @include margin(0 0 .1rem 0);
-      //margin-bottom: .1rem;  /* Add space between label and input */
       text-align: center;
       max-width: 100%;
     }
 
     .airtable-list-filter-group {
-      border-radius: 4px;
-      flex: 1; // Each group takes equal space in the row
+      border-radius: $rh-filter-border-radius;
+      flex: 1; 
       max-width: 100%;
       min-width: 0; // Prevents flex items from not shrinking below their content size
 
@@ -32,7 +31,7 @@
 
         .chosen-container {
           display: flex !important;
-          font-size: 1.6rem;
+          font-size: $rh-filter-font-size;
           justify-content: center;
           align-items: center; 
           flex-direction: column;
@@ -43,30 +42,26 @@
               width: 100%; // Use the full width of the parent
               @include margin(.5rem 0);
               @include padding(0);
-              font-size: 1.6rem;
+              font-size: $rh-filter-font-size;
               line-height: 1.15;
-              border: 1px solid $su-color-digital-red !important;
-              border-radius: 4px;
-              //cursor: pointer;
+              border: $rh-filter-border-red !important;
+              border-radius: $rh-filter-border-radius;
               max-width: 100%; 
-              min-height: 4rem;
-              background-image: none;
+              min-height: $rh-filter-height;
 
-              // dropdown arrow
-              background: url("#{$su-image-path}/caret-down-black.svg");
-              background-repeat: no-repeat;
-              background-position: 97% 50%;
-              background-size: 1.3rem;
+              // Dropdown arrow
+              background: $rh-filter-down-arrow;
       
               &:focus {
                 border-color: $su-color-lagunita-light;
-                box-shadow: $su-color-lagunita-light;
+                box-shadow: 0 0 0 2px $su-color-lagunita-light;
               }
   
-              span {
+              span { // Selected filter
                 @include margin(1rem);
                 display: flex;
                 color: $su-color-black;
+                font-weight: $su-font-regular;
                 text-transform: none;
               } 
               
@@ -76,33 +71,23 @@
             }
           }
 
-          &.chosen-container-active {
-            .chosen-single {
-              box-shadow: none;
-              font-size: 1.6rem;
-            }
-          }
-
           &.chosen-container-multi {
             .chosen-choices {
               width: 100%; // Use the full width of the parent
               display: block;
               @include margin(.5rem 0);
-              font-size: 1.6rem;
-              border: 1px solid $su-color-digital-red !important;
-              border-radius: 4px;
+              font-size: $rh-filter-font-size;
+              border: $rh-filter-border-red !important;
+              border-radius: $rh-filter-border-radius;
               max-width: 100%; 
-              min-height: 4rem;
+              min-height: $rh-filter-height;
 
               // dropdown arrow
-              background: url("#{$su-image-path}/caret-down-black.svg");
-              background-repeat: no-repeat;
-              background-position: 97% 50%;
-              background-size: 1.3rem;
-      
+              background:  $rh-filter-down-arrow;
+
               &:focus {
                 border-color: $su-color-lagunita-light;
-                box-shadow: $su-color-lagunita-light;
+                box-shadow: 0 0 0 2px $su-color-lagunita-light;
               }
 
               li.search-choice {
@@ -111,8 +96,7 @@
 
               li.search-field input[type=text] {
                 @include margin(.6rem);
-                font-family: inherit;
-                font-size: 1.6rem;
+                font-size: $rh-filter-font-size;
                 color: $su-color-black;
                 font-weight: $su-font-semi-bold;
               }
@@ -122,8 +106,9 @@
           // Style the dropdown menu
           .chosen-drop {
             text-transform: none;
-            font-family: inherit;
-            font-size: 1.6rem;
+            //font-family: inherit;
+            font-size: $rh-filter-font-size;
+            //font-weight: $su-font-semi-bold;
             line-height: 1.15;
 
             .chosen-results {
@@ -133,7 +118,7 @@
                 &.highlighted {
                   background-image: none; // Remove from source code
                   background-color: $su-color-digital-blue; // Set hover color for dropdown list
-                  color: #fff
+                  color: #ffffff
                 }
               }
             }
@@ -155,18 +140,18 @@
       }
   
       #airtable-search {
-        border: 1px solid $su-color-digital-red; 
+        border: $rh-filter-border-red; 
         width: 100%; // Ensures the search box takes the full width of its container
-        height: 4.5rem;
+        height: $rh-search-height;
         font-family: inherit;
-        font-size: 1.6rem;
-        border-radius: 2rem; 
-        padding: 1rem 2rem 0.8rem;
+        font-size: $rh-filter-font-size;
+        border-radius: $rh-search-border-radius; 
+        @include padding(1rem 2rem 0.8rem);
       }
   
       i { // spinner icon in search box
         position: absolute;
-        right: 4rem;
+        right: 1rem;
         top: 50%;
         transform: translateY(-50%);
         font-size: 3rem;
@@ -200,6 +185,8 @@
     }
   }
 }
+
+// Airtable record display
 
 #airtable-list-record-wrapper {
   //@include margin(1.5rem 0);

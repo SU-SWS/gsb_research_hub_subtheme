@@ -11,53 +11,46 @@
 \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Submenu link", "link" => ["uri" => "https://google.com"], "menu_name" => "main", "parent" => "menu_link_field:node_field_menulink_e18a741f-7d86-492a-a02f-7ca73989ca13_und", "expanded" => TRUE, "weight" => 0])->save();
 
 
-/********************
- ** Airtable Items **
- ********************/
-$at_menu = \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => "Airtable", "link" => ["uri" => "internal:/"], "menu_name" => "main", "parent" => "", "expanded" => TRUE, "weight" => 0]);
-$at_menu->save();
-$at_menu_id = "menu_link_content:" . $at_menu->uuid();
-$airtable_pages = [
+/*********************
+ ** Pages to Create **
+ *********************/
+$parent_menu_links = array('main' => '');
+$pages = [
+  [
+    'title' => 'Services',
+    'wysiwyg_text' => 'Services Placeholder',
+    'menu_parent' => 'main',
+  ],
   [
     'title' => 'Service Catalog',
-    'wysiwyg_text' => '{"type":"airtable","view": "service_catalog"}',
-    'menu_parent' => $at_menu_id,
+    'wysiwyg_text' => '{"type":"airtable","view": "service_catalog","variables": {"arrayFormatConfig": {"core-service": {"classMap":{"Artificial Intelligence": "darc","Computationally Intensive Research": "darc","Data Acquisition and Governance": "dag","Data Analytics": "darc","Data Onboarding and Storage": "darc","Human Subjects Research": "blab","Library Research Collections": "library","Publication Support": "library","Research Comms": "ro","Research Operations": "ro","Research Planning": "library"}}}}}',
+    'menu_parent' => 'Services',
   ],
   [
-    'title' => 'Past Trainings & Workshops',
-    'wysiwyg_text' => '{"type":"airtable","view": "training_past"}',
-    'menu_parent' => $at_menu_id,
-  ],
-  [
-    'title' => 'Upcoming Trainings & Workshops',
-    'wysiwyg_text' => '{"type":"airtable","view": "training_upcoming"}',
-    'menu_parent' => $at_menu_id,
-  ],
-  [
-    'title' => 'All Training',
-    'wysiwyg_text' => '{"type":"airtable","view": "training"}',
-    'menu_parent' => '',
-  ],
+    'title' => 'Training & Workshops',
+    'wysiwyg_text' => '{"type":"airtable","view": "training","variables": {"arrayFormatConfig": {"categories": {"classMap":{"Research Data Sources": "library","Library Resources": "library","Data Stewardship": "dag","Data Licensing": "dag tag","Data Onboarding and Storage": "darc","Data Analytics": "darc","Artificial Intelligence": "darc","Research Computing": "darc","Human Subjects Research": "blab","Survey Methodology": "blab","Publication Support": "library","Research Grants": "ro"}}}}}',
+    'menu_parent' => 'main',
+  ]
 ];
 
-
-foreach ($airtable_pages as $page) {
-  // Create Service Catalog Node
-  $at_node = \Drupal::entityTypeManager()->getStorage("node")->create([
+// Build all the pages.
+foreach ($pages as $page) {
+  // Create Node
+  $node = \Drupal::entityTypeManager()->getStorage("node")->create([
     "type" => "stanford_page",
     "title" => $page['title'],
   ]);
-  $at_node->save();
+  $node->save();
   
-  // Create layout for paragraph for Service Catalog.
-  $at_paragraph_layout = \Drupal::entityTypeManager()->getStorage("paragraph")->create([
+  // Create layout for paragraph.
+  $paragraph_layout = \Drupal::entityTypeManager()->getStorage("paragraph")->create([
     "type" => "stanford_layout",
-    "parent_id" => $at_node->id(),
+    "parent_id" => $node->id(),
     "parent_type" => "node",
     "parent_field_name" => "su_page_components",
   ]);
   
-  $at_paragraph_layout->setBehaviorSettings("layout_paragraphs", [
+  $paragraph_layout->setBehaviorSettings("layout_paragraphs", [
     "layout" => "layout_paragraphs_1_column",
     "config" => [
       "label" => ""
@@ -65,36 +58,38 @@ foreach ($airtable_pages as $page) {
     "parent_uuid" => "",
     "region" => ""
   ]);
-  $at_paragraph_layout->save();
+  $paragraph_layout->save();
   
-  // Create paragraph for Service Catalog
-  $at_paragraph = \Drupal::entityTypeManager()->getStorage("paragraph")->create([
+  // Create paragraph.
+  $paragraph = \Drupal::entityTypeManager()->getStorage("paragraph")->create([
     "type" => "stanford_wysiwyg",
-    "parent_id" => $at_node->id(),
+    "parent_id" => $node->id(),
     "parent_type" => "node",
     "parent_field_name" => "su_page_components",
     "su_wysiwyg_text" => $page['wysiwyg_text'],
   ]);
   
-  $at_paragraph->setBehaviorSettings("layout_paragraphs", [
-    "parent_uuid" => $at_paragraph_layout->uuid(),
+  $paragraph->setBehaviorSettings("layout_paragraphs", [
+    "parent_uuid" => $paragraph_layout->uuid(),
     "region" => "main"
   ]);
-  $at_paragraph->save();
+  $paragraph->save();
   
-  // Add paragraph to service catalog node.
-  $at_node->su_page_components = [
+  // Add paragraph to node.
+  $node->su_page_components = [
     [
-      "target_id" => $at_paragraph_layout->id(),
-      "target_revision_id" => $at_paragraph_layout->getRevisionId()
+      "target_id" => $paragraph_layout->id(),
+      "target_revision_id" => $paragraph_layout->getRevisionId()
     ],
     [
-      "target_id" => $at_paragraph->id(),
-      "target_revision_id" => $at_paragraph->getRevisionId()
+      "target_id" => $paragraph->id(),
+      "target_revision_id" => $paragraph->getRevisionId()
     ]
   ];
-  $at_node->save();
+  $node->save();
 
   // Set Menu
-  \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $at_node->id()], "menu_name" => "main", "parent" => $page['menu_parent'], "expanded" => TRUE, "weight" => 0])->save();
+  $menu = \Drupal\menu_link_content\Entity\MenuLinkContent::create(["title" => $page['title'], "link" => ["uri" => "internal:/node/" . $node->id()], "menu_name" => "main", "parent" => $parent_menu_links[$page['menu_parent']], "expanded" => TRUE, "weight" => 0]);
+  $menu->save();
+  $parent_menu_links[$page['title']] = "menu_link_content:" . $menu->uuid();
 }

@@ -4,27 +4,37 @@
 
 .airtable-filter-container {
   display: flex;
-  flex-wrap: wrap; // Allows items to wrap in smaller screens
-  margin-bottom: 3rem;
+  flex-wrap: nowrap;
+  @include margin(.5rem 1rem 3rem 0);
 
   #airtable-list-filters {
     display: flex;
-    flex: 1 0; // Flex-grow, Flex-shrink, Flex-basis
+    flex: 1; 
     gap: 1.5rem; // Spacing between the dropdowns
 
+    label {
+      font-size: $rh-filter-font-size;
+      font-weight: $su-font-semi-bold;
+      text-transform: uppercase;
+      @include margin(0 0 .1rem 0);
+      text-align: center;
+      max-width: 100%;
+    }
+
     .airtable-list-filter-group {
-      border-radius: 4px;
-      flex: 1; // Each group takes equal space in the row
+      border-radius: $rh-filter-border-radius;
+      flex: 1; 
       max-width: 100%;
       min-width: 0; // Prevents flex items from not shrinking below their content size
 
       &.airtable-list-filter-header {
-        font-weight: $su-font-semi-bold;
-        text-transform: uppercase;
 
         .chosen-container {
           display: flex !important;
-          font-size: 1.6rem;
+          font-size: $rh-filter-font-size;
+          justify-content: center;
+          align-items: center; 
+          flex-direction: column;
 
           &.chosen-container-single {
             .chosen-single {
@@ -32,43 +42,32 @@
               width: 100%; // Use the full width of the parent
               @include margin(.5rem 0);
               @include padding(0);
-              font-size: 1.6rem;
+              font-size: $rh-filter-font-size;
               line-height: 1.15;
-              border: 1px solid $su-color-digital-red !important;
-              border-radius: 4px;
-              cursor: pointer;
+              border: $rh-filter-border-red !important;
+              border-radius: $rh-filter-border-radius;
               max-width: 100%; 
-              min-height: 4rem;
-              background-image: none;
+              min-height: $rh-filter-height;
+
+              // Dropdown arrow
+              background: $rh-filter-down-arrow;
       
               &:focus {
                 border-color: $su-color-lagunita-light;
-                box-shadow: $su-color-lagunita-light;
+                box-shadow: 0 0 0 2px $su-color-lagunita-light;
               }
   
-              span {
+              span { // Selected filter
                 @include margin(1rem);
                 display: flex;
                 color: $su-color-black;
+                font-weight: $su-font-regular;
                 text-transform: none;
               } 
               
-              div {
-                right: 1.5rem; // Right-align the icon
-
-                b {
-                  //background-image: url("./../assets/svg/arrow-down.svg") !important;
-                  //background-image: url("#{$su-image-path}/arrow-down.svg");
-                  background-size: 10rem !important;
-                }
+              div { // Hide the original down triangle icon
+                display: none;
               }
-            }
-          }
-
-          &.chosen-container-active {
-            .chosen-single {
-              box-shadow: none;
-              font-size: 1.6rem;
             }
           }
 
@@ -77,22 +76,18 @@
               width: 100%; // Use the full width of the parent
               display: block;
               @include margin(.5rem 0);
-              font-size: 1.6rem;
-              background-image:url(https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen-sprite@2x.png);
-              //background-image: url(#{$su-image-path}/arrow-down.svg);
-              background-repeat: no-repeat;
-              background-position: 119% 0; // position to display the desired icon
-              background-size: 10rem; 
-              padding-right: 3rem; 
-
-              border: 1px solid $su-color-digital-red !important;
-              border-radius: 4px;
+              font-size: $rh-filter-font-size;
+              border: $rh-filter-border-red !important;
+              border-radius: $rh-filter-border-radius;
               max-width: 100%; 
-              min-height: 4rem;
-      
+              min-height: $rh-filter-height;
+
+              // dropdown arrow
+              background:  $rh-filter-down-arrow;
+
               &:focus {
                 border-color: $su-color-lagunita-light;
-                box-shadow: $su-color-lagunita-light;
+                box-shadow: 0 0 0 2px $su-color-lagunita-light;
               }
 
               li.search-choice {
@@ -101,15 +96,8 @@
 
               li.search-field input[type=text] {
                 @include margin(.6rem);
-                font-family: inherit;
-                font-size: 1.6rem;
+                font-size: $rh-filter-font-size;
                 color: $su-color-black;
-                font-weight: $su-font-semi-bold;
-                //height: 2.5rem;
-              }
-
-              span {
-                text-transform: none;
                 font-weight: $su-font-semi-bold;
               }
             }
@@ -118,8 +106,9 @@
           // Style the dropdown menu
           .chosen-drop {
             text-transform: none;
-            font-family: inherit;
-            font-size: 1.6rem;
+            //font-family: inherit;
+            font-size: $rh-filter-font-size;
+            //font-weight: $su-font-semi-bold;
             line-height: 1.15;
 
             .chosen-results {
@@ -129,7 +118,7 @@
                 &.highlighted {
                   background-image: none; // Remove from source code
                   background-color: $su-color-digital-blue; // Set hover color for dropdown list
-                  color: #fff
+                  color: #ffffff
                 }
               }
             }
@@ -140,31 +129,30 @@
 
     .airtable-list-search {
       flex: 1;
-      position: relative; // This positions the children absolutely within this container
+      position: relative; 
 
       .search-container {
-        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        flex-direction: column;
         width: 100%; // Ensures the search container takes full width of its flex parent
-        margin-right: auto; // Keeps the container aligned to the left
-        margin-left: auto; // Keeps the container centered
       }
   
       #airtable-search {
-        border: 1px solid $su-color-digital-red; //red border for training
+        border: $rh-filter-border-red; 
         width: 100%; // Ensures the search box takes the full width of its container
-        margin-top: 3rem;
-        height: 4rem;
-        //padding-right: 30px; // Adjusted to prevent the icon from overlapping the text
+        height: $rh-search-height;
         font-family: inherit;
-        font-size: 1.6rem;
-        border-radius: 3rem; // match rounded corners with the site search box
-        padding: 1rem 2rem 0.8rem;
+        font-size: $rh-filter-font-size;
+        border-radius: $rh-search-border-radius; 
+        @include padding(1rem 2rem 0.8rem);
       }
   
       i { // spinner icon in search box
         position: absolute;
-        right: 4rem;
-        top: 20%;
+        right: 1rem;
+        top: 50%;
         transform: translateY(-50%);
         font-size: 3rem;
         display: none;
@@ -173,26 +161,15 @@
   }
 }
 
-@include grid-media-max("xl") {
+@include grid-media-max("md") {
   .airtable-filter-container {
-    max-width: 50%;
-    flex-direction: column; // Stack filter groups vertically
+    max-width: 100%;
 
     #airtable-list-filters {
       flex-direction: column; // Stack filter groups vertically
 
       .airtable-list-filter-group {
         width: 100%; // Set a specific width for the dropdowns and the search box
-
-        &.airtable-list-filter-header {
-          .chosen-container {
-            &.chosen-container-multi {
-              .chosen-choices {
-                background-position: 115% 0; // position to display the desired icon
-              }
-            }
-          }
-        }
       }
 
       .airtable-list-search {
@@ -202,118 +179,19 @@
         }
   
         #airtable-search {
-          margin-top: 1rem; // Adjust the margin for smaller screens
           max-width: 100%;
         }
-  
-        i {
-          right: 3rem;
-        }
-      }
-    }
-  }
-} 
-
-@include grid-media-max("lg") {
-  .airtable-filter-container {
-    //max-width: 50%;
-    flex-direction: column; // Stack filter groups vertically
-
-    #airtable-list-filters {
-      flex-direction: column; // Stack filter groups vertically
-
-      .airtable-list-filter-group {
-        width: 100%; // Set a specific width for the dropdowns and the search box
-
-        &.airtable-list-filter-header {
-          .chosen-container {
-            &.chosen-container-multi {
-              .chosen-choices {
-                background-position: 120% 0; // position to display the desired icon
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-} 
-
-@include grid-media-max("md") {
-  .airtable-filter-container {
-    #airtable-list-filters {
-      flex-direction: column; // Stack filter groups vertically
-
-      .airtable-list-filter-group {
-        width: 100%; // Set a specific width for the dropdowns and the search box
-
-        &.airtable-list-filter-header {
-          .chosen-container {
-            &.chosen-container-multi {
-              .chosen-choices {
-                background-position: 125% 0; // position to display the desired icon
-              }
-            }
-          }
-        }
       }
     }
   }
 }
 
-@include grid-media-max("sm") {
-  .airtable-filter-container {
-    max-width: 100%;
-
-    #airtable-list-filters {
-      flex-direction: column; // Stack filter groups vertically
-
-      .airtable-list-filter-group {
-        width: 100%; // Set a specific width for the dropdowns and the search box
-
-        &.airtable-list-filter-header {
-          .chosen-container {
-            &.chosen-container-multi {
-              .chosen-choices {
-                background-position: 115% 0; // position to display the desired icon
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@include grid-media-max("xs") {
-  .airtable-filter-container {
-    //max-width: 100%;
-
-    #airtable-list-filters {
-      flex-direction: column; // Stack filter groups vertically
-
-      .airtable-list-filter-group {
-        width: 100%; // Set a specific width for the dropdowns and the search box
-
-        &.airtable-list-filter-header {
-          .chosen-container {
-            &.chosen-container-multi {
-              .chosen-choices {
-                background-position: 118% 0; // position to display the desired icon
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+// Airtable record display
 
 #airtable-list-record-wrapper {
   //@include margin(1.5rem 0);
 
   // list layout
-
   &.rh-list-layout {
 
     .airtable-list-record-row {

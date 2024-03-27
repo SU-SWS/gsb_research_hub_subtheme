@@ -1,0 +1,15 @@
+@charset "UTF-8";
+/* Subtheme Specific colors, Stanford/Decanter colors are not defined here */
+
+// All variable names should be prefaced with your abbreviation (saa, soe, ood, etc)
+
+
+$rh-filter-font-size: 1.8rem;
+$rh-filter-border-red: 1px solid $su-color-digital-red;
+$rh-filter-down-arrow: url("#{$su-image-path}/caret-down-black.svg") no-repeat 97% 50%/1.3rem; 
+$rh-filter-border-radius: 4px;
+$rh-filter-height: 4.2rem;
+
+$rh-search-border-radius: 2rem;
+$rh-search-height: 4.5rem;
+

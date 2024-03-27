@@ -80,29 +80,32 @@
   }
 %}
 {% block paragraph %}
+  <h2 class="visually-hidden">Service Catalog Search Tool</h2>
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {# Filters #}
       <div class="airtable-filter-container">
         <div id="airtable-list-filters" style="display: none;">
+          <div class="airtable-list-search" data-filter-group="search">
+            <div class="search-container">
+              <label for="airtable-search">Search</label>
+              <input id="airtable-search" type="text" placeholder="Search services"/>
+              <i class="fas fa-spinner fa-pulse" id="spinner"></i>
+            </div>
+          </div>
           <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="core-service">
-            Service Categories
+          <label for="airtable-list-core-service">Service Categories</label>
             <select id="airtable-list-core-service">
             <option class="select-all" value="*">All</option>
             </select>
           </div>
           <div class="airtable-list-filter-group airtable-list-filter-header" data-filter-group="clients">
-            Clients
+          <label for="airtable-list-clients">Clients</label>
             <select id="airtable-list-clients">
             <option class="select-all" value="*">All</option>
             </select>
           </div>
-          <div class="airtable-list-search" data-filter-group="search">
-            <div class="search-container">
-              <input id="airtable-search" type="text" placeholder="Search services"/>
-              <i class="fas fa-spinner fa-pulse" id="spinner"></i>
-            </div>
-          </div>
+
         </div>
       </div>
       <div id="airtable-list" data-config='{{ airtableConfig | json_encode }}'>

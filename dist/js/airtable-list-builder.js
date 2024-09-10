@@ -15,13 +15,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       // Get the content area
       var $contentArea = $("#airtable-list");
 
+      // Load settings configured in textarea
+      var textAreaConfig = "gsbResearchHubSubtheme" in drupalSettings ? drupalSettings.gsbResearchHubSubtheme : {};
+
       // Grab the airtable variables.
-      var config = $contentArea.data('config');
+      var templateConfig = $contentArea.data('config');
       var configDefault = {
         "gutter": 10,
         "equalHeight": false
       };
-      config = _objectSpread(_objectSpread({}, configDefault), config);
+      config = _objectSpread(_objectSpread(_objectSpread({}, configDefault), templateConfig), textAreaConfig);
       for (filterKey in config.filters) {
         // Set the default array of choices if choices are not provided for us.
         if (!("choices" in config.filters[filterKey])) {
@@ -32,15 +35,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       // Load the airtable data
       $.ajax({
         type: "GET",
-        beforeSend: function beforeSend(xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer ' + settings.gsbResearchHubSubtheme.snaplogicToken);
-        },
         dataType: "json",
-        url: settings.gsbResearchHubSubtheme.snaplogicURL + "/GSB/rh-airtable_proxy_cache/output?airtable_table=" + config.table + "&airtable_view=" + config.view,
+        url: "https://gsbrh-airtable-cache.s3.us-west-2.amazonaws.com/airtable-proxy-cache-" + config.table + "-" + config.view + ".json",
         success: function success(data) {
           $contentArea.find('#airtable-list-loader').remove();
           // Load the records.
-          var records = data.records;
+          var records = data.data.records;
           if (records.length) {
             for (recordIndex in records) {
               for (fieldName in records[recordIndex].fields) {
@@ -270,7 +270,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 }
 
                 // Set the browser url.
-                window.history.replaceState(null, null, '?' + urlParamaters.toString());
+                var params = urlParamaters.toString();
+                // If there are no parameters set then reset the url to no parameters.
+                // Otherwise set it to the given filters.
+                if (params === '') {
+                  window.history.replaceState(null, null, window.location.pathname);
+                } else {
+                  window.history.replaceState(null, null, '?' + params);
+                }
 
                 // combine filters
                 var filterValue = buildFilters(filters);
@@ -349,7 +356,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   // Apply the data to the template.
   function processTemplate(config, templateKey, data, allData) {
     var template = $('template#airtable-list-' + stringToCSSClass(templateKey) + '-template').html();
-    var settings = drupalSettings.gsbResearchHubSubtheme;
     if (template) {
       // Pull all of the tokens from the template.
       var tokens = [];
@@ -409,8 +415,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             if ("format" in config && token in config.format) {
               // Pull in any additional config passed in from the text area.
               var additionalConfig = [];
-              if ("arrayFormatConfig" in settings && token in settings.arrayFormatConfig) {
-                additionalConfig = settings.arrayFormatConfig[token];
+              if ("arrayFormatConfig" in config && token in config.arrayFormatConfig) {
+                additionalConfig = config.arrayFormatConfig[token];
               }
               content = formatString(config.format[token].type, config.format[token].options, content, additionalConfig);
             }

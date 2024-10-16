@@ -151,7 +151,7 @@
   
       i { // spinner icon in search box
         position: absolute;
-        right: 1rem;
+        right: 2rem;
         top: 50%;
         transform: translateY(-50%);
         font-size: 3rem;
@@ -180,6 +180,10 @@
   
         #airtable-search {
           max-width: 100%;
+        }
+
+        i { // spinner icon in search box
+          right: 1rem;
         }
       }
     }

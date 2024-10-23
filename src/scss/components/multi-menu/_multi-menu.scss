@@ -1,15 +1,50 @@
 
-#block-gsb-research-hub-subtheme-main-navigation nav a[href^="http"]::after {
-    content: "";
-    display: inline-block;
-    height: 10px;
-    -webkit-mask: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMy41OTcgMS40NTNjLjI4OS4zMDUuNDM0LjcyLjM5NyAxLjE0TDIyLjU0IDE5LjQ2YTEuNDU4IDEuNDU4IDAgMCAxLTEuNTc1IDEuMzM0IDEuNDYzIDEuNDYzIDAgMCAxLTEuMzIzLTEuNTg4bDEuMTM2LTEzLjE3MS0xOC4zNTIgMTYuNTljLS41OTkuNTQxLTEuNTE4LjQ5LTIuMDU0LS4xMTNhMS40NzUgMS40NzUgMCAwIDEgLjExMi0yLjA3bDE4LjA3My0xNi4zNC0xMy40MDYuNTYzYTEuNDYgMS40NiAwIDAgMS0xLjUxMy0xLjQwNEExLjQ2MiAxLjQ2MiAwIDAgMSA1LjAzIDEuNzM1TDIyLjQ4NSAxYy40MTgtLjAxNy44MjMuMTQ3IDEuMTEyLjQ1MloiIGZpbGw9IiMyRTJEMjkiLz48L3N2Zz4=) no-repeat 0 0;
-    mask: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMy41OTcgMS40NTNjLjI4OS4zMDUuNDM0LjcyLjM5NyAxLjE0TDIyLjU0IDE5LjQ2YTEuNDU4IDEuNDU4IDAgMCAxLTEuNTc1IDEuMzM0IDEuNDYzIDEuNDYzIDAgMCAxLTEuMzIzLTEuNTg4bDEuMTM2LTEzLjE3MS0xOC4zNTIgMTYuNTljLS41OTkuNTQxLTEuNTE4LjQ5LTIuMDU0LS4xMTNhMS40NzUgMS40NzUgMCAwIDEgLjExMi0yLjA3bDE4LjA3My0xNi4zNC0xMy40MDYuNTYzYTEuNDYgMS40NiAwIDAgMS0xLjUxMy0xLjQwNEExLjQ2MiAxLjQ2MiAwIDAgMSA1LjAzIDEuNzM1TDIyLjQ4NSAxYy40MTgtLjAxNy44MjMuMTQ3IDEuMTEyLjQ1MloiIGZpbGw9IiMyRTJEMjkiLz48L3N2Zz4=) no-repeat 0 0;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    width: 10px;
-    background-color: #b1040e;
-    margin-left: 0.4em;
-    margin-right: 0.3em;
+#block-gsb-research-hub-subtheme-main-navigation {
+  nav {
+    ul.su-multi-menu__menu-lv2 { 
+      min-width: 390px;  // Set the width of the dropdown menu     
+      max-height: 605px; // Set the maximum height for the dropdown menu
+      overflow-y: auto; // Enable scrolling if the dropdown content exceeds the max height
+      -webkit-box-shadow: 0 10px 20px rgba(0,0,0,.4),0 6px 6px rgba(0,0,0,.2);
+      box-shadow: 0 10px 20px rgba(0,0,0,.4),0 6px 6px rgba(0,0,0,.2);
+      margin-left: -1.1rem;
+
+      li.su-multi-menu__item {
+        height: auto;
+        
+        &:first-child {
+          padding-top: 1.1rem;
+        }
+        &:last-child {
+          padding-bottom: 1.1rem;
+        }
+
+        .su-multi-menu__link {
+          margin: 0 0 0 .5rem;
+          padding: 1rem 0 1rem .4rem !important;
+          padding-left: 0;
+
+          .su-multi-menu__link-text-wrapper {
+            display: inline; // fix the external icon wrapping issue for long submenu links
+          }
+        }
+    
+        a[href^="http"] {
+          &::after {
+          content: "";
+          display: inline-block;
+          height: 10px;
+          -webkit-mask: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMy41OTcgMS40NTNjLjI4OS4zMDUuNDM0LjcyLjM5NyAxLjE0TDIyLjU0IDE5LjQ2YTEuNDU4IDEuNDU4IDAgMCAxLTEuNTc1IDEuMzM0IDEuNDYzIDEuNDYzIDAgMCAxLTEuMzIzLTEuNTg4bDEuMTM2LTEzLjE3MS0xOC4zNTIgMTYuNTljLS41OTkuNTQxLTEuNTE4LjQ5LTIuMDU0LS4xMTNhMS40NzUgMS40NzUgMCAwIDEgLjExMi0yLjA3bDE4LjA3My0xNi4zNC0xMy40MDYuNTYzYTEuNDYgMS40NiAwIDAgMS0xLjUxMy0xLjQwNEExLjQ2MiAxLjQ2MiAwIDAgMSA1LjAzIDEuNzM1TDIyLjQ4NSAxYy40MTgtLjAxNy44MjMuMTQ3IDEuMTEyLjQ1MloiIGZpbGw9IiMyRTJEMjkiLz48L3N2Zz4=) no-repeat 0 0;
+          mask: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMy41OTcgMS40NTNjLjI4OS4zMDUuNDM0LjcyLjM5NyAxLjE0TDIyLjU0IDE5LjQ2YTEuNDU4IDEuNDU4IDAgMCAxLTEuNTc1IDEuMzM0IDEuNDYzIDEuNDYzIDAgMCAxLTEuMzIzLTEuNTg4bDEuMTM2LTEzLjE3MS0xOC4zNTIgMTYuNTljLS41OTkuNTQxLTEuNTE4LjQ5LTIuMDU0LS4xMTNhMS40NzUgMS40NzUgMCAwIDEgLjExMi0yLjA3bDE4LjA3My0xNi4zNC0xMy40MDYuNTYzYTEuNDYgMS40NiAwIDAgMS0xLjUxMy0xLjQwNEExLjQ2MiAxLjQ2MiAwIDAgMSA1LjAzIDEuNzM1TDIyLjQ4NSAxYy40MTgtLjAxNy44MjMuMTQ3IDEuMTEyLjQ1MloiIGZpbGw9IiMyRTJEMjkiLz48L3N2Zz4=) no-repeat 0 0;
+          -webkit-mask-size: contain;
+          mask-size: contain;
+          width: 10px;
+          background-color: #b1040e;
+          margin-left: 0.4em;
+          margin-right: 0.3em;
+          }
+        }
+      }
+    }
   }
-  
+}

@@ -7,12 +7,30 @@
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Html;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Prepares variables for the html.html.twig template.
  */
 function gsb_research_hub_subtheme_preprocess_html(&$variables) {
   $variables['stanford_basic_path'] = \Drupal::service('extension.list.theme')->getPath('stanford_basic');
+
+  // Add Basic Page Type metadata as body classes.
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node->hasField('su_basic_page_type')) {
+    foreach ($node->get('su_basic_page_type')->referencedEntities() as $key => $refEntity) {
+      $parent_id = $refEntity->get('parent')->target_id;
+      $parents = array(HTML::getClass($refEntity->getName()));
+      while ($parent_id) {
+        $parent_term = Term::Load($parent_id);
+        $parents[] = HTML::getClass($parent_term->getName());
+        $parent_id = $parent_term->get('parent')->target_id;
+      }
+
+      $parents_rev = array_reverse($parents);
+      $variables['attributes']['class'][] = 'basic-page-type--' . implode('--', $parents_rev);
+    }
+  }
 }
 
 /**

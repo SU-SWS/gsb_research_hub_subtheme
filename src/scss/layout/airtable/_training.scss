@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
-.section-training-workshops,
-.section-training-workshops-test {
+.basic-page-type--full-width {
     .ptype-stanford-wysiwyg { //make the text paragraph full-width
         max-width: 100%;  
         .su-wysiwyg-text {

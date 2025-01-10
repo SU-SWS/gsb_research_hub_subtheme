@@ -17,7 +17,7 @@ function gsb_research_hub_subtheme_preprocess_html(&$variables) {
 
   // Add Basic Page Type metadata as body classes.
   $node = \Drupal::routeMatch()->getParameter('node');
-  if ($node->hasField('su_basic_page_type')) {
+  if ($node !== NULL && $node->hasField('su_basic_page_type')) {
     foreach ($node->get('su_basic_page_type')->referencedEntities() as $key => $refEntity) {
       $parent_id = $refEntity->get('parent')->target_id;
       $parents = array(HTML::getClass($refEntity->getName()));

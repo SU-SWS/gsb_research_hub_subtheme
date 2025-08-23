@@ -2,8 +2,8 @@ name: GSB Research Hub
 type: theme
 description: 'GSB Research Hub subtheme based on Stanford Starter Theme.'
 package: Stanford
-version: 1.1.7
-core_version_requirement: ^9 || ^10
+version: 1.1.12
+core_version_requirement: ^9 || ^10 || ^11
 base theme: stanford_basic
 libraries:
   - gsb_research_hub_subtheme/allpages

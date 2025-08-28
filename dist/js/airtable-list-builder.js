@@ -12,6 +12,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.airtableListBuilder = {
     attach: function attach(context, settings) {
+      // Need to shim the trim function for jQuery 4. Chosen needs it.
+      if (typeof jQuery.trim === 'undefined') {
+        jQuery.trim = function (text) {
+          return text == null ? '' : String.prototype.trim.call(text);
+        };
+      }
+
       // Get the content area
       var $contentArea = $("#airtable-list");
 

@@ -5,6 +5,7 @@
  * Preprocess functions for GSB Research Hub Sub Theme.
  */
 
+use Drupal\paragraphs\ParagraphInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Html;
 use Drupal\taxonomy\Entity\Term;
@@ -13,14 +14,16 @@ use Drupal\taxonomy\Entity\Term;
  * Prepares variables for the html.html.twig template.
  */
 function gsb_research_hub_subtheme_preprocess_html(&$variables) {
-  $variables['stanford_basic_path'] = \Drupal::service('extension.list.theme')->getPath('stanford_basic');
+  $variables['stanford_basic_path'] = \Drupal::service('extension.list.theme')
+    ->getPath('stanford_basic');
 
   // Add Basic Page Type metadata as body classes.
   $node = \Drupal::routeMatch()->getParameter('node');
   if ($node !== NULL && $node->hasField('su_basic_page_type')) {
-    foreach ($node->get('su_basic_page_type')->referencedEntities() as $key => $refEntity) {
+    foreach ($node->get('su_basic_page_type')
+      ->referencedEntities() as $key => $refEntity) {
       $parent_id = $refEntity->get('parent')->target_id;
-      $parents = array(HTML::getClass($refEntity->getName()));
+      $parents = [HTML::getClass($refEntity->getName())];
       while ($parent_id) {
         $parent_term = Term::Load($parent_id);
         $parents[] = HTML::getClass($parent_term->getName());
@@ -42,61 +45,54 @@ function gsb_research_hub_subtheme_theme_suggestions_block_alter(array &$suggest
   }
 }
 
+function _gsb_rh_wysiwyg_get_airtable(ParagraphInterface $paragraph) {
+  if (
+    $paragraph->bundle() == 'stanford_wysiwyg' &&
+    $paragraph->hasField('su_wysiwyg_text') &&
+    $paragraph->get('su_wysiwyg_text')->count()
+  ) {
+    $text = $paragraph->get('su_wysiwyg_text')
+      ->get(0)
+      ->get('value')
+      ->getString();
+
+    $jsonConfig = Json::decode(strip_tags($text));
+    if (!is_null($jsonConfig) && isset($jsonConfig['type']) && $jsonConfig['type'] == 'airtable') {
+      return $jsonConfig;
+    }
+  }
+}
+
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
  */
 function gsb_research_hub_subtheme_theme_suggestions_paragraph_alter(array &$suggestions, array $variables) {
-  if (isset($variables['elements']['su_wysiwyg_text']) && isset($variables['elements']['su_wysiwyg_text']['#object'])) {
-    $paragraph = $variables['elements']['su_wysiwyg_text']['#object'];
-    $jsonConfig = Json::decode(strip_tags($paragraph->su_wysiwyg_text->value));
-    if (!is_null($jsonConfig) && isset($jsonConfig['type']) && $jsonConfig['type'] == 'airtable') {
-      $suggestions[] = 'paragraph__airtable__' . $jsonConfig['view'];
-    }
+  /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
+  $paragraph = $variables['elements']['#paragraph'];
+  if ($jsonConfig = _gsb_rh_wysiwyg_get_airtable($paragraph)) {
+    $suggestions[] = 'paragraph__airtable__' . $jsonConfig['view'];
   }
 }
 
-function gsb_research_hub_subtheme_preprocess_paragraph(&$variables) {
+function gsb_research_hub_subtheme_preprocess_paragraph__stanford_wysiwyg(&$variables) {
+  /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
   $paragraph = $variables['paragraph'];
+  $jsonConfig = _gsb_rh_wysiwyg_get_airtable($paragraph);
+  if ($jsonConfig && isset($jsonConfig['type']) && $jsonConfig['type'] == 'airtable') {
+    $variables['#attached']['library'][] = 'gsb_research_hub_subtheme/airtable-list-builder';
 
-  // Get the type
-  $parentBundle = $paragraph->bundle();
-  if ($parentBundle == 'stanford_wysiwyg') {
-    $jsonConfig = Json::decode(strip_tags($paragraph->su_wysiwyg_text->value));
-    if (!is_null($jsonConfig) && isset($jsonConfig['type']) && $jsonConfig['type'] == 'airtable') {
-      $variables['#attached']['library'][] = 'gsb_research_hub_subtheme/airtable-list-builder';
-
-      if (isset($jsonConfig['variables'])) {
-        $variables['#attached']['drupalSettings']['gsbResearchHubSubtheme'] = $jsonConfig['variables'];
-      }
+    if (isset($jsonConfig['variables'])) {
+      $variables['#attached']['drupalSettings']['gsbResearchHubSubtheme'] = $jsonConfig['variables'];
     }
   }
-}
-
-/*
- * Implements hook_preprocess_HOOK().
- */
-function gsb_research_hub_subtheme_preprocess_ds_entity_view(&$variables) {
-
-  // if not running on a paragraph, exit out.
-  if (!isset($variables['content']['#paragraph'])) {
-    return;
-  }
-
-  $paragraph = $variables['content']['#paragraph'];
-
-  // Process Banners
-  if ($paragraph->bundle() == 'stanford_banner') {
-    gsb_research_hub_subtheme_preprocess_banner($variables);
-  }
-
 }
 
 /**
- * Implements hook_preprocess_banner().
+ * Implements hook_preprocess_HOOK().
  */
-function gsb_research_hub_subtheme_preprocess_banner(&$variables) {
-
-  $paragraph = $variables['content']['#paragraph'];
+function gsb_research_hub_subtheme_preprocess_paragraph__stanford_banner(&$variables) {
+  /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
+  $paragraph = $variables['paragraph'];
 
   unset($variables['attributes']['class'][0]);
   // Add button color style class to card wrapper.
@@ -111,38 +107,26 @@ function gsb_research_hub_subtheme_preprocess_banner(&$variables) {
   // Select banner color gradient. 3rd variable provides the default type.
   $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_gradient', 'rh-banner-wrapper--background-gradient');
 
-
   // Center align the headline. 3rd variable provides the default type.
   $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_headline', 'rh-banner-wrapper--headline-center');
-  
+
   // Select height of banner. 3rd variable provides the default type.
   $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_height', 'rh-banner-wrapper--height-medium');
-    
-  // Select banner text color. 
+
+  // Select banner text color.
   $variables['attributes']['class'][] = $paragraph->getBehaviorSetting('react_paragraphs:banner_variant_info', 'banner_list_text_color', 'rh-banner-wrapper--text-color-white');
-}
-
-/**
- * Implements hook_preprocess_field().
- */
-function gsb_research_hub_subtheme_preprocess_field(&$variables) {
-
- if ($variables['element']['#field_name'] == 'su_para_row_bgcolor') {
-    $su_paragraph_row__bgcolor = $variables['items'][0]['content']['#markup'];
-  }
 }
 
 // Alter the results of the people page.
 function gsb_research_hub_subtheme_views_pre_render(&$view) {
   if ($view->id() === 'taxonomy_term_pages' && $view->current_display == 'people_terms') {
-
     // Get the Taxonomy Term IDs
     $levelTerms = \Drupal::entityQuery('taxonomy_term')
-              ->accessCheck(TRUE)
-              ->condition('vid', 'su_shared_tags')
-              ->condition('name', 'People - Level', 'STARTS_WITH')
-              ->sort('name', 'ASC')
-              ->execute();
+      ->accessCheck(TRUE)
+      ->condition('vid', 'su_shared_tags')
+      ->condition('name', 'People - Level', 'STARTS_WITH')
+      ->sort('name', 'ASC')
+      ->execute();
 
     // Exit immediately if there are no taxonomy terms.
     if (!$levelTerms) {
@@ -153,21 +137,25 @@ function gsb_research_hub_subtheme_views_pre_render(&$view) {
     $levelTerms = array_values($levelTerms);
 
     // Determine the sort order.
-    $newSort = array();
+    $newSort = [];
     foreach ($view->result as $key => $row) {
       $personInfo = $row->_relationship_entities['reverse__node__su_person_type_group'];
       $personTags = $personInfo->get('su_shared_tags')->getValue();
 
-      $personDetails = array(
+      $personDetails = [
         'key' => $key,
-        'name' =>$personInfo->get('su_person_last_name')->getValue()[0]['value'] . ' ' . $personInfo->get('su_person_first_name')->getValue()[0]['value'],
+        'name' => $personInfo->get('su_person_last_name')
+            ->getValue()[0]['value'] . ' ' . $personInfo->get('su_person_first_name')
+            ->getValue()[0]['value'],
         'data_name' => $row->taxonomy_term_field_data_name,
         'level' => count($levelTerms),
-      );
+      ];
 
       // Assign level
       foreach ($levelTerms as $levelKey => $levelTid) {
-        if (array_filter($personTags, function($term) use ($levelTid) { return $term['target_id'] == $levelTid; })) {
+        if (array_filter($personTags, function($term) use ($levelTid) {
+          return $term['target_id'] == $levelTid;
+        })) {
           $personDetails['level'] = $levelKey;
         }
       }

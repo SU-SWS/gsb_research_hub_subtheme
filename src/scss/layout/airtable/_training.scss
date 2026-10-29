@@ -38,18 +38,25 @@
                             visibility: hidden;
                         }
 
-                        .training-Upcoming {
-                            @include padding(.3rem 1rem);
-                            letter-spacing: .05rem;
-                            font-size: 1.8rem;
-                            font-weight: $su-font-semi-bold;
-                            text-transform: uppercase;
-                            height: 2.6rem;
+                        .training-Upcoming, .training-Cancelled {
+                          @include padding(.3rem 1rem);
+                          letter-spacing: .05rem;
+                          font-size: 1.8rem;
+                          font-weight: $su-font-semi-bold;
+                          text-transform: uppercase;
+                          height: 2.6rem;
+                          text-align: center;
+                        }
 
-                            // Green upcoming bar across the top
+                        .training-Upcoming {
                             background: $gsb-color-palo-verde;
                             color: $su-color-white;
-                            text-align: center;
+                        }
+
+                        .training-Cancelled {
+                            // Red Cancelled bar across the top
+                            background: $gsb-color-digital-red-dark;
+                            color: $su-color-white;
                         }
               
                         h2 {

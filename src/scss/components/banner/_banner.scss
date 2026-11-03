@@ -6,6 +6,7 @@
     margin-bottom: 5rem;
   }
 }
+
 .paragraph-item {
   &.ptype-stanford-banner {
     margin-bottom: 5rem;
@@ -60,290 +61,289 @@
   }
 }
 
-.ptype-stanford-banner {
 
-  .rh-banner-wrapper--headline-left,
-  .rh-banner-wrapper--headline-center,
-  .rh-banner-wrapper--headline-right {
+.rh-banner-wrapper--headline-left,
+.rh-banner-wrapper--headline-center,
+.rh-banner-wrapper--headline-right {
 
-    .su-hero {
+  .su-hero {
+
+    .su-hero__card {
+      background: transparent;
+      border: 0;
+      bottom: 0;
+      box-shadow: none;
+      margin: 0 auto;
+      //top: auto;
+      left: auto;
+
+      .su-card__contents {
+
+        @include margin(3.8rem 1rem 1rem);
+
+        > span {
+          font-size: 1em;
+        }
+
+        h2 {
+          margin-top: 0;
+          font-size: 2.5em;
+        }
+
+        p {
+          font-size: 2rem;
+        }
+
+        .su-card__button {
+          margin-top: 4.5rem;
+          margin-bottom: unset;
+          text-shadow: none;
+        }
+      }
+    }
+
+    @include grid-media-max('sm') {
 
       .su-hero__card {
-        background: transparent;
-        border: 0;
-        bottom: 0;
-        box-shadow: none;
-        margin: 0 auto;
-        //top: auto;
-        left: auto;
+        max-width: 100% !important;
+        //border-bottom: 1px solid $su-color-foggy;
+        @include box-shadow(shallow, 1px solid color(card-border));
 
         .su-card__contents {
-          
-          @include margin(3.8rem 1rem 1rem);
-        
-          > span {
-            font-size: 1em;
-          }
+          @include padding(2rem);
 
           h2 {
-            margin-top: 0;
-            font-size: 2.5em;
-          }
-
-          p {
-            font-size: 2rem;
+            font-size: 2.1em;
           }
 
           .su-card__button {
-            margin-top: 4.5rem;
-            margin-bottom: unset;
-            text-shadow: none;
+            margin-top: 2rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Banner text color variants
+  // For black text
+  &.rh-banner-wrapper--text-color-black {
+    color: $su-color-black;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7), -1px -1px 3px rgba(255, 255, 255, 0.7);
+
+
+    .su-card__contents {
+      //Translucent box to add background contrast
+      //background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.9) 40%, rgba(255, 255, 255, 0.7) 100%);
+      //background-color: rgba(255, 255, 255, 0.5);
+      //@include padding(2.5em);
+
+      p {
+        a {
+          color: $su-color-black;
+          font-weight: $su-font-semi-bold;
+
+          &:hover,
+          &:focus,
+          &:active {
+            color: $su-color-cool-grey;
           }
         }
       }
 
       @include grid-media-max('sm') {
-
-        .su-hero__card {
-            max-width: 100% !important;
-            //border-bottom: 1px solid $su-color-foggy;
-            @include box-shadow(shallow, 1px solid color(card-border));
-
-          .su-card__contents {
-            @include padding(2rem);
-
-            h2 {
-              font-size: 2.1em;
-            }
-            .su-card__button {
-              margin-top: 2rem;
-            }
-          }
-        }
-      }
-    }
-
-    // Banner text color variants
-    // For black text
-    &.rh-banner-wrapper--text-color-black {
-      color: $su-color-black;
-      text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7), -1px -1px 3px rgba(255, 255, 255, 0.7);
-
-
-      .su-card__contents {
-        //Translucent box to add background contrast
-        //background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.9) 40%, rgba(255, 255, 255, 0.7) 100%);
-        //background-color: rgba(255, 255, 255, 0.5);
-        //@include padding(2.5em);
+        color: $su-color-black;
+        text-shadow: none;
 
         p {
           a {
-            color: $su-color-black;
+            color: $su-color-digital-blue;
+            text-decoration: underline;
             font-weight: $su-font-semi-bold;
 
             &:hover,
             &:focus,
             &:active {
-              color: $su-color-cool-grey;
+              color: $su-color-black;
             }
           }
         }
-
-        @include grid-media-max('sm') {
-          color: $su-color-black;
-          text-shadow: none;
-
-          p {
-            a {
-              color: $su-color-digital-blue;
-              text-decoration: underline;
-              font-weight: $su-font-semi-bold;
-
-              &:hover,
-              &:focus,
-              &:active {
-                color: $su-color-black;
-              }
-            }
-          }
-        }
-      }
-
-      @include grid-media-min('md') {  
-        //Gradiant on banner image
-        .su-hero__media {
-
-          &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 2;
-            //backdrop-filter: blur(3px); // Blur background image
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(240, 240, 240, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
-          }
-        
-          picture {
-            position: relative;
-            z-index: 0;
-            display: block;
-          }
-        }
-        // End Gradiant details
       }
     }
 
-    
-    // For white text
-    &.rh-banner-wrapper--text-color-white {
+    @include grid-media-min('md') {
+      //Gradiant on banner image
+      .su-hero__media {
 
-      color: $su-color-white;
-      text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25), 1px 1px 1px rgba(0, 0, 0, 0.35), -1px -1px 1px rgba(0, 0, 0, 0.35);
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 2;
+          //backdrop-filter: blur(3px); // Blur background image
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(240, 240, 240, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
+        }
 
-      .su-card__contents {
+        picture {
+          position: relative;
+          z-index: 0;
+          display: block;
+        }
+      }
+      // End Gradiant details
+    }
+  }
+
+
+  // For white text
+  &.rh-banner-wrapper--text-color-white {
+
+    color: $su-color-white;
+    text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25), 1px 1px 1px rgba(0, 0, 0, 0.35), -1px -1px 1px rgba(0, 0, 0, 0.35);
+
+    .su-card__contents {
+
+      p {
+        a {
+          color: $su-color-white;
+          font-weight: $su-font-semi-bold;
+
+          &:hover,
+          &:focus,
+          &:active {
+            color: $su-color-foggy;
+          }
+        }
+      }
+
+      @include grid-media-max('sm') {
+        color: $su-color-black;
+        text-shadow: none;
 
         p {
           a {
-            color: $su-color-white;
+            color: $su-color-digital-blue;
+            text-decoration: underline;
             font-weight: $su-font-semi-bold;
 
             &:hover,
             &:focus,
             &:active {
-              color: $su-color-foggy;
-            }
-          }
-        }
-
-        @include grid-media-max('sm') {
-          color: $su-color-black;
-          text-shadow: none;
-
-          p {
-            a {
-              color: $su-color-digital-blue;
-              text-decoration: underline;
-              font-weight: $su-font-semi-bold;
-
-              &:hover,
-              &:focus,
-              &:active {
-                color: $su-color-black;
-              }
+              color: $su-color-black;
             }
           }
         }
       }
-
-      @include grid-media-min('md') {  
-        //Gradiant on banner image
-        .su-hero__media {
-
-          &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 2;
-            background: linear-gradient(180deg, rgba(46, 45, 41, 0.1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(46, 45, 41, 0.2) 100%);
-          }
-        
-          picture {
-            position: relative;
-            z-index: 0;
-            display: block;
-          }
-        }
-        // End Gradiant details
-      }
     }
-  }
 
-  // Left-aligned text
-  .rh-banner-wrapper--headline-left {
+    @include grid-media-min('md') {
+      //Gradiant on banner image
+      .su-hero__media {
 
-    .su-hero {
-
-      .su-hero__card {
-
-        @include grid-media-min('md') {  
-          max-width: 50%; 
-          margin-left: 10rem; 
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 2;
+          background: linear-gradient(180deg, rgba(46, 45, 41, 0.1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(46, 45, 41, 0.2) 100%);
         }
 
-        .su-card__contents {
-          text-align: left;            
+        picture {
+          position: relative;
+          z-index: 0;
+          display: block;
         }
       }
+      // End Gradiant details
     }
   }
+}
 
-  // Centered text
-  .rh-banner-wrapper--headline-center {
+// Left-aligned text
+.rh-banner-wrapper--headline-left {
 
-    .su-hero {
+  .su-hero {
 
-      .su-hero__card {
-        max-width: 70%; 
-
-        .su-card__contents {
-          text-align: center;           
-        }
-      }
-    }
-  }
-
-  // Right-aligned text (Left-aligned on smartphone)
-  .rh-banner-wrapper--headline-right {
-
-    .su-hero {
+    .su-hero__card {
 
       @include grid-media-min('md') {
+        max-width: 50%;
+        margin-left: 10rem;
+      }
 
-        .su-hero__card {
-          max-width: 50%;
-          margin-right: 10rem;
+      .su-card__contents {
+        text-align: left;
+      }
+    }
+  }
+}
 
-          .su-card__contents {
-            text-align: right;            
-          }
+// Centered text
+.rh-banner-wrapper--headline-center {
+
+  .su-hero {
+
+    .su-hero__card {
+      max-width: 70%;
+
+      .su-card__contents {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Right-aligned text (Left-aligned on smartphone)
+.rh-banner-wrapper--headline-right {
+
+  .su-hero {
+
+    @include grid-media-min('md') {
+
+      .su-hero__card {
+        max-width: 50%;
+        margin-right: 10rem;
+
+        .su-card__contents {
+          text-align: right;
         }
       }
     }
   }
+}
 
 
-  // Banner background color
-  @each $name,$color in $gsb-colors {
+// Banner background color
+@each $name, $color in $gsb-colors {
 
-    .rh-banner-wrapper--background-#{$name} {
-
-      .su-hero__media {
-        background-color: $color !important;
-      }
-    }
-  }
-
-  .rh-banner-wrapper--background-no-gradient {
+  .rh-banner-wrapper--background-#{$name} {
 
     .su-hero__media {
-
-      &::before {
-        background-image: none !important;
-      }
+      background-color: $color !important;
     }
   }
+}
 
-  .rh-banner-wrapper--background-no-color {
-    // Remove the white block above the text on smartphone screen
-    @include grid-media-max('sm') {
-      .su-hero__media {
-        display: none !important;
-      }
+.rh-banner-wrapper--background-no-gradient {
+
+  .su-hero__media {
+
+    &::before {
+      background-image: none !important;
+    }
+  }
+}
+
+.rh-banner-wrapper--background-no-color {
+  // Remove the white block above the text on smartphone screen
+  @include grid-media-max('sm') {
+    .su-hero__media {
+      display: none !important;
     }
   }
 }
